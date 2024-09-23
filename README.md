@@ -59,7 +59,9 @@ The reach project will be the role of ISAba's in causing carbapenem resistance i
 2. BLAST against reference database
 3. Look at alignment to compare predicted amino-acid length
    1. Beginning of alignment to first stop codon
-4. Identify nonsense mutations '*' in blast report 
+4. Translated BLAST vs. nucleotide BLAST - Adrien
+4. Identify nonsense mutations '*' in blast report
+5. Vadr - EB
 
 ## Results
 
