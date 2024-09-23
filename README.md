@@ -55,6 +55,12 @@ The reach project will be the role of ISAba's in causing carbapenem resistance i
 
 ## Approach
 
+1. Put together test database with known positive and negative examples
+2. BLAST against reference database
+3. Look at alignment to compare predicted amino-acid length
+   1. Beginning of alignment to first stop codon
+4. Identify nonsense mutations '*' in blast report 
+
 ## Results
 
 ## Future Work
