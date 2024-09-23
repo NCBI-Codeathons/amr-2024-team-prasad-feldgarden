@@ -3,10 +3,10 @@
 List of participants and affiliations:
 - Arjun Prasad, Team co-Lead
 - Michael Feldgarden, Team co-Lead
-- Adrien Assie
+- Adrien Assie, Tech Lead
 - Emma Dickinson
 - Chienchi Lo
-- Ana Ramos
+- Ana Ramos, Writer
 - Erin Young
 
 ## Project Goals
