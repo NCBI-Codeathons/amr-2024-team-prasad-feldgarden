@@ -1,8 +1,13 @@
 # Team Project Name TBD
 
 List of participants and affiliations:
-- Participant, Affiliation (Team Leader)
-- Participant, Affiliation
+- Arjun Prasad, Team co-Lead
+- Michael Feldgarden, Team co-Lead
+- Adrien Assie
+- Emma Dickinson
+- Chienchi Lo
+- Ana Ramos
+- Erin Young
 
 ## Project Goals
 
