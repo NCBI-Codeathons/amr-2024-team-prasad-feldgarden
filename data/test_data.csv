@@ -1,4 +1,4 @@
-organism, resistance, gene, mutation, pmid, biosample_acc, fasta_file
-Streptococcus pneumoniae,Trimethoprim,patA,Q35*,30783004,
-Streptococcus pneumoniae,Trimethoprim,patA,Q128*,30783004,SAMN09690278,
-Streptococcus pneumoniae,Trimethoprim,patB ,ΔAA67A,30783004,SAMN09690270,
+organism, resistance, gene, mutation, pmid, biosample_acc, fasta_file, missing_assembly
+Streptococcus pneumoniae,Trimethoprim,patA,Q35*,30783004,SAMN09690293 ,,y
+Streptococcus pneumoniae,Trimethoprim,patA,Q128*,30783004,SAMN09690278,,y
+Streptococcus pneumoniae,Trimethoprim,patB ,ΔAA67A,30783004,SAMN09690270,,y
