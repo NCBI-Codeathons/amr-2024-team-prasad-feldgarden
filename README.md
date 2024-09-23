@@ -55,13 +55,18 @@ The reach project will be the role of ISAba's in causing carbapenem resistance i
 
 ## Approach
 
-1. Put together test database with known positive and negative examples
-2. BLAST against reference database
-3. Look at alignment to compare predicted amino-acid length
-   1. Beginning of alignment to first stop codon
-4. Translated BLAST vs. nucleotide BLAST - Adrien
-4. Identify nonsense mutations '*' in blast report
-5. Vadr - EB
+- Pipeline to identify broken genes
+- Investigate literature and acquire test sequences
+- Assembly sequence
+	- Frame shift detection
+		- Nucleotide alignment with blast and post-processing to identify frame shifts
+		- Possible use of Vadr models to identify mutations 
+			- protein based alignment
+			- BATH based on HMMER
+	- Stop codon detection
+		- Translated blast (BLASTX)
+- Use test sequences to make sure the software is working
+- Run the software across a large selection of genomes to characterize gene disruption and AMR
 
 ## Results
 
