@@ -4,7 +4,7 @@ List of participants and affiliations:
 - Arjun Prasad, Team co-Lead
 - Michael Feldgarden, Team co-Lead
 - Adrien Assie, Tech Lead
-- Emma Dickinson
+- EB Dickinson
 - Chienchi Lo
 - Ana Ramos, Writer
 

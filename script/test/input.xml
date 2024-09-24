@@ -26,9 +26,9 @@
 <Iteration_hits>
 <Hit>
   <Hit_num>1</Hit_num>
-  <Hit_id>gnl|BL_ORD_ID|0</Hit_id>
-  <Hit_def>WP_003112576.1 MULTISPECIES: outer membrane porin OprD [Pseudomonas]</Hit_def>
-  <Hit_accession>0</Hit_accession>
+  <Hit_id>ref|WP_003112576.1|</Hit_id>
+  <Hit_def>MULTISPECIES: outer membrane porin OprD [Pseudomonas]</Hit_def>
+  <Hit_accession>WP_003112576</Hit_accession>
   <Hit_len>443</Hit_len>
   <Hit_hsps>
     <Hsp>
@@ -111,9 +111,9 @@
 <Iteration_hits>
 <Hit>
   <Hit_num>1</Hit_num>
-  <Hit_id>gnl|BL_ORD_ID|0</Hit_id>
-  <Hit_def>WP_003112576.1 MULTISPECIES: outer membrane porin OprD [Pseudomonas]</Hit_def>
-  <Hit_accession>0</Hit_accession>
+  <Hit_id>ref|WP_003112576.1|</Hit_id>
+  <Hit_def>MULTISPECIES: outer membrane porin OprD [Pseudomonas]</Hit_def>
+  <Hit_accession>WP_003112576</Hit_accession>
   <Hit_len>443</Hit_len>
   <Hit_hsps>
     <Hsp>

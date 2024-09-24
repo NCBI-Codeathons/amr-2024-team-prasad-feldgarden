@@ -1,12 +1,12 @@
 Output format in tab-delimited format
-- Gene symbol
-- Contig
-- Start 
-- Stop 
-- Orientation
-- Type of lesion
-- AA % identity, 
-- Nuc % identity
-- Reference sequence accession
-- Location of lesion (AA positions in the reference)
+- Gene symbol - `element_symbol`
+- Contig - `contig`
+- Start - `start`
+- Stop - `stop`
+- Orientation - `orientation`
+- Type of lesion - `lession_type`
+- AA % identity - `aa_identity`
+- Nuc % identity - `nt_identity`
+- Reference sequence accession - `ref_accession`
+- Location of lesion (AA positions in the reference) - `lession_location`
 
