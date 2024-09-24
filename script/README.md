@@ -1,5 +1,12 @@
 # Script folder
 
+## Require blast and R
+
+```
+sudo apt-get install r-base
+sudo apt-get install ncbi-blast+
+```
+
 ## Blastn and translation comparison approach
 
 Starts with a blastn scan of the query sequences against the reference database.
@@ -19,6 +26,16 @@ The script:
 - plot the data
 
 ## Blastx and nonsense mutation 
+
+Requires Bio
+```
+micromamba create -n codeathon
+eval "$(micromamba shell hook --shell bash)"
+micromamba activate codeathon
+micromamba install python=3.12
+micromamba install Bio
+```
+
 
 Starts with a blastx scan of the query sequences against the reference protein database.
 
