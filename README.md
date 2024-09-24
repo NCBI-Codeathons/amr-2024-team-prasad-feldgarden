@@ -1,4 +1,4 @@
-# Team Project Name TBD
+# Dead gene walking
 
 List of participants and affiliations:
 - Arjun Prasad, Team co-Lead
