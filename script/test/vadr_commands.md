@@ -21,6 +21,30 @@ sudo cpanm install LWP::Protocol::https Mozilla::CA
 bash vadr-install.sh linux
 ```
 
+Don't forget to copy the shell variable commands printed out at the end of the vadr-install.sh. E.g.:
+
+```
+cat > source_before_running.sh
+export VADRINSTALLDIR="/home/aprasad/vadr"
+export VADRSCRIPTSDIR="$VADRINSTALLDIR/vadr"
+export VADRMODELDIR="$VADRINSTALLDIR/vadr-models-calici"
+export VADRINFERNALDIR="$VADRINSTALLDIR/infernal/binaries"
+export VADREASELDIR="$VADRINSTALLDIR/infernal/binaries"
+export VADRHMMERDIR="$VADRINSTALLDIR/infernal/binaries"
+export VADRBIOEASELDIR="$VADRINSTALLDIR/Bio-Easel"
+export VADRSEQUIPDIR="$VADRINSTALLDIR/sequip"
+export VADRBLASTDIR="$VADRINSTALLDIR/ncbi-blast/bin"
+export VADRFASTADIR="$VADRINSTALLDIR/fasta/bin"
+export VADRMINIMAP2DIR="$VADRINSTALLDIR/minimap2"
+export PERL5LIB="$VADRSCRIPTSDIR":"$VADRSEQUIPDIR":"$VADRBIOEASELDIR/blib/lib":"$VADRBIOEASELDIR/blib/arch":"$PERL5LIB"
+export PATH="$VADRSCRIPTSDIR":"$PATH"
+^D
+
+. source_before_running.sh
+```
+
+# Building your model
+
 * Build you model using v-build
   * Choose an accession that will be your reference model (it can be a refseq or another reputable sequence)
   * For example https://www.ncbi.nlm.nih.gov/nuccore/HM000041, Klebsiella pneumoniae strain KP398/08
