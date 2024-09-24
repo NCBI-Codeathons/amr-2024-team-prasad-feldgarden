@@ -72,7 +72,7 @@ if __name__ == '__main__':
     argv.add_argument('-i', '--input', dest = 'input_xml', required = True,
         help = 'blastout.xml')
     argv.add_argument('--cov', type=float, dest = 'cov', default = .8 , required=False, help='target coverage')
-    argv.add_argument('--id',  type=float, dest = 'id',  default = .8 , required=False, help='hit Identity')
+    argv.add_argument('--id',  type=float, dest = 'id',  default = .8 , required=False, help='hit identity')
     argv.add_argument('--verbose', action='store_true', help='Show more information in log')
     argv.add_argument('--version', action='version', version='%(prog)s v{version}'.format(version=__version__))
 
