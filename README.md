@@ -70,6 +70,17 @@ The reach project will be the role of ISAba's in causing carbapenem resistance i
     - So far we have collected > 90 example mutations for six genes from three taxa
 - Run the software across a large selection of genomes to characterize gene disruption and AMR
 
+### Updates (September 24, 2024)
+
+- Broken genes for testing have been identified. Reference sequences and assembly sequences have been obtained for those
+  - We will now build a BLAST database with these (test database)
+- The assembly sequence will rely on BLASTN to obtain both the [frameshift](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/script/scanner.R) and identify [stop codons](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/script/check_nonsense_mutations.py) lessions. 
+  - The [output format](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/output_format.md) was defined to ensure compatibility of our tools
+  - Both scripts will be tested against the test database to confirm the same BLASTN parameters can be used to identify both lessions
+  - Once confirmed, they will be added to a bash script
+  - Vadr has proven effective when running against specific bacterial genes. For now, we will use Vadr as a "control" to help us compare results from the tools we are developing
+- A virtual machine was built to assist in tool testing across environments
+
 ## Results
 
 ## Future Work
