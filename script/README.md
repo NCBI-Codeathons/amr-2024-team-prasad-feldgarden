@@ -22,25 +22,23 @@ BiocManager::install("Biostrings")
 install.packages('devtools')
 devtools:::install_github("Bioconductor/GenomeInfoDb")
 
-
-
 ```
 
-Starts with a blastn scan of the query sequences against the reference database.
+### Scanner.R script
 
-```
-blastn -query query.fasta -db reference_db -out results.xml -outfmt 5
-```
+This script is called as follows:
 
-The `scanner.R` script is used to import the data from the BLAST scan and parse it.
-The script:
+```bash
+Rscript DGW.R query.fa ref.fa output_folder
+```
+The steps are:
+- Create nucleotide blast database
+- blast query to database and export as xml
 - extract the nucleotide hit sequences
 - calculate the nucleotide identity to the reference in %,
 - translate nucleotide hit sequences to Amino acid sequences
 - align amino acid sequences to the reference one
 - calculate the amino acid identity to the reference in %,
-- merge with metadata
-- plot the data
 
 ## Blastx and nonsense mutation 
 
