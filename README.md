@@ -59,7 +59,7 @@ The reach project will be the role of ISAba's in causing carbapenem resistance i
 - Investigate literature and acquire test sequences
 - Assembly sequence
 	- Frame shift detection
-		- Nucleotide alignment with blast and post-processing to identify frame shifts
+		- Nucleotide alignment with BLASTN and post-processing to identify frame shifts
   			- Use the difference in % identity between nucleotide and translated alignment to identify frame-shifted proteins
 		- Possible use of Vadr models to identify mutations 
 			- protein based alignment
