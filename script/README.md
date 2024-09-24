@@ -18,3 +18,14 @@ The script:
 - merge with metadata
 - plot the data
 
+## Blastx and nonsense mutation 
+
+Starts with a blastn scan of the query sequences against the reference database.
+
+```js
+blastx -query query.fasta -db reference_db -out results.xml -outfmt 5
+```
+
+```js
+check_nonsense_mutations.py -i test/input.xml 
+```
