@@ -7,7 +7,7 @@ List of participants and affiliations:
 - Emma Dickinson
 - Chienchi Lo
 - Ana Ramos, Writer
-- Erin Young
+
 
 ## Project Goals
 
@@ -74,7 +74,7 @@ The reach project will be the role of ISAba's in causing carbapenem resistance i
 
 - Broken genes for testing have been identified. Reference sequences and assembly sequences have been obtained for those
   - We will now build a BLAST database with these (test database)
-- The assembly sequence will rely on BLASTN to obtain both the [frameshift](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/script/scanner.R) and identify [stop codons](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/script/check_nonsense_mutations.py) lessions. 
+- The assembly sequence will rely on BLAST alignments to obtain both the [frameshift](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/script/scanner.R) (BLASTN) and identify [stop codons](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/script/check_nonsense_mutations.py) (BLASTX) lessions. 
   - The [output format](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/output_format.md) was defined to ensure compatibility of our tools
   - Both scripts will be tested against the test database to confirm the same BLASTN parameters can be used to identify both lessions
   - Once confirmed, they will be added to a bash script
