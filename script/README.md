@@ -20,7 +20,7 @@ The script:
 
 ## Blastx and nonsense mutation 
 
-Starts with a blastx scan of the query sequences against the reference database.
+Starts with a blastx scan of the query sequences against the reference protein database.
 
 ```js
 blastx -query query.fasta -db reference_db -out results.xml -outfmt 5
