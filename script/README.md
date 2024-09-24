@@ -20,11 +20,13 @@ The script:
 
 ## Blastx and nonsense mutation 
 
-Starts with a blastn scan of the query sequences against the reference database.
+Starts with a blastx scan of the query sequences against the reference database.
 
 ```js
 blastx -query query.fasta -db reference_db -out results.xml -outfmt 5
 ```
+
+Run the python script to check nonsense mutation 
 
 ```js
 check_nonsense_mutations.py -i test/input.xml 
