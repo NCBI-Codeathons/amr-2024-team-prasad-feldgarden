@@ -11,10 +11,19 @@ sudo apt-get install ncbi-blast+
 
 
 ```
+sudo apt-get install libxml2 libxml2-dev
+sudo apt-get install libcurl4-openssl-dev
 R
 install.packages('tidyverse')
 install.packages('XML')
-install.packages('Biostrings')
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("Biostrings")
+install.packages('devtools')
+devtools:::install_github("Bioconductor/GenomeInfoDb")
+
+
+
 ```
 
 Starts with a blastn scan of the query sequences against the reference database.
@@ -43,7 +52,6 @@ micromamba activate codeathon
 micromamba install python=3.12
 micromamba install Bio
 ```
-
 
 Starts with a blastx scan of the query sequences against the reference protein database.
 
