@@ -9,6 +9,14 @@ sudo apt-get install ncbi-blast+
 
 ## Blastn and translation comparison approach
 
+
+```
+R
+install.packages('tidyverse')
+install.packages('XML')
+install.packages('Biostrings')
+```
+
 Starts with a blastn scan of the query sequences against the reference database.
 
 ```
