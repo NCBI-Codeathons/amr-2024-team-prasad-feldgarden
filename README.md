@@ -1,4 +1,4 @@
-# Team Project Name TBD
+# Dead gene walking
 
 List of participants and affiliations:
 - Arjun Prasad, Team co-Lead
@@ -15,7 +15,7 @@ This project aims to develop and test methods to identify the presence of loss-o
 
 ### There will be three aims for this project:
 
-1. Identifying and collecting sequences for validated examples of positives (broken genes that lead to resistance), and negatives (non-broken genes and/or genes broken that are not resistant) for the examples above. This will require some literature search, and often some digging to find the actual sequences and make sure they’re really what they say they are. Mike has done a little work in this direction, but we should have more examples for validation.
+1. Identifying and collecting sequences for validated examples of positives (broken genes that lead to resistance), and negatives (non-broken genes and/or genes broken that are not resistant) for the examples above. This will require some literature search, and often some digging to find the actual sequences and make sure they're really what they say they are. Mike has done a little work in this direction, but we should have more examples for validation.
 2. Developing software to identify broken genes (frame-shift mutations) and nonsense mutations. Most likely by running BLAST and post-processing the results.
 3. If people are interested, identifying and coming up with methods to identify the ISAba or other similar insertion element mutations that cause resistance (will require both identifying more examples and developing methods, but method development and testing will need to be a little more involved)
 
@@ -59,13 +59,15 @@ The reach project will be the role of ISAba's in causing carbapenem resistance i
 - Investigate literature and acquire test sequences
 - Assembly sequence
 	- Frame shift detection
-		- Nucleotide alignment with blast and post-processing to identify frame shifts
+		- Nucleotide alignment with BLASTN and post-processing to identify frame shifts
+  			- Use the difference in % identity between nucleotide and translated alignment to identify frame-shifted proteins
 		- Possible use of Vadr models to identify mutations 
 			- protein based alignment
 			- BATH based on HMMER
 	- Stop codon detection
-		- Translated blast (BLASTX)
+		- Translated blast (BLASTX) to identify stop codons
 - Use test sequences to make sure the software is working
+    - So far we have collected > 90 example mutations for six genes from three taxa
 - Run the software across a large selection of genomes to characterize gene disruption and AMR
 
 ## Results
