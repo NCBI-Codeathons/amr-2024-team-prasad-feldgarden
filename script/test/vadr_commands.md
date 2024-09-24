@@ -1,5 +1,26 @@
 # To install vadr follow this: https://github.com/ncbi/vadr/blob/master/documentation/install.md
 
+## Installation notes for clean ubuntu 22.04 VM
+
+```
+curl -O https://raw.githubusercontent.com/ncbi/vadr/master/vadr-install.sh
+
+# Instal unzip
+sudo apt-get install unzip
+# Instal autoconf
+sudo apt-get install autoconf
+# Instal cpanm
+sudo apt-get install cpanminus
+# instal Inline.pm
+sudo cpanm install Inline
+sudo cpanm install Inline::C
+sudo apt install zlib1g
+sudo cpanm install LWP::Simple
+sudo cpanm install LWP::Protocol::https Mozilla::CA
+
+bash vadr-install.sh linux
+```
+
 * Build you model using v-build
   * Choose an accession that will be your reference model (it can be a refseq or another reputable sequence)
   * For example https://www.ncbi.nlm.nih.gov/nuccore/HM000041, Klebsiella pneumoniae strain KP398/08
