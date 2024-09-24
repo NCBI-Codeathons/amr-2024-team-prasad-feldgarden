@@ -60,11 +60,12 @@ The reach project will be the role of ISAba's in causing carbapenem resistance i
 - Assembly sequence
 	- Frame shift detection
 		- Nucleotide alignment with blast and post-processing to identify frame shifts
+  			- Use the difference in % identity between nucleotide and translated alignment to identify frame-shifted proteins
 		- Possible use of Vadr models to identify mutations 
 			- protein based alignment
 			- BATH based on HMMER
 	- Stop codon detection
-		- Translated blast (BLASTX)
+		- Translated blast (BLASTX) to identify stop codons
 - Use test sequences to make sure the software is working
     - So far we have collected > 90 example mutations for six genes from three taxa
 - Run the software across a large selection of genomes to characterize gene disruption and AMR
