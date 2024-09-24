@@ -22,7 +22,19 @@ def check_nonsense_mutations(seq):
 def main(argv):
     result_handle = open(argv.input_xml,'r')
     blast_records = NCBIXML.parse(result_handle)
-    out_header=["Query", "Query_start", "Query_end", "Query_frame", "MUTATION", "HIT_start", "HIT_end","HIT_desc", "Identity","E-value","BitScore"]
+    out_header=["Query", 
+                "Query_start", 
+                "Query_end", 
+                "Query_frame", 
+                "MUTATION", 
+                "HIT_start", 
+                "HIT_end",
+                "HIT_acc",
+                "HIT_desc", 
+                "AA %Identity", 
+                "Coverage",  
+                "E-value",
+                "BitScore"]
     print("\t".join(out_header))
     for blast_record in blast_records:
         query_descs= blast_record.query.split(" ")
@@ -32,19 +44,25 @@ def main(argv):
                 hit_seq = Seq(hsp.sbjct)
                 nonsense_mutations = check_nonsense_mutations(hsp.query)
                 if nonsense_mutations:
-                    mutations = ",".join([  hit_seq[i] + str(i + 1) + "STOP"  for i in nonsense_mutations]) 
-                    print("\t".join([query_descs[0],
-                                     str(hsp.query_start),
-                                     str(hsp.query_end),
-                                     str(hsp.frame[0]),
-                                     mutations,
-                                     str(hsp.sbjct_start), 
-                                     str(hsp.sbjct_end), 
-                                     alignment.hit_def, 
-                                     str(f"{hsp.identities}/{hsp.align_length} ({hsp.identities/hsp.align_length*100:.2f}%)"), 
-                                     str(hsp.expect),
-                                     str(hsp.bits)])
-                        )
+                    mutations = ",".join([  hit_seq[i] + str(i + 1 + hsp.sbjct_start) + "STOP"  for i in nonsense_mutations]) 
+                    #mutations =""
+                    coverage = (hsp.sbjct_end - hsp.sbjct_start + 1 )/alignment.length 
+                    identity = hsp.identities/hsp.align_length 
+                    if coverage > argv.cov and identity > argv.id :
+                        print("\t".join([query_descs[0],
+                                        str(hsp.query_start),
+                                        str(hsp.query_end),
+                                        str(hsp.frame[0]),
+                                        mutations,
+                                        str(hsp.sbjct_start), 
+                                        str(hsp.sbjct_end), 
+                                        alignment.hit_id,
+                                        alignment.hit_def, 
+                                        str(f"{hsp.identities}/{hsp.align_length} ({identity*100:.2f}%)"), 
+                                        str(f"{hsp.sbjct_end - hsp.sbjct_start + 1}/{alignment.length} ({coverage * 100:.2f}%)"), 
+                                        str(hsp.expect),
+                                        str(hsp.bits)])
+                            )
 
 if __name__ == '__main__':
     toolname = os.path.basename(__file__)
@@ -53,6 +71,8 @@ if __name__ == '__main__':
         formatter_class = argparse.ArgumentDefaultsHelpFormatter)
     argv.add_argument('-i', '--input', dest = 'input_xml', required = True,
         help = 'blastout.xml')
+    argv.add_argument('--cov', type=float, dest = 'cov', default = .8 , required=False, help='target coverage')
+    argv.add_argument('--id',  type=float, dest = 'id',  default = .8 , required=False, help='hit Identity')
     argv.add_argument('--verbose', action='store_true', help='Show more information in log')
     argv.add_argument('--version', action='version', version='%(prog)s v{version}'.format(version=__version__))
 
