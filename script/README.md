@@ -44,11 +44,12 @@ The steps are:
 
 Requires Bio
 ```
+"${SHELL}" <(curl -L micro.mamba.pm/install.sh)
 micromamba create -n codeathon
 eval "$(micromamba shell hook --shell bash)"
 micromamba activate codeathon
 micromamba install python=3.12
-micromamba install Bio
+micromamba install -c conda-forge biopython
 ```
 
 Starts with a blastx scan of the query sequences against the reference protein database.
