@@ -352,4 +352,4 @@ fdf=df %>%
          ref_desc,ref_start,
          ref_stop,coverage)
 
-write_tsv(df,file.path(finalout,paste0(opt$pref,"_results.tsv")))
+write_tsv(fdf,file.path(finalout,paste0(opt$pref,"_results.tsv")))
