@@ -12,32 +12,71 @@ List of participants and affiliations:
 
 ## Project Goals
 
-This project aims to develop and test methods to identify the presence of loss-of-function mutations in bacterial genes that cause antibiotic resistance. The first part of the project will be to develop a tool to identify loss-of-function mutations, such as stop codons and frameshifts, in genes where these mutations have been demonstrated to affect function (e.g., OmpK35/K36 in _Klebsiella pneumoniae_). A second, more challenging goal (the 'reach project') will be to identify IS element insertions that affect AMR phenotypes, using ISAba3 and OXA-58 family carbapenemases in _Acinetobacter baumannii_ as a test system.
+This project aims to develop and test methods to identify the presence of loss-of-function mutations in bacterial genes that cause antibiotic resistance. The first part of the project will be to develop a tool to identify loss-of-function mutations, such as stop codons and frameshifts, in genes where these mutations have been demonstrated to affect function (e.g., OmpK35/K36 in _Klebsiella pneumoniae_).
 
-### There will be three aims for this project:
+### Scope of this project:
 
-1. Identifying and collecting sequences for validated examples of positives (broken genes that lead to resistance), and negatives (non-broken genes and/or genes broken that are not resistant) for the examples above. This will require some literature search, and often some digging to find the actual sequences and make sure they're really what they say they are. Mike has done a little work in this direction, but we should have more examples for validation.
-2. Developing software to identify broken genes (frame-shift mutations) and nonsense mutations. Most likely by running BLAST and post-processing the results.
-3. If people are interested, identifying and coming up with methods to identify the ISAba or other similar insertion element mutations that cause resistance (will require both identifying more examples and developing methods, but method development and testing will need to be a little more involved)
+1. Identifying and collecting sequences for validated examples of positives (broken genes that lead to resistance), and negatives (non-broken genes and/or genes broken that are not resistant). The identified sequences can be found in the `data` directory, which includes sequences previously identified by the team co-leads. Some examples include:
+    - *K. pneumoniae* genes:  
+      - OmpK35 stop in SAMN32518855
+      - circA frameshift in SAMN31181384
+    - *P. aeruginosa* genes: 
+      - ampD stop in SAMN11110537
+      - mexR frameshift in SAMN11110706
+      - nalD frameshift in SAMN11110430
 
-### Some of the genes we could focus on are:
+2. Developing software to identify broken genes caused by frameshift mutations and nonsense mutations.
 
-- OmpK35/K36 lesions (stops, frameshifts etc.) in Klebsiella pneumoniae.
-  - OmpK35/K36 refs: ADG27466.1/ADG56549.1 (note that many reference sequences for AMR genes will be found in NCBI's Reference Gene Catalog https://www.ncbi.nlm.nih.gov/pathogens/refgene/#)
-- P. aeruginosa genes: 
-  - ampD stops: example genome is SAMN11110537
-  - mexR frameshifts: example genome is SAMN11110706
-  - nalD frameshifts: example genome is SAMN11110430
 
-### Reach project information:
+## Approach
 
-The reach project will be the role of ISAba's in causing carbapenem resistance in Acinetobacter baumannii.  Specifically:
+The solution developed in this project uses BLAST alignments to identify frameshift mutations and nonsense mutations. 
 
-1. We will look at ISAba3 and blaOXA-58 family carbapenemases.
-2. When the ISAba3 is in the opposite orientation from the blaOXA-58, the carbapenemase is expressed (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3993105/)
-3. A second reach project could be to look for ISAba that disrupt AMR genes.
+### Assembly sequence to identify broken genes
 
-### Papers of interest:
+- Frameshift detection
+  - Nucleotide alignment with BLASTN and post-processing to identify frame shifts
+      - The difference in identity (%) between nucleotide and translated alignment is used to identify frame-shifted proteins
+- Stop codon detection
+  - Translated alignment with BLASTX to identify stop codons
+
+### Testing     
+- Use test sequences in [`dev-examples/`](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/tree/main/data/dev-examples) to make sure the software is working
+    - So far we have collected > 90 example mutations for six genes from three taxa
+    - The majority of the reference sequences for AMR genes are found in NCBI's [Reference Gene Catalog](https://www.ncbi.nlm.nih.gov/pathogens/refgene/#)
+- Run the software across a large selection of genomes to characterize gene disruption and AMR
+- In cases where BLASTN alignments needed to be confirmed, [Vadr](https://github.com/ncbi/vadr?tab=readme-ov-file#vadr---viral-annotation-definer-) was used for QA comparisons. 
+  - Vadr has proven effective when running against specific bacterial genes. For now, we will use Vadr as a "control" to help us compare results from the tools we are developing
+
+### Output format
+
+The output is provided in a tabular form. An example of the output schema is provided [here](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/mock_output.csv). 
+
+
+### Updates (September 24, 2024)
+
+- Broken genes for testing have been identified. Reference sequences and assembly sequences have been obtained for those
+  - We will now build a BLAST database with these (test database)
+- The assembly sequence will rely on BLAST alignments to obtain both the [frameshift](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/script/scanner.R) (BLASTN) and identify [stop codons](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/script/check_nonsense_mutations.py) (BLASTX) lessions. 
+  - The [output format](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/output_format.md) was defined to ensure compatibility of our tools
+  - Both scripts will be tested against the test database to confirm the same BLASTN parameters can be used to identify both lessions
+  - Once confirmed, they will be added to a bash script
+  - Vadr has proven effective when running against specific bacterial genes. For now, we will use Vadr as a "control" to help us compare results from the tools we are developing
+- A virtual machine was built to assist in tool testing across environments
+
+## Results
+
+## Future Work
+
+A second, more challenging goal (the 'reach project') will be to identify IS element insertions that affect AMR phenotypes, using ISAba3 and OXA-58 family carbapenemases in Acinetobacter baumannii as a test system.
+
+The reach project will focus on the role of ISAba's in causing carbapenem resistance in *Acinetobacter baumannii*, specifically ISAba3 and blaOXA-58 family carbapenemases.
+
+There are studies in the literature showing that when the ISAba3 is in the opposite orientation from the blaOXA-58, the carbapenemase is expressed (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3993105/). 
+
+In addition, there have been reports ifd ISAba and ISAba-like elements disrupting AMR genes. 
+
+### ISAba Papers of interest:
 
 1. For A.b., this paper https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9771954/ has a lot of good examples for the ISAba project.
 2. Some additional background papers:
@@ -54,37 +93,6 @@ The reach project will be the role of ISAba's in causing carbapenem resistance i
   - https://pubmed.ncbi.nlm.nih.gov/16441449/
   - https://pubmed.ncbi.nlm.nih.gov/32712382/
 
-## Approach
-
-- Pipeline to identify broken genes
-- Investigate literature and acquire test sequences
-- Assembly sequence
-	- Frame shift detection
-		- Nucleotide alignment with BLASTN and post-processing to identify frame shifts
-  			- Use the difference in % identity between nucleotide and translated alignment to identify frame-shifted proteins
-		- Possible use of Vadr models to identify mutations 
-			- protein based alignment
-			- BATH based on HMMER
-	- Stop codon detection
-		- Translated blast (BLASTX) to identify stop codons
-- Use test sequences to make sure the software is working
-    - So far we have collected > 90 example mutations for six genes from three taxa
-- Run the software across a large selection of genomes to characterize gene disruption and AMR
-
-### Updates (September 24, 2024)
-
-- Broken genes for testing have been identified. Reference sequences and assembly sequences have been obtained for those
-  - We will now build a BLAST database with these (test database)
-- The assembly sequence will rely on BLAST alignments to obtain both the [frameshift](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/script/scanner.R) (BLASTN) and identify [stop codons](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/script/check_nonsense_mutations.py) (BLASTX) lessions. 
-  - The [output format](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/output_format.md) was defined to ensure compatibility of our tools
-  - Both scripts will be tested against the test database to confirm the same BLASTN parameters can be used to identify both lessions
-  - Once confirmed, they will be added to a bash script
-  - Vadr has proven effective when running against specific bacterial genes. For now, we will use Vadr as a "control" to help us compare results from the tools we are developing
-- A virtual machine was built to assist in tool testing across environments
-
-## Results
-
-## Future Work
 
 ## NCBI Codeathon Disclaimer
 This software was created as part of an NCBI codeathon, a hackathon-style event focused on rapid innovation. While we encourage you to explore and adapt this code, please be aware that NCBI does not provide ongoing support for it.
