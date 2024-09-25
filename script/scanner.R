@@ -286,7 +286,7 @@ for (query in queries) {
         }else{
           ltmp=detect_frameshift_positions(oref[hit_def],hit_sequence)
           if(!ltmp %in% c("pm","nfs")){
-            ltmp2=as.numeric(gsub("fs","",tmp))
+            ltmp2=as.numeric(gsub("fs","",ltmp))
             AAp=CM[[2]] %>% filter(Pos==108) %>% select(ref_aa) %>% pull
             ltype=paste0(AAp,ltmp)
           }else{
