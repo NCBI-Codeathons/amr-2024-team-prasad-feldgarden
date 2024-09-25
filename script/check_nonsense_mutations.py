@@ -44,7 +44,7 @@ def main(argv):
                 hit_seq = Seq(hsp.sbjct)
                 nonsense_mutations = check_nonsense_mutations(hsp.query)
                 if nonsense_mutations:
-                    mutations = ",".join([  hit_seq[i] + str(i + 1 + hsp.sbjct_start) + "STOP"  for i in nonsense_mutations]) 
+                    mutations = ",".join([  hit_seq[i] + str(i + hsp.sbjct_start) + "STOP"  for i in nonsense_mutations]) 
                     #mutations =""
                     coverage = (hsp.sbjct_end - hsp.sbjct_start + 1 )/alignment.length 
                     identity = hsp.identities/hsp.align_length 
