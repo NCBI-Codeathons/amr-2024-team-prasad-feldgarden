@@ -55,7 +55,15 @@ micromamba install -c conda-forge biopython
 Starts with a blastx scan of the query sequences against the reference protein database.
 
 ```js
-blastx -query query.fasta -db reference_db -out results.xml -outfmt 5
+blastx -query query.fna -db reference_db -out results.xml -outfmt 5
+```
+
+```js
+## for frameshift detection, diamond (v2.1.8) blastx has option 
+## --frameshift to allow frameshift gap aligned and 
+## show '/' or '\' in the alignement result
+
+diamond blastx -q query.fna -d reference_db -f 5 --min-orf 1 --frameshift 15  -o results.xml
 ```
 
 Run the python script to check nonsense mutation 
