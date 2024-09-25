@@ -29,8 +29,18 @@ devtools:::install_github("Bioconductor/GenomeInfoDb")
 This script is called as follows:
 
 ```bash
-Rscript DGW.R query.fa ref.fa output_folder
+DGW.R -i query.fa -d ref.fa -o output_folder
 ```
+Options are:
+
+```bash
+-i input file
+-d reference file
+-o output folder
+-v verbose
+-p prefix for output files, default is '"YYYYMMDD_HHMMSS"
+```
+
 The steps are:
 - Create nucleotide blast database
 - blast query to database and export as xml
@@ -39,6 +49,7 @@ The steps are:
 - translate nucleotide hit sequences to Amino acid sequences
 - align amino acid sequences to the reference one
 - calculate the amino acid identity to the reference in %,
+- try do detect what type of lesion is present
 
 ## Blastx and nonsense mutation 
 
