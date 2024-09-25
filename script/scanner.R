@@ -227,6 +227,10 @@ for (query in queries) {
       qto <- xmlValue(getNodeSet(hsp,"Hsp_query-to")[[1]])
       alilen <- xmlValue(getNodeSet(hsp,"Hsp_align-len")[[1]])
       
+      if(hto != 1 | hfrom !=1){
+       next 
+      }
+      
       #Sequence extraction and translation
       dna_seq <- DNAString(gsub("-","",hit_sequence))
       
