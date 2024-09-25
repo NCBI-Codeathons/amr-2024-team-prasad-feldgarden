@@ -52,7 +52,7 @@ micromamba create -n codeathon
 eval "$(micromamba shell hook --shell bash)"
 micromamba activate codeathon
 micromamba install python=3.12
-micromamba install -c conda-forge biopython
+micromamba install -y conda-forge::biopython bioconda::blast bioconda::diamond
 ```
 
 Starts with a blastx scan of the query sequences against the reference protein database.
@@ -72,5 +72,5 @@ diamond blastx -q query.fna -d reference_db -f 5 --min-orf 1 --frameshift 15  -o
 Run the python script to check nonsense mutation 
 
 ```js
-check_nonsense_mutations.py -i test/input.xml 
+DGW.py -i test/input.xml 
 ```

@@ -47,8 +47,7 @@ def main(argv):
                 "ref_start", 
                 "ref_stop",
                 "coverage",  
-                "evalue",
-                "bitscore"]
+                ]
     print("\t".join(out_header))
     for blast_record in blast_records:
         query_descs= blast_record.query.split(" ")
@@ -85,14 +84,13 @@ def main(argv):
                                             str(hsp.sbjct_end), 
                                             
                                             str(f"{hsp.sbjct_end - hsp.sbjct_start + 1}/{alignment.length} ({coverage * 100:.2f}%)"), 
-                                            str(hsp.expect),
-                                            str(hsp.bits)])
+                                            ])
                                 )
 
 if __name__ == '__main__':
     toolname = os.path.basename(__file__)
     argv = argparse.ArgumentParser( prog=toolname,
-        description = "check stop codon from blastx result xml file",
+        description = "check nonsensus/frameshift mutations from blastx result xml file",
         formatter_class = argparse.ArgumentDefaultsHelpFormatter)
     argv.add_argument('-i', '--input', dest = 'input_xml', required = True,
         help = '-outfmt 5 -o blastx_out.xml')

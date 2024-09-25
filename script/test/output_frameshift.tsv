@@ -1,2 +1,2 @@
-contig_acc	contig_start	contig_stop	orientation	lession_type	aa_identity	nt_identity	ref_accession	ref_desc	ref_start	ref_stop	coverage	evalue	bitscore
-DAJRZZ010000017.1	92593	94570	1	Y253fs	657/659 (99.70%)		AEJ99093.1	catecholate siderophore receptor CirA [Klebsiella pneumoniae KCTC 2242]	1	657	657/657 (100.00%)	0.0	1334.0
+contig_acc	contig_start	contig_stop	orientation	lession_type	aa_identity	nt_identity	ref_accession	ref_desc	ref_start	ref_stop	coverage
+DAJRZZ010000017.1	92593	94570	1	Y253fs	657/659 (99.70%)		AEJ99093.1	catecholate siderophore receptor CirA [Klebsiella pneumoniae KCTC 2242]	1	657	657/657 (100.00%)
