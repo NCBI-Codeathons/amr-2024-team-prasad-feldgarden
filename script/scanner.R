@@ -11,7 +11,6 @@
 ##
 ## ---------------------------
 
-
 #Libraries
 
 suppressMessages(library(tidyverse))
@@ -65,6 +64,44 @@ ConscMatch <- function(ref_seq, tgt_seq) {
     nrow()
   
   return(list(consecutive_matches, comparison_tbl))
+}
+detect_frameshift_positions <- function(ref, target) {
+  ref_chars <- as.character(str_split(as.character(ref), "", simplify = TRUE))
+  target_chars <- as.character(str_split(as.character(target), "", simplify = TRUE))
+  
+  frame_offset <- 0  # tracks cumulative changes in frame
+  
+  i=1
+  a="A"
+  while (i < length(ref_chars) & a=="A") {
+    if (target_chars[i] == "-") {
+      #print("FOUND")
+      frame_offset <- frame_offset + 1
+      a="B"
+      frame=i
+      i=i+1
+    } else{
+      i=i+1
+    }
+  }
+  
+  while(i < length(ref_chars) & a=="B") {
+    if (target_chars[i] == "-") {
+      # A gap in the target sequence
+      frame_offset <- frame_offset + 1
+      i=i+1
+    } else {
+      a="C"
+    }
+  }
+  if (i == length(ref_chars)){
+    ltype="ng"
+  } else if (frame_offset %% 3 != 0) {
+    ltype=paste0(floor((frame-1)/3+1),"fs")
+  } else {
+    ltype="nfs"
+  }
+  return(ltype)
 }
 
 #Looking for arguments
@@ -164,7 +201,10 @@ df <- data.frame(Query = character(),
                  aaid=numeric(),
                  alilen=numeric(),
                  lesion_type=character(),
-                 stringsAsFactors = FALSE)
+                 stringsAsFactors = FALSE,
+                 orientation=numeric(),
+                 ref_start=numeric(),
+                 ref_stop=numeric())
 
 for (query in queries) {
   query_def <- xmlValue(getNodeSet(query, "Iteration_query-def")[[1]])
@@ -192,14 +232,17 @@ for (query in queries) {
       
       #Alignment
       if((as.numeric(hto)-as.numeric(hfrom))<0){
-        alref=translate(reverseComplement(oref[hit_def]), genetic.code = getGeneticCode("11"))
+        #  alref=translate(reverseComplement(oref[hit_def]), genetic.code = getGeneticCode("11"))
+        #} else {
+        alref=translate(oref[hit_def], genetic.code = getGeneticCode("11"))
+        #}
+        #if((as.numeric(qto)-as.numeric(qfrom))<0){
+        altgt <- translate(reverseComplement(dna_seq), genetic.code = getGeneticCode("11"))
+        orientation=2
       } else {
         alref=translate(oref[hit_def], genetic.code = getGeneticCode("11"))
-      }
-      if((as.numeric(qto)-as.numeric(qfrom))<0){
-        altgt <- translate(reverseComplement(dna_seq), genetic.code = getGeneticCode("11"))
-      } else {
         altgt <- translate(dna_seq, genetic.code = getGeneticCode("11"))
+        orientation=1
       }
       altgt <-AAString(gsub("[*].*$","*",as.character(altgt)))
       
@@ -208,6 +251,13 @@ for (query in queries) {
       aamatch=nmatch(local_align)
       aalength=nchar(alref)
       aa_id=aamatch/aalength*100
+      
+      # Calculate percentage of reference covered
+      ref_length <- width(subject(local_align))  
+      align_start <- start(subject(local_align)) 
+      align_end <- end(subject(local_align))      
+      aligned_length <- align_end - align_start + 1
+      percentage_covered <- (aligned_length / ref_length) * 100
       
       #Id calc
       hsp_identity <- as.numeric(xmlValue(getNodeSet(hsp, "Hsp_identity")[[1]]))
@@ -220,17 +270,29 @@ for (query in queries) {
         if(opt$verbose==TRUE){
           cat("Maybe STOP mutation\n")
         }
-        ltype=CM[[2]] %>% filter(Pos >= (max(Pos) - 20)) %>% 
+        ltype=CM[[2]] %>% filter(Pos >= (max(Pos) - 5)) %>% 
           group_by(Altype) %>%
           summarise(n=n()) %>% 
           spread(Altype,n)
         if(!"Mismatch" %in% colnames(ltype)){
-          ltype=cbind(ltype,data.frame("Mismatch"=0))
+          if(pull(CM[[2]][nrow(CM[[2]]),2])==pull(CM[[2]][nrow(CM[[2]]),3]) & pull(CM[[2]][nrow(CM[[2]]),4])=="STOP"){
+            ltype="Ok?"
+          }else{
+            ltype=paste0(pull((CM[[2]] %>% 
+                                 filter(Altype=="STOP") %>% 
+                                 select(Pos,ref_aa) %>% 
+                                 unite("combined", ref_aa, Pos, sep = ""))[1,]),"pm")
+          }
+        }else{
+          ltmp=detect_frameshift_positions(oref[hit_def],hit_sequence)
+          if(!ltmp %in% c("pm","nfs")){
+            ltmp2=as.numeric(gsub("fs","",tmp))
+            AAp=CM[[2]] %>% filter(Pos==108) %>% select(ref_aa) %>% pull
+            ltype=paste0(AAp,ltmp)
+          }else{
+            ltype="Error"
+          }
         }
-        ltype=ltype %>% 
-          mutate(lesion_type=ifelse(Mismatch>Match,"STOP frame shift","STOP point")) %>% 
-          select(lesion_type) %>% 
-          pull()
       }else{
         ltype="Intact?"
       }
@@ -246,8 +308,11 @@ for (query in queries) {
                            Amino_Acid_Sequence = as.character(altgt),
                            ntid=ntid_per,
                            aaid=aa_id,
-                           alilen=as.numeric(alilen)/as.numeric(hlen)*100,
-                           lesion_type=ltype)
+                           alilen=percentage_covered,
+                           lesion_type=ltype,
+                           orientation=orientation,
+                           ref_start=as.numeric(hfrom),
+                           ref_stop=as.numeric(hto))
     }
   }
 }
@@ -265,5 +330,26 @@ df2=df %>%
 cat(" ")
 cat(query_def)
 print(df2)
+
+fdf=df %>% 
+  separate(Hit_Description,into=c("ref_accession","ref_desc"), sep=" ",extra="merge")%>%
+  separate(ref_accession,into=c("element_symbol","ref_accession"), sep="_",extra="drop") %>%
+  dplyr::rename(aa_identity=aaid,
+                nt_identity=ntid,
+                coverage=alilen,
+                contig_start=start,
+                contig_stop=stop,
+                contig_acc=Query) %>% 
+  select(element_symbol,
+         contig_acc,
+         contig_start,
+         contig_stop, 
+         orientation, 
+         lesion_type,
+         aa_identity,
+         nt_identity,
+         ref_accession,
+         ref_desc,ref_start,
+         ref_stop,coverage)
 
 write_tsv(df,file.path(finalout,paste0(opt$pref,"_results.tsv")))
