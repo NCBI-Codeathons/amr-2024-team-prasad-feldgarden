@@ -47,8 +47,7 @@ def main(argv):
                 "ref_start", 
                 "ref_stop",
                 "coverage",  
-                "evalue",
-                "bitscore"]
+                ]
     print("\t".join(out_header))
     for blast_record in blast_records:
         query_descs= blast_record.query.split(" ")
@@ -85,8 +84,7 @@ def main(argv):
                                             str(hsp.sbjct_end), 
                                             
                                             str(f"{hsp.sbjct_end - hsp.sbjct_start + 1}/{alignment.length} ({coverage * 100:.2f}%)"), 
-                                            str(hsp.expect),
-                                            str(hsp.bits)])
+                                            ])
                                 )
 
 if __name__ == '__main__':
