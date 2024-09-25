@@ -70,4 +70,35 @@ cd ../Pa_genomes
 mv ncbi_dataset/data/*/*_genomic.fna .
 ```
 
+# Run DGW.py
 
+```
+pushd ../script
+export PATH="$PATH:$PWD"
+popd
+
+mkdir Ab_dgw.py
+for file in Ab_genomes/*
+do
+    base=`basename $file .fna`
+    echo $file
+    run_dgw.sh $file > Ab_dgw.py/$base.dgw.py
+done
+
+
+mkdir Kp_dgw.py
+for file in Kp_genomes/*
+do
+    base=`basename $file .fna`
+    echo $file
+    run_dgw.sh $file > Kp_dgw.py/$base.dgw.py
+done
+
+
+mkdir Pa_dgw.py
+for file in Pa_genomes/*
+do
+    base=`basename $file .fna`
+    echo $file
+    run_dgw.sh $file > Pa_dgw.py/$base.dgw.py
+done
