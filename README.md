@@ -1,4 +1,4 @@
-![ncbilogo](https://github.com/user-attachments/assets/4e17127d-e6b0-4f60-9136-f7af95bcb704)
+![ncbilogo](https://github.com/user-attachments/assets/4b2da250-0b29-4298-8a04-dcc8e1b61e92)
 # Dead gene walking
 
 List of participants and affiliations:
