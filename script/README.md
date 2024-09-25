@@ -21,7 +21,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 BiocManager::install("Biostrings")
 install.packages('devtools')
 devtools:::install_github("Bioconductor/GenomeInfoDb")
-install.packages('optparse')
+
 ```
 
 ### Scanner.R script
@@ -29,18 +29,8 @@ install.packages('optparse')
 This script is called as follows:
 
 ```bash
-DGW.R -i query.fa -d ref.fa -o output_folder
+Rscript DGW.R query.fa ref.fa output_folder
 ```
-Options are:
-
-```bash
--i input file
--d reference file
--o output folder
--v verbose
--p prefix for output files, default is '"YYYYMMDD_HHMMSS"
-```
-
 The steps are:
 - Create nucleotide blast database
 - blast query to database and export as xml
@@ -49,7 +39,6 @@ The steps are:
 - translate nucleotide hit sequences to Amino acid sequences
 - align amino acid sequences to the reference one
 - calculate the amino acid identity to the reference in %,
-- try do detect what type of lesion is present
 
 ## Blastx and nonsense mutation 
 
@@ -80,5 +69,5 @@ diamond blastx -q query.fna -d reference_db -f 5 --min-orf 1 --frameshift 15  -o
 Run the python script to check nonsense mutation 
 
 ```js
-check_nonsense_mutations.py -i test/input.xml 
+DGW.py -i test/input.xml 
 ```
