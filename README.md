@@ -41,7 +41,7 @@ The solution developed in this project uses BLAST alignments to identify framesh
   - Translated alignment with BLASTX to identify stop codons
 
 ### Testing     
-- Use test sequences in [`dev-examples/`](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/tree/main/data/dev-examples) to make sure the software is working
+- Use test sequences in [`data/dev-examples/`](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/tree/main/data/dev-examples) to make sure the software is working
     - So far we have collected > 90 example mutations for six genes from three taxa
     - The majority of the reference sequences for AMR genes are found in NCBI's [Reference Gene Catalog](https://www.ncbi.nlm.nih.gov/pathogens/refgene/#)
 - Run the software across a large selection of genomes to characterize gene disruption and AMR
