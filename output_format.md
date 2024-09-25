@@ -1,6 +1,6 @@
 Output format in tab-delimited format
 - Gene symbol - `element_symbol`
-- Contig - `contig`
+- Contig - `contig_acc`
 - Start - `start`
 - Stop - `stop`
 - Orientation - `orientation`
