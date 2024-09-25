@@ -21,7 +21,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 BiocManager::install("Biostrings")
 install.packages('devtools')
 devtools:::install_github("Bioconductor/GenomeInfoDb")
-
+install.packages('optparse')
 ```
 
 ### Scanner.R script
