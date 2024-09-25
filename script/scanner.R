@@ -1,6 +1,24 @@
+#!/usr/bin/env Rscript
+
+## ---------------------------
+##
+## Script name: Scanner.R (to be adjusted)
+##
+## Project: "Codeathon to combat antimicrobial resistance at NCBI"
+##
+## Author: Dr. Adrien Assié
+## Date Created: 2024-09-23
+##
+## ---------------------------
+
+
+#Libraries
+
 suppressMessages(library(tidyverse))
 library(XML)
 suppressMessages(library(Biostrings))
+
+library(optparse)
 
 #Basic AA colors - Shapely
 aa_colors <- c(
@@ -15,7 +33,7 @@ aa_colors <- c(
   "*"="black"
 )
 
-## Functions endGapHandling = TRUE
+## Functions 
 
 ConscMatch <- function(ref_seq, tgt_seq) {
   ref_split <- str_split(as.character(ref_seq), "", simplify = TRUE)
@@ -49,41 +67,60 @@ ConscMatch <- function(ref_seq, tgt_seq) {
   return(list(consecutive_matches, comparison_tbl))
 }
 
-
 #Looking for arguments
-args <- commandArgs(trailingOnly = TRUE)
+arg_list <- list(
+  make_option(c("-i", "--in"), type = "character", dest="input", default = NULL,
+              help = "input file path", metavar = "FILE"),
+  make_option(c("-d", "--db"), type = "character", default = NULL,dest="db",
+              help = "input reference file path", metavar = "FILE"),
+  make_option(c("-o", "--out"), type = "character", default = NULL,dest="out",
+              help = "output file path", metavar = "FILE"),
+  make_option(c("-v", "--verbose"), action="store_true",default = FALSE, 
+              dest="verbose", help="Print debug text"),
+  make_option(c("-p", "--prefix"), default = format(Sys.time(), "%Y%m%d_%H%M%S"), type="character",metavar = "STRING",
+              dest="pref", help="Prefix name for outputfile")
+)
+
+# Create a parser object and parse arguments
+opt_parser <- OptionParser(option_list = arg_list)
+opt <- parse_args(opt_parser)
 
 #Sanity check
-if (length(args) < 3) {
-  stop("Two arguments must be provided: <query_fasta> <reference_fasta> <output_folder>")
+if (is.null(opt$input) || is.null(opt$out) || is.null(opt$db)) {
+  print_help(opt_parser)
+  stop("All -i, -d and -o arguments must be supplied.", call. = FALSE)
 }
 
-query_fa <- args[1]
-ref_fa <- args[2]
-finalout <- args[3]
+query_fa <- opt$input
+ref_fa <- opt$db
+finalout <- opt$out
 
 tmpDIR=tempdir()
 output_db <- file.path(tempdir(), "blast_tmp")
 
 #Preparing files
-
-cat("Creating BLAST database \n")
+if(opt$verbose==TRUE){
+  cat("Creating BLAST database \n")
+}
 system2(command = "makeblastdb",
         args = c("-dbtype nucl", 
                  "-in", ref_fa,
                  "-out",output_db,
                  "-title blasttmp"
-                 ),
+        ),
         stdout = FALSE)
 
 ##Debug
-if (file.exists(paste0(output_db, ".ndb"))) {
-  cat("BLAST database successfully created at:", output_db, "\n")
-} else {
-  cat("Failed to create BLAST database.\n")
+if(opt$verbose==TRUE){
+  if (file.exists(paste0(output_db, ".ndb"))) {
+    cat("BLAST database successfully created at:", output_db, "\n")
+  } else {
+    cat("Failed to create BLAST database.\n")
+  }
+  
+  cat("BLASTING \n")
 }
 
-cat("BLASTING \n")
 output_res <- file.path(tmpDIR, "blast_res.xml")
 
 system2(command = "blastn",
@@ -93,19 +130,20 @@ system2(command = "blastn",
                  "-outfmt", "5"),  # Output format 6: tabular
         stdout = TRUE)
 ##Debug
-if (file.exists(paste0(output_res))) {
-  cat("BLAST results successfully created at:", output_res, "\n")
-} else {
-  cat("Failed to find BLAST results\n")
+if(opt$verbose==TRUE){
+  if (file.exists(paste0(output_res))) {
+    cat("BLAST results successfully created at:", output_res, "\n")
+  } else {
+    cat("Failed to find BLAST results\n")
+  }
+  cat("Processing Results\n")
 }
 
-cat("Processing Results\n")
 #Loading blast results
 xml_data <- xmlParse(output_res)
 
 #Getting sequences into the right format
 ref=readDNAStringSet(ref_fa)
-aaref=translate(ref, genetic.code = getGeneticCode("11"))
 oref=ref
 ref=as.data.frame(ref)
 
@@ -125,7 +163,9 @@ df <- data.frame(Query = character(),
                  ntid=numeric(),
                  aaid=numeric(),
                  alilen=numeric(),
+                 lesion_type=character(),
                  stringsAsFactors = FALSE)
+
 for (query in queries) {
   query_def <- xmlValue(getNodeSet(query, "Iteration_query-def")[[1]])
   
@@ -136,7 +176,7 @@ for (query in queries) {
     hit_def <- xmlValue(getNodeSet(hit, "Hit_def")[[1]])
     hsps <- getNodeSet(hit, ".//Hsp")
     hlen <-  xmlValue(getNodeSet(hit, "Hit_len")[[1]])
-      
+    
     for (hsp in hsps) {
       e_value <- as.numeric(xmlValue(getNodeSet(hsp, "Hsp_evalue")[[1]]))
       score <- as.numeric(xmlValue(getNodeSet(hsp, "Hsp_score")[[1]]))
@@ -146,22 +186,27 @@ for (query in queries) {
       qfrom <- xmlValue(getNodeSet(hsp,"Hsp_query-from")[[1]])
       qto <- xmlValue(getNodeSet(hsp,"Hsp_query-to")[[1]])
       alilen <- xmlValue(getNodeSet(hsp,"Hsp_align-len")[[1]])
-     
+      
       #Sequence extraction and translation
       dna_seq <- DNAString(gsub("-","",hit_sequence))
-      amino_acid_seq <- translate(dna_seq, genetic.code = getGeneticCode("11"))
-      amino_acid_seq<-AAString(gsub("[*].*$","*",as.character(amino_acid_seq)))
       
       #Alignment
       if((as.numeric(hto)-as.numeric(hfrom))<0){
-        revref=reverseComplement(oref[hit_def])
-        aarev= translate(revref, genetic.code = getGeneticCode("11"))
-        local_align <- pwalign::pairwiseAlignment(amino_acid_seq, aarev, type = "global-local", substitutionMatrix = "BLOSUM62", gapOpening = 20, gapExtension = 0.5)
-      }else{
-        local_align <- pwalign::pairwiseAlignment(amino_acid_seq, aaref[hit_def], type = "global-local", substitutionMatrix = "BLOSUM62", gapOpening = 20, gapExtension = 0.5)
+        alref=translate(reverseComplement(oref[hit_def]), genetic.code = getGeneticCode("11"))
+      } else {
+        alref=translate(oref[hit_def], genetic.code = getGeneticCode("11"))
       }
+      if((as.numeric(qto)-as.numeric(qfrom))<0){
+        altgt <- translate(reverseComplement(dna_seq), genetic.code = getGeneticCode("11"))
+      } else {
+        altgt <- translate(dna_seq, genetic.code = getGeneticCode("11"))
+      }
+      altgt <-AAString(gsub("[*].*$","*",as.character(altgt)))
+      
+      local_align <- pwalign::pairwiseAlignment(altgt, alref, type = "global-local", substitutionMatrix = "BLOSUM62", gapOpening = 20, gapExtension = 0.5)
+      
       aamatch=nmatch(local_align)
-      aalength=nchar(aaref[hit_def])
+      aalength=nchar(alref)
       aa_id=aamatch/aalength*100
       
       #Id calc
@@ -171,6 +216,25 @@ for (query in queries) {
       
       CM=ConscMatch(subject(local_align),pattern(local_align))
       
+      if(length(altgt)<length(alref[[1]]) & as.character(altgt[length(altgt)])=="*"){
+        if(opt$verbose==TRUE){
+          cat("Maybe STOP mutation\n")
+        }
+        ltype=CM[[2]] %>% filter(Pos >= (max(Pos) - 20)) %>% 
+          group_by(Altype) %>%
+          summarise(n=n()) %>% 
+          spread(Altype,n)
+        if(!"Mismatch" %in% colnames(ltype)){
+          ltype=cbind(ltype,data.frame("Mismatch"=0))
+        }
+        ltype=ltype %>% 
+          mutate(lesion_type=ifelse(Mismatch>Match,"STOP frame shift","STOP point")) %>% 
+          select(lesion_type) %>% 
+          pull()
+      }else{
+        ltype="Intact?"
+      }
+      
       df <- df %>% add_row(Query = query_def,
                            Hit_ID = hit_id,
                            Hit_Description = hit_def,
@@ -179,19 +243,27 @@ for (query in queries) {
                            E_value = e_value,
                            Score = score,
                            Hit_Sequence = hit_sequence,
-                           Amino_Acid_Sequence = as.character(amino_acid_seq),
+                           Amino_Acid_Sequence = as.character(altgt),
                            ntid=ntid_per,
                            aaid=aa_id,
-                           alilen=as.numeric(alilen)/as.numeric(hlen)*100)
+                           alilen=as.numeric(alilen)/as.numeric(hlen)*100,
+                           lesion_type=ltype)
     }
   }
 }
 
 #filtering - On hold need to check for overlapping position
 #df <- df %>% 
- # group_by(Query) %>% 
- # filter(ntid==max(ntid)) %>% 
- # unique()
+# group_by(Query) %>% 
+# filter(ntid==max(ntid)) %>% 
+# unique()
 
+df2=df %>%
+  separate(Hit_Description,into=c("Gene"), sep="_",extra="drop") %>% 
+  select(Gene,ntid,aaid,alilen,lesion_type)
 
-write_tsv(df,file.path(finalout,"results.tsv"))
+cat(" ")
+cat(query_def)
+print(df2)
+
+write_tsv(df,file.path(finalout,paste0(opt$pref,"_results.tsv")))
