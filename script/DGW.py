@@ -90,7 +90,7 @@ def main(argv):
 if __name__ == '__main__':
     toolname = os.path.basename(__file__)
     argv = argparse.ArgumentParser( prog=toolname,
-        description = "check stop codon from blastx result xml file",
+        description = "check nonsensus/frameshift mutations from blastx result xml file",
         formatter_class = argparse.ArgumentDefaultsHelpFormatter)
     argv.add_argument('-i', '--input', dest = 'input_xml', required = True,
         help = '-outfmt 5 -o blastx_out.xml')
