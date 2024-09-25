@@ -49,7 +49,7 @@ micromamba create -n codeathon
 eval "$(micromamba shell hook --shell bash)"
 micromamba activate codeathon
 micromamba install python=3.12
-micromamba install -c conda-forge biopython
+micromamba install -y conda-forge::biopython bioconda::blast bioconda::diamond
 ```
 
 Starts with a blastx scan of the query sequences against the reference protein database.
