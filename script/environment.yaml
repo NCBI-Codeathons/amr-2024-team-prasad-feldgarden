@@ -1,0 +1,11 @@
+name: dead-gene-walking
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - biopython=1.84=py312hbd25219_0
+  - blast=2.16.0=h461d46c_2
+  - diamond=2.1.8=h94ec1f5_0
+  - python=3.12.3=h1411813_0_cpython
+  - R=4.4
