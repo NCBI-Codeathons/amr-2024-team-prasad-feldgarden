@@ -24,6 +24,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 BiocManager::install("Biostrings")
 install.packages('devtools')
 devtools:::install_github("Bioconductor/GenomeInfoDb")
+install.packages('optparse')
 
 ```
 
@@ -32,7 +33,15 @@ devtools:::install_github("Bioconductor/GenomeInfoDb")
 This script is called as follows:
 
 ```bash
-Rscript DGW.R query.fa ref.fa output_folder
+DGW.R -i query.fa -d ref.fa -o output_folder
+```
+Options are:
+```bash
+-i input file
+-d reference file
+-o output folder
+-v verbose
+-p prefix for output files, default is '"YYYYMMDD_HHMMSS"
 ```
 The steps are:
 - Create nucleotide blast database
