@@ -13,6 +13,9 @@ sudo apt-get install ncbi-blast+
 ```
 sudo apt-get install libxml2 libxml2-dev
 sudo apt-get install libcurl4-openssl-dev
+sudo apt-get install -y libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev
+sudo apt-get install -y libfontconfig1-dev
+sudo apt-get install libharfbuzz-dev libfribidi-dev
 R
 install.packages('tidyverse')
 install.packages('XML')
