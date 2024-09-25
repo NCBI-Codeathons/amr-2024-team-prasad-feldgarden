@@ -4,6 +4,7 @@ if [ "$1" == "" ]
 then
     echo "run_dgw.sh - identify nonsense mutations and frame shifts"
     echo "Usage: run_dgw.sh <NUCLEOTIDE_FASTA>"
+    echo "Runs diamond then DGW.py on the output"
     exit 1
 fi
 
