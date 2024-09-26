@@ -5,6 +5,8 @@ then
     echo "run_dgw.sh - identify nonsense mutations and frame shifts"
     echo "Usage: run_dgw.sh <NUCLEOTIDE_FASTA>"
     echo "Runs diamond then DGW.py on the output"
+    echo "You need to have a conda environment with the DGW requriements installed called"
+    echo "'codeathon'"
     exit 1
 fi
 
@@ -20,7 +22,7 @@ tmpdir=`mktemp -d`
 
 input_fasta="$1"
 
-diamond blastx --query $input_fasta --db $DATABASE --out $tmpdir/blast.xml --frameshift 15 --min-orf 1 -f 5
+diamond blastx --query $input_fasta --db $DATABASE --out $tmpdir/blast.xml --frameshift 15 --min-orf 1 -f 5 2> /dev/null
 
 micromamba run -n codeathon $script_dir/DGW.py -i $tmpdir/blast.xml
 

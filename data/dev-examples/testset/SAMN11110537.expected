@@ -1,3 +1,4 @@
 
 element_symbol	contig_acc	start	stop	orientation	lesion_type	aa_identity	nt_identity	ref_accession	lesion_location
-ampD	DAHNQV010000008.1	37096	37659	+	INTERNAL_STOP	97%		AAG07910.1	108
+ampD	DAHNQV010000008.1	37096	37659	+	INTERNAL_STOP	97		AAG07910.1	108
+oprD	DAHNQV010000004.1	304411	305742	-	INTERNAL_STOP	97		WP_003112576.1	164
