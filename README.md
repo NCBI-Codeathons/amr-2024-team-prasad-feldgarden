@@ -25,6 +25,20 @@ This project aims to develop and test methods to identify the presence of loss-o
       - mexR frameshift in SAMN11110706
       - nalD frameshift in SAMN11110430
 
+Specifically to start we will look for lesions in:
+
+- _Acinetobacter baumanii_
+  - AdeS
+- _Klebsiella pneumoniae_
+  - OmpK35
+  - OmpK36
+  - CirA
+- _Pseudomonas aeruginosa_
+  - OprD
+  - AmpD
+  - NalD
+  - MexR
+
 2. Developing software to identify broken genes caused by frameshift mutations and nonsense mutations.
 
 
