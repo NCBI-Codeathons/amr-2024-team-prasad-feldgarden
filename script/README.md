@@ -75,11 +75,18 @@ blastx -query query.fna -db reference_db -out results.xml -outfmt 5
 ## --frameshift to allow frameshift gap aligned and 
 ## show '/' or '\' in the alignement result
 
-diamond blastx -q query.fna -d reference_db -f 5 --min-orf 1 --frameshift 15  -o results.xml
+diamond blastx -q query.fna -d database/references.faa -f 5 --min-orf 1 --frameshift 15  -o results.xml
 ```
 
 Run the python script to check nonsense mutation 
 
 ```js
 DGW.py -i test/input.xml 
+```
+
+Including blast step.
+```js
+## still need pre-build the database either from blast or diamond.
+
+ ./DGW_blast.py -i query.fna -d database/references.faa --diamond -o -
 ```
