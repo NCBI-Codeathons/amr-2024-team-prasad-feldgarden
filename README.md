@@ -66,7 +66,6 @@ The solution developed in this project uses BLAST alignments to identify framesh
 
 The output is provided in a tabular form. An example of the output schema is provided [here](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/mock_output.csv). 
 
-
 ### Updates (September 24, 2024)
 
 - Broken genes for testing have been identified. Reference sequences and assembly sequences have been obtained for those
@@ -77,6 +76,14 @@ The output is provided in a tabular form. An example of the output schema is pro
   - Once confirmed, they will be added to a bash script
   - Vadr has proven effective when running against specific bacterial genes. For now, we will use Vadr as a "control" to help us compare results from the tools we are developing
 - A virtual machine was built to assist in tool testing across environments
+
+### Updates (September 25, 2024)
+
+- Software has been improved and we have run tests on a large set of random isolates
+- Put together a manually curated test set with sample output manually created
+- Downloaded 30,000 assemblies to run our software on
+- Need to refine output, standardize, and run on random isolates
+- 
 
 ## Results
 
