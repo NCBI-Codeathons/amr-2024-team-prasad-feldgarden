@@ -8,8 +8,11 @@ This set consists of ~1,000 random isolates from each of the three taxgroups
 
 - DGW.py
     - `Ab_genomes.dgw` - Randomly selected Acinetobacter baumanii genomes
+        - `Ab_random.asm_acc` - Assembly accessions screened
     - `Kp_genomes.dgw` - Randomly selected Klebsiella pneumonieae genomes
+        - `Kp_random.asm_acc` - Assembly accessions screened
     - `Pa_genomes.dgw` - Randomly selected Pseudomonas aeruginosa genomes
+        - `Pa_random.asm_acc` - Assembly accession screened
 
 ## AST set
 

@@ -45,4 +45,36 @@ datasets rehydrate --directory Kp_genomes
 datasets download genome accession --dehydrated --include genome --inputfile Pa_random.asm_acc --filename Pa_datasets.zip
 unzip Pa_datasets.zip -d Pa_genomes
 datasets rehydrate --directory Pa_genomes
+```
+
+# Analyze with DGW
+
+```
+rename_contig.pl Ab_genomes/ncbi_dataset/data/*/*.fna > Ab_genomes.fna
+run_dgw.sh Ab_genomes.fna > Ab_genomes.dgw
+R --no-save <<END
+library(dplyr)
+library(tidyr)
+tabin('Ab_genomes.dgw') %>% separate(contig_acc, into=c('asm_acc','contig_acc'), sep='-', remove=F) %>% tabout('Ab_genomes.dgw.py')
+END
+
+rename_contig.pl Kp_genomes/ncbi_dataset/data/*/*.fna > Kp_genomes.fna
+run_dgw.sh Kp_genomes.fna > Kp_genomes.dgw
+R --no-save <<END
+library(dplyr)
+library(tidyr)
+tabin('Kp_genomes.dgw') %>% separate(contig_acc, into=c('asm_acc','contig_acc'), sep='-', remove=F) %>% tabout('Kp_genomes.dgw.py')
+END
+mv Kp_genomes.dgw.py Kp_genomes.dgw
+
+rename_contig.pl Pa_genomes/ncbi_dataset/data/*/*.fna > Pa_genomes.fna
+run_dgw.sh Pa_genomes.fna > Pa_genomes.dgw
+R --no-save <<END
+library(dplyr)
+library(tidyr)
+tabin('Pa_genomes.dgw') %>% separate(contig_acc, into=c('asm_acc','contig_acc'), sep='-', remove=F) %>% tabout('Pa_genomes.dgw.py')
+END
+mv Pa_genomes.dgw.py Pa_genomes.dgw
+```
+
 
