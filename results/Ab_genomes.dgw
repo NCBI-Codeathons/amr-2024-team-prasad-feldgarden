@@ -1,0 +1,10 @@
+element_symbol	asm_acc	contig_acc	contig_start	contig_stop	orientation	lesion	lesion_type	aa_identity	nt_identity	ref_accession	ref_desc	lesion_location	ref_start	ref_stop	coverage
+AdeS	GCA_001471615.2	LORV02000002.1	3016617	3017690	-	H357STOP	STOP	317/359 (88.30%)	NA	WP_031379793.1	two-component sensor histidine kinase AdeS [Acinetobacter baumannii]	357	1	359	359/361 (99.45%)
+AdeS	GCA_016525615.2	AAYNEH020000020.1	10071	11139	+	D59fs	FRAMESHIFT	350/357 (98.04%)	NA	WP_031379793.1	two-component sensor histidine kinase AdeS [Acinetobacter baumannii]	59	1	357	357/361 (98.89%)
+AdeS	GCA_016527645.2	AAYNGG020000019.1	10071	11139	+	D59fs	FRAMESHIFT	350/357 (98.04%)	NA	WP_031379793.1	two-component sensor histidine kinase AdeS [Acinetobacter baumannii]	59	1	357	357/361 (98.89%)
+AdeS	GCA_023064695.3	ABFWQG030000038.1	17503	18573	+	L5STOP	STOP	350/357 (98.04%)	NA	WP_031379793.1	two-component sensor histidine kinase AdeS [Acinetobacter baumannii]	5	1	357	357/361 (98.89%)
+AdeS	GCA_024187695.3	ABGZHI030000018.1	53105	54174	-	S188fs	FRAMESHIFT	350/357 (98.04%)	NA	WP_031379793.1	two-component sensor histidine kinase AdeS [Acinetobacter baumannii]	188	1	357	357/361 (98.89%)
+AdeS	GCA_026569715.1	DAKNAC010000038.1	24358	25439	-	K98fs	FRAMESHIFT	354/361 (98.06%)	NA	WP_031379793.1	two-component sensor histidine kinase AdeS [Acinetobacter baumannii]	98	1	361	361/361 (100.00%)
+AdeS	GCA_037008005.1	JBAMZW010000001.1	1065196	1066269	-	H357STOP	STOP	318/359 (88.58%)	NA	WP_031379793.1	two-component sensor histidine kinase AdeS [Acinetobacter baumannii]	357	1	359	359/361 (99.45%)
+AdeS	GCA_040600255.1	JAWUJO010000044.1	9969	11052	-	K98fs	FRAMESHIFT	359/361 (99.45%)	NA	WP_031379793.1	two-component sensor histidine kinase AdeS [Acinetobacter baumannii]	98	1	361	361/361 (100.00%)
+AdeS	GCA_900495545.1	UFKN01000046.1	7183	8266	-	K98fs	FRAMESHIFT	359/361 (99.45%)	NA	WP_031379793.1	two-component sensor histidine kinase AdeS [Acinetobacter baumannii]	98	1	361	361/361 (100.00%)
