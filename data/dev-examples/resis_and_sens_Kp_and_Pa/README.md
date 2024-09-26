@@ -65,4 +65,48 @@ do
     echo $file
     run_dgw.sh $file > Kpresis.dgw/$base.dgw
 done
+```
+
+Redone as:
+```
+rename_contig.pl Kpsens/*.fna > Kpsens.fna
+run_dgw.sh Kpsens.fna > Kpsens.dgw1
+R --no-save <<END
+library(dplyr)
+library(tidyr)
+tabin('Kpsens.dgw1') %>% separate(contig_acc, into=c('asm_acc','contig_acc'), sep='-', remove=F) %>% tabout('Kpsens.dgw2')
+END
+
+rename_contig.pl Kpresis/*.fna > Kpresis.fna
+run_dgw.sh Kpresis.fna > Kpresis.dgw1
+R --no-save <<END
+library(dplyr)
+library(tidyr)
+tabin('Kpresis.dgw1') %>% separate(contig_acc, into=c('asm_acc','contig_acc'), sep='-', remove=F) %>% tabout('Kpresis.dgw2')
+END
+
+rename_contig.pl Pasens/*.fna > Pasens.fna
+run_dgw.sh Pasens.fna > Pasens.dgw1
+R --no-save <<END
+library(dplyr)
+library(tidyr)
+tabin('Pasens.dgw1') %>% separate(contig_acc, into=c('asm_acc','contig_acc'), sep='-', remove=F) %>% tabout('Pasens.dgw2')
+END
+
+rename_contig.pl Paresis/*.fna > Paresis.fna
+run_dgw.sh Paresis.fna > Paresis.dgw1
+R --no-save <<END
+library(dplyr)
+library(tidyr)
+tabin('Paresis.dgw1') %>% separate(contig_acc, into=c('asm_acc','contig_acc'), sep='-', remove=F) %>% tabout('Paresis.dgw2')
+END
+
+```
+
+cp Kpsens.dgw2 ../../../results/Kpsens.dgw
+cp Kpresis.dgw2 ../../../results/Kpresis.dgw
+cp Pasens.dgw2 ../../../results/Pasens.dgw
+cp Paresis.dgw2 ../../../results/Paresis.dgw
+
+```
 

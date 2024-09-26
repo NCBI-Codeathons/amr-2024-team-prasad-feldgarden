@@ -25,6 +25,7 @@ BiocManager::install("Biostrings")
 install.packages('devtools')
 devtools:::install_github("Bioconductor/GenomeInfoDb")
 install.packages('optparse')
+install.packages('doParallel')
 
 ```
 
