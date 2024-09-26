@@ -196,25 +196,25 @@ system2(command = "blastn",
 
 if(opt$core>1){
   # Remove specific patterns
-  system2(command = "gsed",
+  system2(command = "sed",
           args = c("-i", "'/BlastOutput/d;/xml/d;/DOCTYPE/d;/Paramet/d'", output_res),
           stdout = TRUE)
   
   #Rebuild xml
   
-  system2(command = "gsed",
+  system2(command = "sed",
           args = c("-i", "'1i<BlastOutput_iterations>'", output_res),
           stdout = TRUE)
   
-  system2(command = "gsed",
+  system2(command = "sed",
           args = c("-i", "'1i<BlastOutput>'", output_res),
           stdout = TRUE)
   
-  system2(command = "gsed",
+  system2(command = "sed",
           args = c("-i", "'1i<!DOCTYPE BlastOutput>'", output_res),
           stdout = TRUE)
   
-  system2(command = "gsed",
+  system2(command = "sed",
           args = c("-i", "'1i<?xml version=\"1.0\"?>'", output_res),
           stdout = TRUE)
   
