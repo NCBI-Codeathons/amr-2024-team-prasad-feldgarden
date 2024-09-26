@@ -16,14 +16,18 @@ def check_frameshift(query_seq):
     return [m.start() for m in re.finditer(r"\\|/", query_seq)] if '/' in query_seq or '\\' in query_seq else [] 
 
 def check_INDELs(query_seq, hit_seq, hit_start):
+    # in-frame frameshifts 
     mutations = []
+    locations = []
     if '-' in hit_seq:  # deletion
         for m in re.finditer('-+', hit_seq):
             mutations.append(hit_seq[m.start()-1] + str(m.start() + hit_start - 1) + query_seq[m.start()-1:m.end()])
+            locations.append( str(m.start() + hit_start - 1))
     if '-' in query_seq: # insertion
         for m in re.finditer('-+', query_seq):
             mutations.append(hit_seq[m.start()-1:m.end()] + str(m.start() + hit_start - 1) + query_seq[m.start()-1])
-    return mutations
+            locations.append( str(m.start() + hit_start - 1))
+    return mutations, locations
 
 def check_nonsense_mutations(query_seq):
     # check nonsense mutations, could be multiple places
@@ -35,17 +39,17 @@ def check_nonsense_mutations(query_seq):
 def main(argv):
     result_handle = open(argv.input_xml,'r')
     blast_records = NCBIXML.parse(result_handle)
-    out_header=[
-                "element_symbol",
+    out_header=["element_symbol",
                 "contig_acc", 
                 "contig_start", 
                 "contig_stop", 
                 "orientation", 
-                "lession_type", 
+                "lesion_type", 
                 "aa_identity",
                 "nt_identity",
                 "ref_accession",
                 "ref_desc", 
+                "lesion_location",
                 "ref_start", 
                 "ref_stop",
                 "coverage",  
@@ -64,16 +68,24 @@ def main(argv):
                 identity = hsp.identities/hsp.align_length
                 orientation = '+' if hsp.frame[0] > 0 else '-'
                 if coverage > argv.cov and identity > argv.id : 
-                    indels_mutations = check_INDELs(query_seq,hit_seq, hsp.sbjct_start) if argvs.indels else []
+                    indels_mutations, indels_locations = check_INDELs(query_seq,hit_seq, hsp.sbjct_start) if argvs.indels else [],[]
                     nonsense_mutations = check_nonsense_mutations(query_seq)
                     frameshift_mutations = check_frameshift(query_seq)
                     
                     mutations = []
+                    lesion_type =[]
+                    lesion_location = []
                     if len(nonsense_mutations) > 0:
+                        lesion_type = ['STOP']
+                        lesion_location = [  str(i + hsp.sbjct_start)  for i in nonsense_mutations ] 
                         mutations = [  hit_seq[i] + str(i + hsp.sbjct_start) + "STOP"  for i in nonsense_mutations ] 
                     if len(frameshift_mutations) > 0:
+                        lesion_type.extend(['FRAMESHIFT'])
+                        lesion_location.extend([  str(i + hsp.sbjct_start)  for i in frameshift_mutations ])
                         mutations.extend([  hit_seq.replace('-','')[i] + str(i + hsp.sbjct_start) + "fs"  for i in frameshift_mutations ])
                     elif len(indels_mutations) > 0:
+                        lesion_type.extend(['FRAMESHIFT'])
+                        lesion_location.extend(indels_locations)
                         mutations.extend(indels_mutations)
 
                     if len(nonsense_mutations) > 0 or len(indels_mutations) > 0 or len(frameshift_mutations) > 0:
@@ -82,15 +94,15 @@ def main(argv):
                                             str(hsp.query_start),
                                             str(hsp.query_end),
                                             orientation,
-                                            ','.join(mutations),
+                                            ','.join(lesion_type),
                                             str(f"{hsp.identities}/{hsp.align_length} ({identity*100:.2f}%)"), 
                                             '',
                                             '_'.join(hit_names),
                                             alignment.hit_def, 
+                                            ','.join(lesion_location),
                                             str(hsp.sbjct_start), 
                                             str(hsp.sbjct_end), 
-                                            
-                                            str(f"{hsp.sbjct_end - hsp.sbjct_start + 1}/{alignment.length} ({coverage * 100:.2f}%)"), 
+                                            str(f"{hsp.sbjct_end - hsp.sbjct_start + 1}/{alignment.length} ({coverage * 100:.2f}%)")
                                             ])
                                 )
     result_handle.close()
