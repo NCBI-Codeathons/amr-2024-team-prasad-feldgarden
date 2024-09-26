@@ -1,0 +1,3 @@
+
+element_symbol	contig_acc	start	stop	orientation	lesion_type	aa_identity	nt_identity	ref_accession	lesion_location
+OmpK35	OmpK35_early_stop	2186	3289	+	INTERNAL_STOP	99	99	WP_004141771.1	36

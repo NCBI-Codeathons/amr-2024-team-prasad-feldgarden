@@ -7,6 +7,17 @@
 -`SAMN11110537.nuc.fa` is a Pseudomonas that has an ampD stop at pos. 108 E_to stop; pos. 37418 in DAHNQV010000008.1
     - `SAMN11110537.expected` is a mockup of output baesd on the format we discussed.
 
+- `synthetic_fs.fna` - Manually mutated ompK35 sequence with an insertion after site 300 in the coding sequence (100 in the amino-acid sequence)
+    - `synthetic_fs.expected` is a mockup of expected output
+
+- `OmpK35_frameshift.nuc.fa` - OmpK35 frameshift sequence from test data for Kleborate. A frameshift at pos. 116; in nucleotide space, pos. 345 in the reference has an insertion (A), pos. 3084 in the test sequence 
+
+- 
+
+----------
+
+## The following are not ready yet
+
 - `SAMN03105473.nuc.fa` is a Pseudomonas genome that has a nalD frameshift at pos. 131; in nucleotide space, there is a deletion at 394-397 in the ref. and pos. 59736-59739 in JTXK01000022.1
     - I couldn't find the nalD mutation ?
 

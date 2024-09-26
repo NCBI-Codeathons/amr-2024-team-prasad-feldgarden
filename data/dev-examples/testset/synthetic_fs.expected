@@ -1,0 +1,2 @@
+element_symbol	contig_acc	start	stop	orientation	lesion_type	aa_identity	nt_identity	ref_accession	lesion_location
+OmpK35	ompK35_C300CC	1	1081	+	FRAMESHIFT	100	99	AJ011501.1	101

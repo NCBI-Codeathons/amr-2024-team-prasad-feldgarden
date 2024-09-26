@@ -1,0 +1,2 @@
+element_symbol	contig_acc	start	stop	orientation	lesion_type	aa_identity	nt_identity	ref_accession	lesion_location
+OmpK36	OmpK35_frameshift	2740	3817	+	FRAMESHIFT	100	99	HM000041.1	117
