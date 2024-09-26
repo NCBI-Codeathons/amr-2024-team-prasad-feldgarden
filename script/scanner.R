@@ -196,25 +196,25 @@ system2(command = "blastn",
 
 if(opt$core>1){
   # Remove specific patterns
-  system2(command = "sed",
+  system2(command = "gsed",
           args = c("-i", "'/BlastOutput/d;/xml/d;/DOCTYPE/d;/Paramet/d'", output_res),
           stdout = TRUE)
   
   #Rebuild xml
   
-  system2(command = "sed",
+  system2(command = "gsed",
           args = c("-i", "'1i<BlastOutput_iterations>'", output_res),
           stdout = TRUE)
   
-  system2(command = "sed",
+  system2(command = "gsed",
           args = c("-i", "'1i<BlastOutput>'", output_res),
           stdout = TRUE)
   
-  system2(command = "sed",
+  system2(command = "gsed",
           args = c("-i", "'1i<!DOCTYPE BlastOutput>'", output_res),
           stdout = TRUE)
   
-  system2(command = "sed",
+  system2(command = "gsed",
           args = c("-i", "'1i<?xml version=\"1.0\"?>'", output_res),
           stdout = TRUE)
   
@@ -282,6 +282,7 @@ results <- mclapply(queries, function(query) {
     hlen <- xmlValue(getNodeSet(hit, "Hit_len")[[1]])
     
     for (hsp in hsps) {
+      note<-""
       e_value <- as.numeric(xmlValue(getNodeSet(hsp, "Hsp_evalue")[[1]]))
       score <- as.numeric(xmlValue(getNodeSet(hsp, "Hsp_score")[[1]]))
       hit_sequence <- xmlValue(getNodeSet(hsp, "Hsp_qseq")[[1]])
@@ -296,7 +297,17 @@ results <- mclapply(queries, function(query) {
       }
       
       # Sequence extraction and translation
-      dna_seq <- DNAString(gsub("-", "", hit_sequence))
+      note=""
+      hit_sequence <- gsub("-", "", hit_sequence)
+      if(grepl(pattern = "N",hit_sequence)){
+        dna_seq <- DNAString(gsub("N", "", hit_sequence))
+        note="- N removed"
+      }else if(grepl("[^ATCG]",as.character(hit_sequence))){
+        hit_sequence=gsub("[^ATCG]","",as.character(dna_seq))
+        note="- illegal character removed"
+      }else{
+        dna_seq <- DNAString(hit_sequence)
+      }
       
       if ((as.numeric(hto) - as.numeric(hfrom)) < 0) {
         dna_seq=reverseComplement(dna_seq)
@@ -331,7 +342,7 @@ results <- mclapply(queries, function(query) {
       
       # Identity calculation
       hsp_identity <- as.numeric(xmlValue(getNodeSet(hsp, "Hsp_identity")[[1]]))
-      hsp_align_len <- as.numeric(xmlValue(getNodeSet(hsp, "Hsp_align-len")[[1]]))
+      hsp_align_len <- nchar(oref[hit_def])
       ntid_per <- (hsp_identity / hsp_align_len) * 100
       
       CM <- ConscMatch(subject(local_align), pattern(local_align))
@@ -366,14 +377,16 @@ results <- mclapply(queries, function(query) {
             ltype <- "Error"
           }
         }
-      } else {
+      } else if(as.character(altgt[length(altgt)]) %in% c("A","T","G","C")) {
+        ltype <- "Fragment?"
+      } else{
         ltype <- "Intact?"
       }
       
       # Add row to the temporary data frame
       query_df <- query_df %>% add_row(Query = query_def,
                                        Hit_ID = hit_id,
-                                       Hit_Description = hit_def,
+                                       Hit_Description = paste(hit_def,note),
                                        start = as.numeric(qfrom),
                                        stop = as.numeric(qto),
                                        E_value = e_value,
@@ -404,7 +417,7 @@ cat("Done\n")
 print(df2)
 
 fdf=df %>% 
-  filter(!lesion_type %in% c("Intact?","sbs","Error","Ok?")) %>% 
+  filter(!lesion_type %in% c("Intact?","sbs","Error","Ok?","Fragment?")) %>% 
   separate(Hit_Description,into=c("ref_accession","ref_desc"), sep=" ",extra="merge")%>%
   separate(ref_accession,into=c("element_symbol","ref_accession"), sep="_",extra="merge") %>%
   mutate(ref_accession=gsub(":.*","",ref_accession)) %>% 
