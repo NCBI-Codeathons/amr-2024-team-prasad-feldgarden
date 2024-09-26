@@ -90,3 +90,32 @@ Including blast step.
 
  ./DGW_blast.py -i query.fna -d database/references.faa --diamond -o -
 ```
+
+```js
+usage: DGW_blast.py [-h] -i INPUT_FASTA -d DATABASE [-o OUTPUT] [--cov COV] [--id ID] [--indels] [--diamond] [--threads THREADS] [--verbose] [--version]
+
+    ____                 _    ____                  __        __    _ _    _             
+   |  _ \  ___  __ _  __| |  / ___| ___ _ __   ___  \ \      / __ _| | | _(_)_ __   __ _ 
+   | | | |/ _ \/ _` |/ _` | | |  _ / _ | '_ \ / _ \  \ \ /\ / / _` | | |/ | | '_ \ / _` |
+   | |_| |  __| (_| | (_| | | |_| |  __| | | |  __/   \ V  V | (_| | |   <| | | | | (_| |
+   |____/ \___|\__,_|\__,_|  \____|\___|_| |_|\___|    \_/\_/ \__,_|_|_|\_|_|_| |_|\__, |
+                                                                                   |___/                                                                                                                                                                                                                                                                                                                                                                                          
+  Detect nonsensus/frameshift mutations by running blastx on contig fasta against target protein database
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -i INPUT_FASTA, --input_fasta INPUT_FASTA
+                        contig fasta file
+  -d DATABASE, --database DATABASE
+                        protein (diamond) blast DB
+  -o OUTPUT, --output OUTPUT
+                        output tsv file
+  --cov COV             target coverage
+  --id ID               hit identity
+  --indels              check in-frame insertion and deletion
+  --diamond             use diamond blastx
+  --threads THREADS     threads
+  --verbose             Show more information in log
+  --version             show program's version number and exit
+```
+
