@@ -83,7 +83,6 @@ The output is provided in a tabular form. An example of the output schema is pro
 - Put together a manually curated test set with sample output manually created
 - Downloaded 30,000 assemblies to run our software on
 - Need to refine output, standardize, and run on random isolates
-- 
 
 ## Results
 
