@@ -1,0 +1,3 @@
+element_symbol	contig_acc	contig_start	contig_stop	orientation	lesion_type	aa_identity	nt_identity	ref_accession	ref_desc	lesion_location	ref_start	ref_stop	coverage
+OprD	QMGJ01000001.1	4415508	4416830	+	STOP	418/443 (94.36%)		WP_003112576.1	MULTISPECIES: outer membrane porin OprD [Pseudomonas]	417	1	443	443/443 (100.00%)
+AmpD	QMGJ01000001.1	5008437	5008999	-	FRAMESHIFT	185/188 (98.40%)		AAG07910.1	beta-lactamase expression regulator AmpD [Pseudomonas aeruginosa PAO1]	138	1	188	188/188 (100.00%)

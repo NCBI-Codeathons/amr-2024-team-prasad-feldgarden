@@ -1,0 +1,2 @@
+element_symbol	contig_acc	contig_start	contig_stop	orientation	lesion_type	aa_identity	nt_identity	ref_accession	ref_desc	lesion_location	ref_start	ref_stop	coverage
+OprD	RXUL01000036.1	52380	53702	-	STOP	417/443 (94.13%)		WP_003112576.1	MULTISPECIES: outer membrane porin OprD [Pseudomonas]	277	1	443	443/443 (100.00%)

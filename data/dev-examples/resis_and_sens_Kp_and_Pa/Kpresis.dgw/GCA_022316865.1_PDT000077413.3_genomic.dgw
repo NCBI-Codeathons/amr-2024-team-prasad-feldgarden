@@ -1,0 +1,2 @@
+element_symbol	contig_acc	contig_start	contig_stop	orientation	lesion_type	aa_identity	nt_identity	ref_accession	ref_desc	lesion_location	ref_start	ref_stop	coverage
+OmpK35	ABFDAI010000002.1	90425	91502	+	FRAMESHIFT	359/359 (100.00%)		WP_004141771.1	MULTISPECIES: porin OmpK35 [Klebsiella]	41	1	359	359/359 (100.00%)

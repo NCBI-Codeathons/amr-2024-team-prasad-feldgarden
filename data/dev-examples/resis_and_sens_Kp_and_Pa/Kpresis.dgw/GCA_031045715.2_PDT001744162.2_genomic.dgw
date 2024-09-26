@@ -1,0 +1,2 @@
+element_symbol	contig_acc	contig_start	contig_stop	orientation	lesion_type	aa_identity	nt_identity	ref_accession	ref_desc	lesion_location	ref_start	ref_stop	coverage
+OmpK36	ABLWZP020000002.1	218471	219562	+	STOP	342/368 (92.93%)		ADG56549.1	OmpK36 [Klebsiella pneumoniae]	196	1	367	367/367 (100.00%)

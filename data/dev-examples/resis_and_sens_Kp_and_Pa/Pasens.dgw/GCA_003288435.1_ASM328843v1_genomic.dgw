@@ -1,0 +1,2 @@
+element_symbol	contig_acc	contig_start	contig_stop	orientation	lesion_type	aa_identity	nt_identity	ref_accession	ref_desc	lesion_location	ref_start	ref_stop	coverage
+NalD	CP030327.1	4712295	4712930	-	STOP	211/212 (99.53%)		AAG06962.1	NalD [Pseudomonas aeruginosa PAO1]	205	1	212	212/212 (100.00%)

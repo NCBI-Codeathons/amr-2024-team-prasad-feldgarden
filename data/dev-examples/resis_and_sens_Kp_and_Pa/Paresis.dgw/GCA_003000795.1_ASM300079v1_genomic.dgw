@@ -1,0 +1,2 @@
+element_symbol	contig_acc	contig_start	contig_stop	orientation	lesion_type	aa_identity	nt_identity	ref_accession	ref_desc	lesion_location	ref_start	ref_stop	coverage
+MexR	PSQP01000004.1	168582	169011	+	FRAMESHIFT	143/147 (97.28%)		AAG03813.1	multidrug resistance operon repressor MexR [Pseudomonas aeruginosa PAO1]	127	1	147	147/147 (100.00%)

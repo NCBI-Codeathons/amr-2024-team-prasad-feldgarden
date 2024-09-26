@@ -1,0 +1,2 @@
+element_symbol	contig_acc	contig_start	contig_stop	orientation	lesion_type	aa_identity	nt_identity	ref_accession	ref_desc	lesion_location	ref_start	ref_stop	coverage
+OprD	ABEVIO010000009.1	172894	174216	-	STOP	418/443 (94.36%)		WP_003112576.1	MULTISPECIES: outer membrane porin OprD [Pseudomonas]	166	1	443	443/443 (100.00%)

@@ -1,0 +1,2 @@
+element_symbol	contig_acc	contig_start	contig_stop	orientation	lesion_type	aa_identity	nt_identity	ref_accession	ref_desc	lesion_location	ref_start	ref_stop	coverage
+OmpK36	KK036965.1	2642579	2643666	-	FRAMESHIFT	360/367 (98.09%)		ADG56549.1	OmpK36 [Klebsiella pneumoniae]	119	1	367	367/367 (100.00%)

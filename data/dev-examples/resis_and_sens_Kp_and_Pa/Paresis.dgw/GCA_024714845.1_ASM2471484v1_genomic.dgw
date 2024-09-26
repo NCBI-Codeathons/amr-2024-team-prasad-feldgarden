@@ -1,0 +1,3 @@
+element_symbol	contig_acc	contig_start	contig_stop	orientation	lesion_type	aa_identity	nt_identity	ref_accession	ref_desc	lesion_location	ref_start	ref_stop	coverage
+AmpD	JANKPC010000033.1	61668	62231	-	STOP	185/188 (98.40%)		AAG07910.1	beta-lactamase expression regulator AmpD [Pseudomonas aeruginosa PAO1]	97	1	188	188/188 (100.00%)
+OprD	JANKPC010000055.1	83387	84709	-	STOP	413/443 (93.23%)		WP_003112576.1	MULTISPECIES: outer membrane porin OprD [Pseudomonas]	6	1	443	443/443 (100.00%)

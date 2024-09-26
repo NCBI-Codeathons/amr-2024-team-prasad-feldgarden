@@ -1,0 +1,2 @@
+element_symbol	contig_acc	contig_start	contig_stop	orientation	lesion_type	aa_identity	nt_identity	ref_accession	ref_desc	lesion_location	ref_start	ref_stop	coverage
+CirA	KI535619.1	1626554	1628524	+	STOP	656/657 (99.85%)		AEJ99093.1	catecholate siderophore receptor CirA [Klebsiella pneumoniae KCTC 2242]	367	1	657	657/657 (100.00%)

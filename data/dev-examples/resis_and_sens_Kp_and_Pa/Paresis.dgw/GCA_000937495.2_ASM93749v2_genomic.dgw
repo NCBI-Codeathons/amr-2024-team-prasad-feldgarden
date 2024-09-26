@@ -1,0 +1,3 @@
+element_symbol	contig_acc	contig_start	contig_stop	orientation	lesion_type	aa_identity	nt_identity	ref_accession	ref_desc	lesion_location	ref_start	ref_stop	coverage
+NalD	JYGB02000001.1	887075	887699	+	FRAMESHIFT	208/212 (98.11%)		AAG06962.1	NalD [Pseudomonas aeruginosa PAO1]	155	1	212	212/212 (100.00%)
+OprD	JYGB02000006.1	391661	392989	-	STOP	442/443 (99.77%)		WP_003112576.1	MULTISPECIES: outer membrane porin OprD [Pseudomonas]	339	1	443	443/443 (100.00%)

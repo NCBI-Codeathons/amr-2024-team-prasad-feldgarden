@@ -31,3 +31,38 @@ cd ..
 
 ```
 
+# run DGW on test set
+
+```Shell
+mkdir Pasens.dgw
+for file in Pasens/*.fna
+do
+    base=`basename $file .fna`
+    echo $file
+    run_dgw.sh $file > Pasens.dgw/$base.dgw
+done
+
+mkdir Paresis.dgw
+for file in Paresis/*.fna
+do
+    base=`basename $file .fna`
+    echo $file
+    run_dgw.sh $file > Paresis.dgw/$base.dgw
+done
+
+mkdir Kpsens.dgw
+for file in Kpsens/*.fna
+do
+    base=`basename $file .fna`
+    echo $file
+    run_dgw.sh $file > Kpsens.dgw/$base.dgw
+done
+
+mkdir Kpresis.dgw
+for file in Kpresis/*.fna
+do
+    base=`basename $file .fna`
+    echo $file
+    run_dgw.sh $file > Kpresis.dgw/$base.dgw
+done
+

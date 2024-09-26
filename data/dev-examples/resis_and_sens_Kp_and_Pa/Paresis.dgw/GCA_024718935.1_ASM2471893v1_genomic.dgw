@@ -1,0 +1,2 @@
+element_symbol	contig_acc	contig_start	contig_stop	orientation	lesion_type	aa_identity	nt_identity	ref_accession	ref_desc	lesion_location	ref_start	ref_stop	coverage
+OprD	JANKUR010000092.1	8926	10248	-	STOP	413/443 (93.23%)		WP_003112576.1	MULTISPECIES: outer membrane porin OprD [Pseudomonas]	6	1	443	443/443 (100.00%)
