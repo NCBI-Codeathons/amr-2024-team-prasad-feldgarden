@@ -1,0 +1,3 @@
+element_symbol	contig_acc	start	stop	orientation	lesion_type	aa_identity	nt_identity	ref_accession	lesion_location
+MexR	DAHMTF010000002.1	245917	245925	+	FRAMESHIFT	94.13		AAG03813.1	125
+
