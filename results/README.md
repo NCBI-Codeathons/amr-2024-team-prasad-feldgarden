@@ -21,5 +21,5 @@ See `data/dev-examples/resis_and_sens_Kp_and_Pa/README` for details
     - `Kpsens.dgw` - _Klebsiella pneumoniae_ that tested sensitive
     - `Kpresis.dgw` - _Klebsiella pneumoniae_ that tested resistant
     - `Pasens.dgw` - _Pseudomonas aeruginosa_ that tested sensitive
-- `Paresist.dgw` _Pseudomonas aeruginosa_ that tested resistant
+    - `Paresist.dgw` _Pseudomonas aeruginosa_ that tested resistant
 
