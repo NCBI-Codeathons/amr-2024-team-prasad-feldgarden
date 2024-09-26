@@ -186,6 +186,7 @@ def main(argv):
                 hit_seq = hsp.sbjct
                 coverage = (hsp.sbjct_end - hsp.sbjct_start + 1 )/alignment.length 
                 identity = hsp.identities/hsp.align_length
+                orientation = '+' if hsp.frame[0] > 0 else '-'
                 if coverage > argv.cov and identity > argv.id : 
                     indels_mutations = check_INDELs(query_seq,hit_seq, hsp.sbjct_start) if argvs.indels else []
                     nonsense_mutations = check_nonsense_mutations(query_seq)
@@ -205,7 +206,7 @@ def main(argv):
                                             contig_id,
                                             str(hsp.query_start),
                                             str(hsp.query_end),
-                                            str(hsp.frame[0]),
+                                            orientation,
                                             ','.join(mutations),
                                             str(f"{hsp.identities}/{hsp.align_length} ({identity*100:.2f}%)"), 
                                             '',
@@ -236,7 +237,7 @@ if __name__ == '__main__':
    | | | |/ _ \/ _` |/ _` | | |  _ / _ | '_ \ / _ \  \ \ /\ / / _` | | |/ | | '_ \ / _` |
    | |_| |  __| (_| | (_| | | |_| |  __| | | |  __/   \ V  V | (_| | |   <| | | | | (_| |
    |____/ \___|\__,_|\__,_|  \____|\___|_| |_|\___|    \_/\_/ \__,_|_|_|\_|_|_| |_|\__, |
-                                                                                   |___/                                                                                                                                                                                                                                                                                                                                                                                          
+                                                                                   |___/
   Detect nonsensus/frameshift mutations by running blastx on contig fasta against target protein database
 ''',
         formatter_class = argparse.RawDescriptionHelpFormatter)

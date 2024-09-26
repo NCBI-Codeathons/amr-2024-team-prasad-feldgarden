@@ -35,7 +35,9 @@ def check_nonsense_mutations(query_seq):
 def main(argv):
     result_handle = open(argv.input_xml,'r')
     blast_records = NCBIXML.parse(result_handle)
-    out_header=["contig_acc", 
+    out_header=[
+                "element_symbol",
+                "contig_acc", 
                 "contig_start", 
                 "contig_stop", 
                 "orientation", 
@@ -51,12 +53,16 @@ def main(argv):
     print("\t".join(out_header))
     for blast_record in blast_records:
         query_descs= blast_record.query.split(" ")
+        contig_id = query_descs.pop(0)
         for alignment in blast_record.alignments:
+            hit_names = alignment.hit_id.split("_")
+            element = hit_names.pop(0)
             for hsp in alignment.hsps:
                 query_seq = hsp.query
                 hit_seq = hsp.sbjct
                 coverage = (hsp.sbjct_end - hsp.sbjct_start + 1 )/alignment.length 
                 identity = hsp.identities/hsp.align_length
+                orientation = '+' if hsp.frame[0] > 0 else '-'
                 if coverage > argv.cov and identity > argv.id : 
                     indels_mutations = check_INDELs(query_seq,hit_seq, hsp.sbjct_start) if argvs.indels else []
                     nonsense_mutations = check_nonsense_mutations(query_seq)
@@ -71,14 +77,15 @@ def main(argv):
                         mutations.extend(indels_mutations)
 
                     if len(nonsense_mutations) > 0 or len(indels_mutations) > 0 or len(frameshift_mutations) > 0:
-                        print("\t".join([query_descs[0],
+                        print("\t".join([   element,
+                                            contig_id,
                                             str(hsp.query_start),
                                             str(hsp.query_end),
-                                            str(hsp.frame[0]),
+                                            orientation,
                                             ','.join(mutations),
                                             str(f"{hsp.identities}/{hsp.align_length} ({identity*100:.2f}%)"), 
                                             '',
-                                            alignment.hit_id,
+                                            '_'.join(hit_names),
                                             alignment.hit_def, 
                                             str(hsp.sbjct_start), 
                                             str(hsp.sbjct_end), 
