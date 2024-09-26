@@ -77,7 +77,7 @@ The output is provided in a tabular form. An example of the output schema is pro
   - Vadr has proven effective when running against specific bacterial genes. For now, we will use Vadr as a "control" to help us compare results from the tools we are developing
 - A virtual machine was built to assist in tool testing across environments
 
-### Updates (September 25, 2024)
+### Updates (September 26, 2024)
 
 - Software has been improved and we have run tests on a large set of random isolates
 - Put together a manually curated test set with sample output manually created
