@@ -167,6 +167,7 @@ def main(argv):
                 "contig_start", 
                 "contig_stop", 
                 "orientation", 
+                "lesion",
                 "lesion_type", 
                 "aa_identity",
                 "nt_identity",
@@ -205,8 +206,8 @@ def main(argv):
                         mutations = [  hit_seq[i] + str(i + hsp.sbjct_start) + "STOP"  for i in nonsense_mutations ] 
                     if len(frameshift_mutations) > 0:
                         lesion_type.extend(['FRAMESHIFT'])
-                        lesion_location.extend([  str(i + hsp.sbjct_start)  for i in frameshift_mutations ])
-                        mutations.extend([  hit_seq.replace('-','')[i] + str(i + hsp.sbjct_start) + "fs"  for i in frameshift_mutations ])
+                        lesion_location.extend([  str(i + hsp.sbjct_start - query_seq.count('-',0,i) )  for i in frameshift_mutations ])
+                        mutations.extend([  hit_seq.replace('-','')[i] + str(i + hsp.sbjct_start - query_seq.count('-',0,i)) + "fs"  for i in frameshift_mutations ])
                     elif len(indels_mutations) > 0:
                         lesion_type.extend(['FRAMESHIFT'])
                         lesion_location.extend(indels_locations)
@@ -219,6 +220,7 @@ def main(argv):
                                             str(hsp.query_start),
                                             str(hsp.query_end),
                                             orientation,
+                                            ','.join(mutations),
                                             ','.join(lesion_type),
                                             str(f"{hsp.identities}/{hsp.align_length} ({identity*100:.2f}%)"), 
                                             '',
