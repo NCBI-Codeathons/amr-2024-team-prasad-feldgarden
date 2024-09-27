@@ -22,29 +22,16 @@ Comparing DGW results against MicroBIGG-E:
 In addition:
 
 - How prevalent are these mutations (i.e. group by lession_type and ref_gene in our output)
-- What is the proportion of mutations in sensitive VS resistant?
+
 
 # Setup
 
-A total of 928 genome accession IDs for carbapenem resistant and sensitive *Pseudomonas aeruginosa* and *Klebsiella pneumoniae* were obtained from Antimicrobial susceptibility test (AST) data as follows:
+A random set of 3000 genome accession IDs for *Acinetobacter baumannii*, *Pseudomonas aeruginosa* and *Klebsiella pneumoniae* (1000 isolates for each) were obtained using NCBI's `datasets` as described [here](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/tree/main/data/randomset1#test-on-a-random-set-of-assemblies).
 
-*Pseudomonas aeruginosa* 
-359 isolates
-
-  - 292 with resistant phenotype
-  - 67 with sensitive phenotype
-
-*Klebsiella pneumoniae*
-569 isolates
-
-  - 297 with resistant phenotype
-  - 272 with sensitive phenotype
-  
-The accession numbers for these genomes are found in the project repository [here](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/tree/main/data/dev-examples/resis_and_sens_Kp_and_Pa).
 
 ## MicroBIGG-E subset
 
-A subset of the data available in MicroBIGG-E for the selected isolates was obtained from BigQuery and stored in the repository [here](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/results/microbigge_subset.csv). 
+A subset of the data available in MicroBIGG-E for the selected isolates was obtained from BigQuery and stored in the repository [here](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/results/microbigge_subset_randomset.csv). 
 
 ## DGW results
 
@@ -61,20 +48,20 @@ library(dplyr)
 
 
 # Import data
-Kp_resistant <- read_tsv("results/Kpresis.dgw")
-Pa_resistant <- read_tsv("results/Paresis.dgw")
-Kp_sensitive <- read_tsv("results/Kpsens.dgw")
-Pa_sensitive <- read_tsv("results/Pasens.dgw")
-microbigge <-  read_csv("results/microbigge_subset.csv")
+Kp_genomes <- read_tsv("results/Kp_genomes.dgw")
+Pa_genomes <- read_tsv("results/Pa_genomes.dgw")
+Ab_genomes <- read_tsv("results/Ab_genomes.dgw")
+
+microbigge <-  read_csv("results/microbigge_subset_randomset.csv")
 
 # Set up in-memory database for modeling
 con <- dbConnect(duckdb(), dbdir = ":memory:")
 
 # Register dfs into database
-dbWriteTable(con, "kp_resistant", Kp_resistant)
-dbWriteTable(con, "pa_resistant", Pa_resistant)
-dbWriteTable(con, "kp_sensitive", Kp_sensitive)
-dbWriteTable(con, "pa_sensitive", Pa_sensitive)
+dbWriteTable(con, "kp_genomes", Kp_genomes)
+dbWriteTable(con, "pa_genomes", Pa_genomes)
+dbWriteTable(con, "ab_genomes", Ab_genomes)
+
 dbWriteTable(con, "microbigge", microbigge)
 
 ```
@@ -87,26 +74,20 @@ dgw_combined <- dbGetQuery(con,
 "SELECT 
   *,
   md5(CONCAT(element_symbol, asm_acc, contig_acc, lesion)) AS mutation_id,
-  'kp_resistant' AS cohort
-FROM kp_resistant
+  'kp_genomes' AS cohort
+FROM kp_genomes
 UNION ALL 
 SELECT 
   *,
   md5(CONCAT(element_symbol, asm_acc, contig_acc, lesion)) AS mutation_id,
-  'pa_resistant' AS cohort
-FROM pa_resistant 
+  'pa_genomes' AS cohort
+FROM pa_genomes 
 UNION ALL 
 SELECT 
   *,
   md5(CONCAT(element_symbol, asm_acc, contig_acc, lesion)) AS mutation_id,
-  'kp_sensitive' AS cohort
-FROM kp_sensitive
-UNION ALL 
-SELECT 
-  *,
-  md5(CONCAT(element_symbol, asm_acc, contig_acc, lesion)) AS mutation_id,
-  'pa_sensitive' AS cohort
-FROM pa_sensitive 
+  'ab_genomes' AS cohort
+FROM ab_genomes
 ")
 dbWriteTable(con, "dgw_combined", dgw_combined, overwrite = TRUE)
 
@@ -127,13 +108,8 @@ FROM dgw_combined
 LEFT JOIN microbigge
 ON dgw_combined.asm_acc = microbigge.asm_acc
 AND LOWER(microbigge.element_symbol) LIKE CONCAT('%', LOWER(dgw_combined.element_symbol),'%')
-WHERE cohort LIKE '%resistant'
 ")
 
-sensitive_and_resistant_acc <- dgw_combined %>% 
-  group_by(asm_acc, contig_acc) %>% 
-  filter(n_distinct(cohort) >1) %>% 
-  select(asm_acc, contig_acc)
 
 #Find new mutations against MicroBIGG-E mutations
 dgw_new <- dbGetQuery(con,
@@ -156,18 +132,16 @@ LEFT JOIN microbigge
 ON dgw_combined.asm_acc = microbigge.asm_acc
 LEFT JOIN match
 USING(mutation_id)
-WHERE dgw_combined.cohort LIKE '%resistant'
-AND match.mutation_id IS NULL
+WHERE  match.mutation_id IS NULL
 ")
 
 ```
 
-*NOTE: Some contigs are marked as both sensitive and resistant, stored in `sensitive_and_resistant_acc` df. *
 
 ## How many of the mutations DGW identifies are reported in MicroBIGG-E?
 
-Out of the 928 isolates analyzed by DGW, 522 unique mutations were found across 458 isolates. 
-  - 130 mutations were also present in MicroBIGG-E
+Out of the 3000 isolates analyzed by DGW, 877 unique mutations were found across 789 isolates. 
+  - 150 mutations were also present in MicroBIGG-E
 
 ```{r}
 #Total output
@@ -196,11 +170,13 @@ print(q1)
 
 ```
 
+
+
 ## How many isolates are present in MicroBIGG-E but do not report the mutations DGW found?
 
-Out of the 493 mutations found in resistant isolates present in MicroBIGG-E, DGW found 363 new mutations in 353 isolates. 
+DGW found 727 new mutations in 353 isolates. 
 
-*Pseudomonas aeruginosa* OprD_D286fs was the must abundant, found in 106 isolates.
+*Klebsiella pneumoniae* OmpK35_N29fs was the must abundant, found in 131 isolates.
 
 ```{r}
 # q2 
@@ -209,7 +185,8 @@ q2 <- dgw_in_mbigge %>%
   mutate(phenotype = case_when(grepl("resistant", cohort) ~ "Resistant",
                                grepl("sensitive", cohort) ~ "Sensitive"),
          taxon = case_when(grepl("kp", cohort) ~ "Klebsiella pneumoniae",
-                           grepl("pa", cohort) ~ "Pseudomonas aeruginosa")) %>% 
+                           grepl("pa", cohort) ~ "Pseudomonas aeruginosa",
+                           grepl("ab", cohort) ~ "Acinetobacter baumannii")) %>% 
   group_by(phenotype, taxon, element_symbol, lesion, lesion_type) %>% 
   summarize(mutations = n_distinct(mutation_id),
             isolates = n_distinct(asm_acc)) %>% 
@@ -219,6 +196,7 @@ print(q2)
 
 ```
 
+
 ```{r}
 # proportion of new mutations
 q2 %>% 
@@ -226,7 +204,7 @@ q2 %>%
   summarize(mutations = sum(mutations)) %>% 
   ggplot(., aes(fill=lesion_type, y=mutations, x=taxon)) + 
     geom_bar(position="stack", stat="identity") +
-    scale_fill_manual(name="",values=c('#347d38', '#c4a208')) +
+    scale_fill_manual(name="",values=c('#347d38', '#c4a208', '#2596be')) +
     theme(
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
@@ -235,13 +213,7 @@ q2 %>%
     ylab("# of Mutations") + xlab("")
 
 ```
-```{r}
-# New mutations
-print(dgw_new %>% filter(contig_acc == "CP021955.1"))
-  
-```
 
-## How prevalent are these mutations (i.e. group by lession_type and ref_gene in our output) and what is the proportion of mutations in sensitive VS resistant?
 
 ```{r}
 # q3
@@ -249,21 +221,24 @@ q3 <- dgw_combined %>%
   mutate(phenotype = case_when(grepl("resistant", cohort) ~ "Resistant",
                                grepl("sensitive", cohort) ~ "Sensitive"),
          taxon = case_when(grepl("kp", cohort) ~ "Klebsiella pneumoniae",
-                           grepl("pa", cohort) ~ "Pseudomonas aeruginosa")) %>% 
+                           grepl("pa", cohort) ~ "Pseudomonas aeruginosa",
+                           grepl("ab", cohort) ~ "Acinetobacter baumannii")) %>% 
   group_by(phenotype, taxon, lesion) %>% 
   summarize(mutations = n_distinct(mutation_id),
             isolates = n_distinct(asm_acc))
 
 
-dgw_combined %>% 
-  mutate(phenotype = case_when(grepl("resistant", cohort) ~ "Resistant",
-                               grepl("sensitive", cohort) ~ "Sensitive"),
+# Split of DGW mutations in MicroBIGG-E vs New
+dgw_in_mbigge %>% 
+  mutate(split = case_when(is.na(mb_element_symbol) ~ "New",
+                          !is.na(mb_element_symbol) ~ "In MicroBiGG-E"),
          taxon = case_when(grepl("kp", cohort) ~ "Klebsiella pneumoniae",
-                           grepl("pa", cohort) ~ "Pseudomonas aeruginosa")) %>% 
-  group_by(phenotype, taxon) %>% 
+                           grepl("pa", cohort) ~ "Pseudomonas aeruginosa",
+                           grepl("ab", cohort) ~ "Acinetobacter baumannii")) %>% 
+  group_by(split, taxon) %>% 
   summarize(mutations = n_distinct(mutation_id),
             isolates = n_distinct(asm_acc)) %>% 
-  ggplot(., aes(fill=phenotype, y=mutations, x=taxon)) + 
+  ggplot(., aes(fill=split, y=mutations, x=taxon)) + 
     geom_bar(position="stack", stat="identity") +
     scale_fill_manual(name="",values=c('#a65005', '#68a1b3')) +
     theme(
@@ -285,41 +260,28 @@ q3_2 <- dgw_combined %>%
 
 dgw_combined %>% 
   mutate(taxon = case_when(grepl("kp", cohort) ~ "Klebsiella pneumoniae",
-                           grepl("pa", cohort) ~ "Pseudomonas aeruginosa")) %>% 
+                           grepl("pa", cohort) ~ "Pseudomonas aeruginosa",
+                           grepl("ab", cohort) ~ "Acinetobacter baumannii")) %>% 
   group_by(lesion_type, taxon) %>% 
   summarize(mutations = n_distinct(mutation_id),
             isolates = n_distinct(asm_acc)) %>% 
   ggplot(., aes(fill=lesion_type, y=mutations, x=taxon)) + 
-    geom_bar(position="stack", stat="identity") +
-    scale_fill_manual(name="",values=c('#347d38', '#c4a208')) +
+    geom_bar(position="stack", stat="identity", width=0.7) +
+    scale_fill_manual(name="",values=c('#347d38', '#c4a208', '#2596be')) +
     theme(
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
       panel.border = element_blank(),
       panel.background = element_blank()) +
-    ylab("# of Mutations") + xlab("")
+    ylab("# of Mutations") + xlab("") 
 
   
 ```
 
 # Summary
-
-- 928 isolates were analyzed by DGW
-  - 359 *Pseudomonas aeruginosa* isolates
-    - 292 with resistant phenotype
-    - 67 with sensitive phenotype
-  - 569 *Klebsiella pneumoniae* isolates
-    - 297 with resistant phenotype
-    - 272 with sensitive phenotype
     
-- Of the 589 resistant isolates
-  - 493 mutations 
-    - 130 mutations were present in MicroBIGG-E too
-    - 363 new mutations in 353 isolates
+- DGW identified 877 mutations out of the 3000 isolates analyzed
+  - 150 mutations were present in MicroBIGG-E too
+  - 727 new mutations in 353 isolates
       
-  Additionally, DGW found frameshift mutations in OmpK35 and OmpK36 in CP021955.1/[SAMN04014948](https://www.ncbi.nlm.nih.gov/biosample/SAMN04014948), which does not appear to have any carbapenemases and is still highly resistant to carbapenems (and other beta-lactams).
-
-```{r}
-dgw_new %>% filter(contig_acc == 'CP021955.1')
-
-```
+  
