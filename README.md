@@ -94,6 +94,8 @@ The output is provided in a tabular form. An example of the output schema is pro
 
 ## Results
 
+### AST testset
+
 A test set derived from AST consisting of 928 isolates was analyzed by DGW. The AST dataset included:
   - 359 *Pseudomonas aeruginosa* isolates
     - 292 with resistant phenotype
@@ -106,7 +108,18 @@ Of the 589 resistant isolates DGW was able to identify 493 mutations, of which 1
 
 DWG was able to identify 363 new mutations in resistant isolates. 
 
-A more comprehensive analysis of the results can be found in [`results/Analisys-of-DGW-results.html`](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/results/Analysis-of-DGW-results.html)
+A more comprehensive analysis of the results can be found in [`results/Analisys-of-DGW-results--AST-set-.html`](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/results/Analysis-of-DGW-results.html)
+
+
+### Random testset
+
+A random set of 3000 genome accession IDs for *Acinetobacter baumannii*, *Pseudomonas aeruginosa* and *Klebsiella pneumoniae* (1000 isolates for each) were obtained using NCBI’s datasets as described [here](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/tree/main/results).
+
+DGW identified 877 mutations out of the 3000 isolates analyzed
+ - 150 mutations were present in MicroBIGG-E too
+ - 727 new mutations in 353 isolates
+
+A more comprehensive analysis of the results can be found in [`results/Analisys-of-DGW-results--randomset-.html`](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/tree/main/results).
 
 ## Future Work
 
