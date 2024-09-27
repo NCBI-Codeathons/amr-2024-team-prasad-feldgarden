@@ -44,7 +44,7 @@ Specifically to start we will look for lesions in:
 
 ## Approach
 
-The solution developed in this project uses BLAST alignments to identify frameshift mutations and nonsense mutations. 
+The solution developed in this project uses multiple BLAST alignments to identify frameshift mutations and nonsense mutations. 
 
 ### Assembly sequence to identify broken genes
 
@@ -86,7 +86,25 @@ The output is provided in a tabular form. An example of the output schema is pro
 
 ## Results
 
+A test set derived from AST consisting of 928 isolates was analyzed by DGW. The AST dataset included:
+  - 359 *Pseudomonas aeruginosa* isolates
+    - 292 with resistant phenotype
+    - 67 with sensitive phenotype
+  - 569 *Klebsiella pneumoniae* isolates
+    - 297 with resistant phenotype
+    - 272 with sensitive phenotype
+    
+Of the 589 resistant isolates DGW was able to identify 493 mutations, of which 130 are present in MicroBIGG-E. 
+
+DWG was able to identify 363 new mutations in resistant isolates. 
+
+A more comprehensive analysis of the results can be found in [`results/Analisys-of-DGW-results.html`](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/results/Analysis-of-DGW-results.html)
+
 ## Future Work
+
+With the promising results from the DGW tool produced during the codeathon, future work should focus on expanding the reference database of genes reported in the to lead to AMR after a loss-of-function mutation. 
+
+### Reach project
 
 A second, more challenging goal (the 'reach project') will be to identify IS element insertions that affect AMR phenotypes, using ISAba3 and OXA-58 family carbapenemases in Acinetobacter baumannii as a test system.
 
@@ -96,7 +114,7 @@ There are studies in the literature showing that when the ISAba3 is in the oppos
 
 In addition, there have been reports ifd ISAba and ISAba-like elements disrupting AMR genes. 
 
-### ISAba Papers of interest:
+#### ISAba Papers of interest:
 
 1. For A.b., this paper https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9771954/ has a lot of good examples for the ISAba project.
 2. Some additional background papers:

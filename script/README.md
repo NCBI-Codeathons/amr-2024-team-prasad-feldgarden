@@ -7,8 +7,9 @@ sudo apt-get install r-base
 sudo apt-get install ncbi-blast+
 ```
 
-## Blastn and translation comparison approach
+## BLASTn and translation comparison approach
 
+### Requirements
 
 ```
 sudo apt-get install libxml2 libxml2-dev
@@ -34,7 +35,7 @@ install.packages('doParallel')
 This script is called as follows:
 
 ```bash
-DGW.R -i query.fa -d ref.fa -o output_folder
+Rscript scanner.R -i query.fa -d ref.fa -o output_folder
 ```
 Options are:
 ```bash
@@ -44,18 +45,22 @@ Options are:
 -v verbose
 -p prefix for output files, default is '"YYYYMMDD_HHMMSS"
 ```
-The steps are:
-- Create nucleotide blast database
-- blast query to database and export as xml
-- extract the nucleotide hit sequences
-- calculate the nucleotide identity to the reference in %,
-- translate nucleotide hit sequences to Amino acid sequences
-- align amino acid sequences to the reference one
-- calculate the amino acid identity to the reference in %,
 
-## Blastx and nonsense mutation 
+The `scanner.R` script follows the following steps:
+- Create nucleotide BLAST reference database
+- BLAST query to database and export as XML
+- Extract the nucleotide hit sequences
+- Calculate the nucleotide identity to the reference in %
+- Translate nucleotide hit sequences to amino acid sequences
+- Align amino acid sequences to the reference one
+- Calculate the amino acid identity to the reference in %
 
-Requires Bio
+*NOTE: Other R packages used during testing are listed in `dependencies/R_packages.md`*
+
+## BLASTx and nonsense mutation 
+
+### Requirements
+
 ```
 "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
 micromamba create -n codeathon
@@ -65,13 +70,13 @@ micromamba install python=3.12
 micromamba install -y conda-forge::biopython bioconda::blast bioconda::diamond
 ```
 
-Starts with a blastx scan of the query sequences against the reference protein database.
+### run_dgw.sh script
 
-```js
-blastx -query query.fna -db reference_db -out results.xml -outfmt 5
-```
+The `run_dgw.sh` script follows the following steps:
+- Builds a protein BLAST reference database. 
+- Executes a BLASTx scan of the query sequences against the protein reference database.
 
-```js
+```bash
 ## for frameshift detection, diamond (v2.1.8) blastx has option 
 ## --frameshift to allow frameshift gap aligned and 
 ## show '/' or '\' in the alignement result
@@ -79,20 +84,13 @@ blastx -query query.fna -db reference_db -out results.xml -outfmt 5
 diamond blastx -q query.fna -d database/references.faa -f 5 --min-orf 1 --frameshift 15  -o results.xml
 ```
 
-Run the python script to check nonsense mutation 
+- Runs the python script to check nonsense mutation 
 
-```js
+```bash
 DGW.py -i test/input.xml 
 ```
 
-Including blast step.
-```js
-## still need pre-build the database either from blast or diamond.
-
- ./DGW_blast.py -i query.fna -d database/references.faa --diamond -o -
-```
-
-```js
+```bash
 usage: DGW_blast.py [-h] -i INPUT_FASTA -d DATABASE [-o OUTPUT] [--cov COV] [--id ID] [--indels] [--diamond] [--threads THREADS] [--verbose] [--version]
 
     ____                 _    ____                  __        __    _ _    _             
