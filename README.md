@@ -13,6 +13,14 @@ List of participants and affiliations:
 
 This project aims to develop and test methods to identify the presence of loss-of-function mutations in bacterial genes that cause antibiotic resistance. The first part of the project will be to develop a tool to identify loss-of-function mutations, such as stop codons and frameshifts, in genes where these mutations have been demonstrated to affect function (e.g., OmpK35/K36 in _Klebsiella pneumoniae_).
 
+## Project Output
+
+Two scripts have been developed to identify frameshift mutations and nonsense mutations: [scanner.R](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/script/scanner.R) and [DGW.py](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/script/DGW.py).
+
+A wrapper shell script, [run_DGW.sh](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/script/run_DGW.sh), was developed to run the software across a large set of genomes.
+
+A full description of the software, their use and installation instructions can be found in the [script README](script/README.md).
+
 ### Scope of this project:
 
 1. Identifying and collecting sequences for validated examples of positives (broken genes that lead to resistance), and negatives (non-broken genes and/or genes broken that are not resistant). The identified sequences can be found in the `data` directory, which includes sequences previously identified by the team co-leads. Some examples include:
@@ -39,11 +47,6 @@ Specifically to start we will look for lesions in:
   - MexR
 
 2. Developing software to identify broken genes caused by frameshift mutations and nonsense mutations.
-Two scripts have been developed to identify frameshift mutations and nonsense mutations: [scanner.R](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/script/scanner.R) and [DGW.py](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/script/DGW.py).
-
-A wrapper shell script, [run_DGW.sh](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/script/run_DGW.sh), was developed to run the software across a large set of genomes.
-
-A full description of the software, their use and installation instructions can be found in the [script README](script/README.md).
 
 ## Approach
 
