@@ -21,6 +21,8 @@ A wrapper shell script, [run_DGW.sh](https://github.com/NCBI-Codeathons/amr-2024
 
 A full description of the software, their use and installation instructions can be found in the [script README](script/README.md).
 
+## Dev log:
+
 ### Scope of this project:
 
 1. Identifying and collecting sequences for validated examples of positives (broken genes that lead to resistance), and negatives (non-broken genes and/or genes broken that are not resistant). The identified sequences can be found in the `data` directory, which includes sequences previously identified by the team co-leads. Some examples include:
