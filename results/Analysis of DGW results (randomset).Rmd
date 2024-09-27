@@ -209,8 +209,10 @@ q2 %>%
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
       panel.border = element_blank(),
-      panel.background = element_blank()) +
-    ylab("# of Mutations") + xlab("")
+      panel.background = element_blank(),
+      text = element_text(size = 16)) +
+    ylab("# of Mutations") + xlab("") +
+    scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = 20))
 
 ```
 
@@ -239,14 +241,16 @@ dgw_in_mbigge %>%
   summarize(mutations = n_distinct(mutation_id),
             isolates = n_distinct(asm_acc)) %>% 
   ggplot(., aes(fill=split, y=mutations, x=taxon)) + 
-    geom_bar(position="stack", stat="identity") +
+    geom_bar(position="stack", stat="identity", width=0.7) +
     scale_fill_manual(name="",values=c('#a65005', '#68a1b3')) +
     theme(
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
       panel.border = element_blank(),
-      panel.background = element_blank()) +
-    ylab("# of Mutations") + xlab("")
+      panel.background = element_blank(),
+      text = element_text(size = 16)) +
+    ylab("# of Mutations") + xlab("") +
+    scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = 20))
 
 ```
 
@@ -272,8 +276,10 @@ dgw_combined %>%
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
       panel.border = element_blank(),
-      panel.background = element_blank()) +
-    ylab("# of Mutations") + xlab("") 
+      panel.background = element_blank(),
+      text = element_text(size = 16)) +
+    ylab("# of Mutations") + xlab("") +
+    scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = 20))
 
   
 ```

@@ -225,14 +225,15 @@ print(q2)
 q2 %>% 
   group_by(lesion_type, taxon) %>% 
   summarize(mutations = sum(mutations)) %>% 
-  ggplot(., aes(fill=lesion_type, y=mutations, x=taxon)) + 
+  ggplot(., aes(fill=lesion_type, y=mutations, x=taxon, width=0.7)) + 
     geom_bar(position="stack", stat="identity") +
     scale_fill_manual(name="",values=c('#347d38', '#c4a208')) +
     theme(
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
       panel.border = element_blank(),
-      panel.background = element_blank()) +
+      panel.background = element_blank(),
+      text = element_text(size = 16)) +
     ylab("# of Mutations") + xlab("")
 
 ```
@@ -264,14 +265,15 @@ dgw_combined %>%
   group_by(phenotype, taxon) %>% 
   summarize(mutations = n_distinct(mutation_id),
             isolates = n_distinct(asm_acc)) %>% 
-  ggplot(., aes(fill=phenotype, y=mutations, x=taxon)) + 
+  ggplot(., aes(fill=phenotype, y=mutations, x=taxon, width=0.7)) + 
     geom_bar(position="stack", stat="identity") +
     scale_fill_manual(name="",values=c('#a65005', '#68a1b3')) +
     theme(
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
       panel.border = element_blank(),
-      panel.background = element_blank()) +
+      panel.background = element_blank(),
+      text = element_text(size = 16)) +
     ylab("# of Mutations") + xlab("")
 
 ```
@@ -290,14 +292,15 @@ dgw_combined %>%
   group_by(lesion_type, taxon) %>% 
   summarize(mutations = n_distinct(mutation_id),
             isolates = n_distinct(asm_acc)) %>% 
-  ggplot(., aes(fill=lesion_type, y=mutations, x=taxon)) + 
+  ggplot(., aes(fill=lesion_type, y=mutations, x=taxon, width=0.7)) + 
     geom_bar(position="stack", stat="identity", width=0.7) +
     scale_fill_manual(name="",values=c('#347d38', '#c4a208')) +
     theme(
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
       panel.border = element_blank(),
-      panel.background = element_blank()) +
+      panel.background = element_blank(),
+      text = element_text(size = 16)) +
     ylab("# of Mutations") + xlab("") 
 
   
