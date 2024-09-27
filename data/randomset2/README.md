@@ -68,7 +68,7 @@ END
 mv Kp_genomes.dgw.py Kp_genomes.dgw
 
 rename_contig.pl Pa_genomes/ncbi_dataset/data/*/*.fna > Pa_genomes.fna
-run_dgw.sh Pa_genomes.fna > Pa_genomes.dgw
+time nice -15 run_dgw.sh Pa_genomes.fna > Pa_genomes.dgw
 R --no-save <<END
 library(dplyr)
 library(tidyr)
