@@ -1,2 +1,0 @@
-The K. pneumoniae carbapenem resistant isolates are those isolates from the AST browser that have one or more of the following phenotypes:  dorepenem, meropenem, imipenem MIC >=2, or ertapenem MIC >=1. Susceptible are the converse.
-The P. aeruginosa carbapenem resistant isolates are those with one or more of the following phenotypes: dorepenem, meropenem, imipenem MIC >=2. Susceptible are the converse.

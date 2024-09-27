@@ -27,7 +27,6 @@ install.packages('devtools')
 devtools:::install_github("Bioconductor/GenomeInfoDb")
 install.packages('optparse')
 install.packages('doParallel')
-
 ```
 
 ### Scanner.R script
@@ -39,11 +38,30 @@ Rscript scanner.R -i query.fa -d ref.fa -o output_folder
 ```
 Options are:
 ```bash
--i input file
--d reference file
--o output folder
--v verbose
--p prefix for output files, default is '"YYYYMMDD_HHMMSS"
+Options:
+	-i FILE, --in=FILE
+		input file path - REQUIRED
+
+	-d FILE, --db=FILE
+		input reference file path - REQUIRED
+
+	-o FILE, --out=FILE
+		output file path - REQUIRED
+
+	-v, --verbose
+		Print debug text - Default:FALSE
+
+	-p STRING, --prefix=STRING
+		Prefix name for outputfile - Default:YYYYMMDD_HHMMSS
+
+	-c NUMERIC, --cpu=NUMERIC
+		Number of cpus to use - Default:1
+
+	-m, --more
+		Create an additional table with sequence information and more - Default:FALSE
+
+	-h, --help
+		Show this help message and exit
 ```
 
 The `scanner.R` script follows the following steps:
