@@ -11,12 +11,41 @@
 ##
 ## ---------------------------
 
+#Looking for arguments
+library(optparse)
+
+arg_list <- list(
+  make_option(c("-i", "--in"), type = "character", dest="input", default = NULL,
+              help = "input file path - REQUIRED", metavar = "FILE"),
+  make_option(c("-d", "--db"), type = "character", default = NULL,dest="db",
+              help = "input reference file path - REQUIRED", metavar = "FILE"),
+  make_option(c("-o", "--out"), type = "character", default = NULL,dest="out",
+              help = "output file path - REQUIRED", metavar = "FILE"),
+  make_option(c("-v", "--verbose"), action="store_true",default = FALSE, 
+              dest="verbose", help="Print debug text - Default:FALSE"),
+  make_option(c("-p", "--prefix"), default = format(Sys.time(), "%Y%m%d_%H%M%S"), type="character",metavar = "STRING",
+              dest="pref", help="Prefix name for outputfile - Default:YYYYMMDD_HHMMSS"),
+  make_option(c("-c", "--cpu"), default = 1, type="numeric",metavar = "NUMERIC",
+              dest="core", help="Number of cpus to use - Default:1"),
+  make_option(c("-m", "--more"), action="store_true", default = FALSE,
+              dest="more", help="Create an additional table with sequence information and more - Default:FALSE")
+)
+
+# Create a parser object and parse arguments
+opt_parser <- OptionParser(option_list = arg_list)
+opt <- parse_args(opt_parser)
+
+#Sanity check
+if (is.null(opt$input) || is.null(opt$out) || is.null(opt$db)) {
+  print_help(opt_parser)
+  stop("All -i, -d and -o arguments must be supplied.", call. = FALSE)
+}
+
 #Libraries
 
 suppressMessages(library(tidyverse))
 library(XML)
 suppressMessages(library(Biostrings))
-library(optparse)
 suppressMessages(library(parallel))
 suppressMessages(library(doParallel))
 
@@ -122,34 +151,6 @@ detect_frameshift_positions <- function(ref, target, verbose) {
     return("ERROR")
   }
   )
-}
-
-#Looking for arguments
-arg_list <- list(
-  make_option(c("-i", "--in"), type = "character", dest="input", default = NULL,
-              help = "input file path - REQUIRED", metavar = "FILE"),
-  make_option(c("-d", "--db"), type = "character", default = NULL,dest="db",
-              help = "input reference file path - REQUIRED", metavar = "FILE"),
-  make_option(c("-o", "--out"), type = "character", default = NULL,dest="out",
-              help = "output file path - REQUIRED", metavar = "FILE"),
-  make_option(c("-v", "--verbose"), action="store_true",default = FALSE, 
-              dest="verbose", help="Print debug text - Default:FALSE"),
-  make_option(c("-p", "--prefix"), default = format(Sys.time(), "%Y%m%d_%H%M%S"), type="character",metavar = "STRING",
-              dest="pref", help="Prefix name for outputfile - Default:YYYYMMDD_HHMMSS"),
-  make_option(c("-c", "--cpu"), default = 1, type="numeric",metavar = "NUMERIC",
-              dest="core", help="Number of cpus to use - Default:1"),
-  make_option(c("-m", "--more"), action="store_true", default = FALSE,
-              dest="more", help="Create an additional table with sequence information and more - Default:FALSE")
-)
-
-# Create a parser object and parse arguments
-opt_parser <- OptionParser(option_list = arg_list)
-opt <- parse_args(opt_parser)
-
-#Sanity check
-if (is.null(opt$input) || is.null(opt$out) || is.null(opt$db)) {
-  print_help(opt_parser)
-  stop("All -i, -d and -o arguments must be supplied.", call. = FALSE)
 }
 
 query_fa <- opt$input
