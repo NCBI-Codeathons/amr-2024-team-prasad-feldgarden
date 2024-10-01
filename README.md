@@ -121,6 +121,17 @@ DGW identified 877 mutations out of the 3000 isolates analyzed
 
 A more comprehensive analysis of the results can be found in [`results/Analisys-of-DGW-results--randomset-.html`](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/tree/main/results).
 
+### Random testset2
+
+A random set of 30,000 genome accession IDs for *Acinetobacter baumannii*, *Pseudomonas aeruginosa* and *Klebsiella pneumoniae* (10,000 isolates for each) were obtained using NCBI’s datasets as described [here](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/tree/main/results).
+
+- DGW identified 8377 mutations out of the 30,000 isolates analyzed
+  - 1361 mutations were present in MicroBIGG-E too
+  - 7016 new mutations in 353 isolates
+
+A more comprehensive analysis of the results can be found in [`results/Analisys-of-DGW-results--randomset-.html`](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/tree/main/results).
+
+  
 ## Future Work
 
 With the promising results from the DGW tool produced during the codeathon, future work should focus on expanding the reference database of genes reported in the to lead to AMR after a loss-of-function mutation. 
