@@ -16,6 +16,8 @@
 - `OmpK35_early_stop.nuc.fa` - OmpK35 early stop from test data for Kleborate. Nonsense mutation (early stop) at position 36
     - `OmpK35_early_stop.nuc.expected` mockup of expected output
 
+- `OmpK35_compensatory_frameshift.fa` - P. aeruginosa OmpK35 with compensatory frame shifts identified by DGW.py
+
 
 ----------
 
