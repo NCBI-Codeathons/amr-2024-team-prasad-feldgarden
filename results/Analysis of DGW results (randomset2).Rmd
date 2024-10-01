@@ -139,8 +139,8 @@ WHERE  match.mutation_id IS NULL
 
 ## How many of the mutations DGW identifies are reported in MicroBIGG-E?
 
-Out of the 10,000 isolates analyzed by DGW, 877 unique mutations were found across 789 isolates. 
-  - 150 mutations were also present in MicroBIGG-E
+Out of the 30,000 isolates analyzed by DGW, 8377 unique mutations were found across 7665 isolates. 
+  -1361 mutations were also present in MicroBIGG-E
 
 ```{r}
 #Total output
@@ -175,8 +175,11 @@ print(q1)
 
 DGW found 7016 new mutations in 6570 isolates. 
 
-*Klebsiella pneumoniae* OmpK35_N29fs was the must abundant, found in 1021 isolates.
+*Klebsiella pneumoniae* OmpK35_N29fs was the most abundant, found in 1021 isolates.
   *NOTE: This mutation was also the most prevalent in `randomset1`*
+  
+*Klebsiella pneumoniae* OmpK35_G41fs was the second most abundant, found in 861 isolates.  
+  *NOTE: This mutation was also found in 10 sensitive isolates in the AST testet*
 
 ```{r}
 # q2 
@@ -279,6 +282,26 @@ dgw_combined %>%
 
   
 ```
+
+
+# How many mutations are found in each assembly? 
+
+```{r}
+asm_mutations <- dbGetQuery(con,
+"
+SELECT 
+  asm_acc,
+  COUNT(DISTINCT(dgw_combined.mutation_id)) OVER (PARTITION BY asm_acc) AS dgw_mutations_count,
+  STRING_AGG(DISTINCT dgw_combined.element_symbol||dgw_combined.lesion) OVER (PARTITION BY asm_acc ORDER BY dgw_combined.lesion) AS dgw_lesions,
+  STRING_AGG(DISTINCT microbigge.element_symbol) OVER (PARTITION BY asm_acc ORDER BY microbigge.element_symbol) AS mb_element_symbol,
+FROM microbigge
+LEFT JOIN dgw_combined
+USING(asm_acc)
+QUALIFY 
+")
+
+```
+
 
 # Summary
     
