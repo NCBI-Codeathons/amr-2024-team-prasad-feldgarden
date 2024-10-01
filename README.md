@@ -50,6 +50,24 @@ Specifically to start we will look for lesions in:
 
 2. Developing software to identify broken genes caused by frameshift mutations and nonsense mutations.
 
+## Structure of this repository
+
+```
+|-- Codeathon\ presentation
+|-- data - Data used for analysis and some analysis results
+|   |-- dev-examples - test data we have manually inspected
+|   |   |-- resis_and_sens_Kp_and_Pa - Set 
+|   |   `-- testset - A compilation of the manually inspected test data to use for software development
+|   |-- randomset1 - A set of 1000 random isolates from each of the three taxonomic groups investigated here
+|   |-- randomset2 - A set of 10,000 random isolates from each of the three taxonomic groups
+|   `-- resis_and_sens_Kp_and_Pa - A set of isolates with AST data segregated into resistant and sensitive categories
+|-- results - Results of our analyses
+`-- script - Software and database
+    |-- database - The reference database we use
+    |-- dependencies - Dependencies for installing the software
+    `-- test - Test data for software
+```
+
 ## Approach
 
 The solution developed in this project uses multiple BLAST alignments to identify frameshift mutations and nonsense mutations. 
