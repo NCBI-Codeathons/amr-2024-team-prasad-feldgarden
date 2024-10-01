@@ -1,0 +1,45 @@
+PMID,Year,lesion_type,lesion,Accession,BioSample,Notes
+38319084,2024,FRAMESHIFT,,GCA_031462885.1,SAMN36519319,...the overall contribution of impermeability to the phenotype seems negligible here.
+38319084,2024,FRAMESHIFT,,GCA_031463005.1,SAMN36519320,...the overall contribution of impermeability to the phenotype seems negligible here.
+38319084,2024,FRAMESHIFT,,GCA_031462875.1,SAMN36519330,...the overall contribution of impermeability to the phenotype seems negligible here.
+37097174,2023,STOP,,GCA_002180075.1,SAMN04014888,"Avibactam restored antimicrobial activity of cefiderocol.
+Genetic complementation of OmpK35 restored cefiderocol sensitivity"
+36346828,2022,FRAMESHIFT,G252-A253 insertion,MK341479.1,,"OmpK357101fs
+frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36"
+36346828,2022,,OmpK357106,MK341480.1,,frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36
+36346828,2022,FRAMESHIFT,OmpK357111-S1fs,MK341481.1,,frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36
+36346828,2022,FRAMESHIFT,OmpK357111-2fs,MK341482.1,,frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36
+36346828,2022,FRAMESHIFT,OmpK357111-S3,MK341483.1,,frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36
+36346828,2022,,OmpK357105,MK341484.1,,frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36
+36346828,2022,FRAMESHIFT,A86 deletion,MK341485.1,,"OmpK357118fs
+frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36"
+36346828,2022,STOP,OmpK357231,MK341486.1,,frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36
+36346828,2022,STOP,OmpK357342,MK341487.1,,frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36
+36346828,2022,,OmpK367101GD,MK341466.1,,"No disruption to coding sequence
+frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36"
+36346828,2022,,OmpK367233,MK341467.1,,"No disruption to coding sequence
+frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36"
+36346828,2022,,OmpK367340,MK341468.1,,"No disruption to coding sequence
+frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36"
+36346828,2022,,OmpK367106,MK341469.1,,"No disruption to coding sequence
+frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36"
+36346828,2022,,OmpK367111-3GD,MK341470.1,,"No disruption to coding sequence
+frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36"
+36346828,2022,,OmpK367342,MK341471.1,,"No disruption to coding sequence
+frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36"
+36346828,2022,,OmpK367111-1,MK341472.1,,"No disruption to coding sequence
+frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36"
+36346828,2022,,OmpK367111-2,MK341473.1,,"No disruption to coding sequence
+frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36"
+36346828,2022,,OmpK367111-A1,MK341474.1,,"No disruption to coding sequence
+frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36"
+36346828,2022,,OmpK367109,MK341475.1,,"No disruption to coding sequence
+frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36"
+36346828,2022,,OmpK367105,MK341476.1,,"No disruption to coding sequence
+frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36"
+36346828,2022,,OmpK367231,MK341477.1,,"No disruption to coding sequence
+frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36"
+36346828,2022,,OmpK367229GD,MK341478.1,,"No disruption to coding sequence
+frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36"
+36683697,2023,FRAMESHIFT,,,PRJNA866305,No assembly available
+28333323,2017,FRAMESHIFT-STOP,OmpK3562AlafsX,KX528024,,"restoration of functional OmpK35 resulted in 2–4-fold decreases in the MICs of ceftazidime alone and the ceftazidime/avibactam combination for the selected isolates, while no significant reduction in avibactam MICs was observed"
