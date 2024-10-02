@@ -42,19 +42,76 @@ frameshift disruptions in OmpK35 and specific GD insertions at position 134–13
 36346828,2022,,OmpK367229GD,MK341478.1,,"No disruption to coding sequence
 frameshift disruptions in OmpK35 and specific GD insertions at position 134–135 in OmpK36"
 36683697,2023,FRAMESHIFT,,,PRJNA866305,No assembly available
-28333323,2017,FRAMESHIFT-STOP,OmpK3562AlafsX,KX528024,,"restoration of functional OmpK35 resulted in 2–4-fold decreases in the MICs of ceftazidime alone and the ceftazidime/avibactam combination for the selected isolates, while no significant reduction in avibactam MICs was observed"
-22814467,,FRAMESHIFT,,FJ577672.1,,"Both the KPC-producing and their isogenic ERCNKP strains exhibited a 1-bp insertion in ompK35, identical to previous reports from Italy and the United States"
+28333323,2017,FRAMESHIFT-STOP,OmpK3562AlafsX,KX528024,,"restoration of functional OmpK35 resulted in 2–4-fold decreases in the MICs of ceftazidime alone and the ceftazidime/avibactam combination for the selected isolates, while no significant reduction in avibactam MICs was observed
+Same as OmpK35_N29fs mutant detected by DGW"
+28333323,2017,FRAMESHIFT-STOP,OmpK3562AlafsX,KX528025,,"restoration of functional OmpK35 resulted in 2–4-fold decreases in the MICs of ceftazidime alone and the ceftazidime/avibactam combination for the selected isolates, while no significant reduction in avibactam MICs was observed
+Same as OmpK35_N29fs mutant detected by DGW"
+28333323,2017,FRAMESHIFT-STOP,OmpK3562AlafsX,KX528026,,"restoration of functional OmpK35 resulted in 2–4-fold decreases in the MICs of ceftazidime alone and the ceftazidime/avibactam combination for the selected isolates, while no significant reduction in avibactam MICs was observed
+Same as OmpK35_N29fs mutant detected by DGW"
+28333323,2017,FRAMESHIFT-STOP,OmpK3562AlafsX,KX528027,,"restoration of functional OmpK35 resulted in 2–4-fold decreases in the MICs of ceftazidime alone and the ceftazidime/avibactam combination for the selected isolates, while no significant reduction in avibactam MICs was observed
+Same as OmpK35_N29fs mutant detected by DGW"
+28333323,2017,FRAMESHIFT-STOP,OmpK3562AlafsX,KX528028,,"restoration of functional OmpK35 resulted in 2–4-fold decreases in the MICs of ceftazidime alone and the ceftazidime/avibactam combination for the selected isolates, while no significant reduction in avibactam MICs was observed
+Same as OmpK35_N29fs mutant detected by DGW"
+28333323,2017,FRAMESHIFT-STOP,OmpK3562AlafsX,KX528029,,"restoration of functional OmpK35 resulted in 2–4-fold decreases in the MICs of ceftazidime alone and the ceftazidime/avibactam combination for the selected isolates, while no significant reduction in avibactam MICs was observed
+Same as OmpK35_N29fs mutant detected by DGW"
+28333323,2017,FRAMESHIFT-STOP,OmpK3562AlafsX,KX528030,,"restoration of functional OmpK35 resulted in 2–4-fold decreases in the MICs of ceftazidime alone and the ceftazidime/avibactam combination for the selected isolates, while no significant reduction in avibactam MICs was observed
+Same as OmpK35_N29fs mutant detected by DGW"
+28333323,2017,FRAMESHIFT-STOP,OmpK3562AlafsX,KX528031,,"restoration of functional OmpK35 resulted in 2–4-fold decreases in the MICs of ceftazidime alone and the ceftazidime/avibactam combination for the selected isolates, while no significant reduction in avibactam MICs was observed
+Same as OmpK35_N29fs mutant detected by DGW"
+28333323,2017,FRAMESHIFT-STOP,OmpK3562AlafsX,KX528032,,"restoration of functional OmpK35 resulted in 2–4-fold decreases in the MICs of ceftazidime alone and the ceftazidime/avibactam combination for the selected isolates, while no significant reduction in avibactam MICs was observed
+Same as OmpK35_N29fs mutant detected by DGW"
+28333323,2017,FRAMESHIFT-STOP,OmpK3562AlafsX,KX528033,,"restoration of functional OmpK35 resulted in 2–4-fold decreases in the MICs of ceftazidime alone and the ceftazidime/avibactam combination for the selected isolates, while no significant reduction in avibactam MICs was observed
+Same as OmpK35_N29fs mutant detected by DGW"
+28333323,2017,FRAMESHIFT-STOP,OmpK3562AlafsX,KX528034,,"restoration of functional OmpK35 resulted in 2–4-fold decreases in the MICs of ceftazidime alone and the ceftazidime/avibactam combination for the selected isolates, while no significant reduction in avibactam MICs was observed
+Same as OmpK35_N29fs mutant detected by DGW"
+28333323,2017,FRAMESHIFT-STOP,OmpK3562AlafsX,KX528035,,"restoration of functional OmpK35 resulted in 2–4-fold decreases in the MICs of ceftazidime alone and the ceftazidime/avibactam combination for the selected isolates, while no significant reduction in avibactam MICs was observed
+Same as OmpK35_N29fs mutant detected by DGW"
+28333323,2017,FRAMESHIFT-STOP,OmpK3562AlafsX,KX528036,,"restoration of functional OmpK35 resulted in 2–4-fold decreases in the MICs of ceftazidime alone and the ceftazidime/avibactam combination for the selected isolates, while no significant reduction in avibactam MICs was observed
+Same as OmpK35_N29fs mutant detected by DGW"
+28333323,2017,FRAMESHIFT-STOP,OmpK3562AlafsX,KX528037,,"restoration of functional OmpK35 resulted in 2–4-fold decreases in the MICs of ceftazidime alone and the ceftazidime/avibactam combination for the selected isolates, while no significant reduction in avibactam MICs was observed
+Same as OmpK35_N29fs mutant detected by DGW"
+28333323,2017,FRAMESHIFT-STOP,OmpK3562AlafsX,KX528038,,"restoration of functional OmpK35 resulted in 2–4-fold decreases in the MICs of ceftazidime alone and the ceftazidime/avibactam combination for the selected isolates, while no significant reduction in avibactam MICs was observed
+Same as OmpK35_N29fs mutant detected by DGW"
+22814467,2012,FRAMESHIFT,,FJ577672.1,,"Both the KPC-producing and their isogenic ERCNKP strains exhibited a 1-bp insertion in ompK35, identical to previous reports from Italy and the United States"
 38697754,2024,NONE,,,,"No mutation in coding sequence or promoter, but the gene is not expressed.
 Point mutation in OmpK36, leading to L359R aa substitution"
 38936472,2024,FRAMESHIFT-STOP,OmpK35-145STOP,GCA_040493775.1,SAMN36612191,"C deletion at nt 343
-PRJNA975155"
+PRJNA975155
+OmpK35R115fs from DGW?"
 38936472,2024,FRAMESHIFT-STOP,OmpK35-145STOP,GCA_040493745.1,SAMN36612192,"C deletion at nt 343
-PRJNA975155"
+PRJNA975155
+OmpK35R115fs from DGW?"
 38936472,2024,STOP,OmpK35-237STOP,GCA_040493875.1,SAMN36612188,"deletion of 11 bp at position 697
-PRJNA975155"
+PRJNA975155
+OmpK35S233fs or OmpK35A231fs from DGW?"
 38936472,2024,STOP,OmpK35-237STOP,GCA_040493735.1,SAMN36612193,"deletion of 11 bp at position 697
-PRJNA975155"
+PRJNA975155
+OmpK35S233fs or OmpK35A231fs from DGW?"
 38936472,2024,STOP,OmpK35-237STOP,GCA_040493715.1,SAMN36612194,"deletion of 11 bp at position 697
-PRJNA975155"
+PRJNA975155
+OmpK35S233fs or OmpK35A231fs from DGW?"
 32291303,2020,?,,GCA_022016955.1,SAMN14132404,"insertion in the 5' end of ompK35 that would change the promoter region and polypeptide sequence in the presumptive signal peptide
 premature stop codon that was identified in the sequence data for ompK36"
+34412588,2021,FRAMESHIFT-STOP,OmpK35_N29fs,GCA_009797845.1,SAMN13190881,"the ompk35 sequence of all 8 isolates had a deletion after 85 bp, which caused a premature stop codon after amino acid position 62."
+34412588,2021,FRAMESHIFT-STOP,OmpK35_N29fs,GCA_009797815.1,SAMN13190882,"the ompk35 sequence of all 8 isolates had a deletion after 85 bp, which caused a premature stop codon after amino acid position 62."
+34412588,2021,FRAMESHIFT-STOP,OmpK35_N29fs,GCA_009797785.1,SAMN13190883,"the ompk35 sequence of all 8 isolates had a deletion after 85 bp, which caused a premature stop codon after amino acid position 62."
+34412588,2021,FRAMESHIFT-STOP,OmpK35_N29fs,GCA_009797775.1,SAMN13190884,"the ompk35 sequence of all 8 isolates had a deletion after 85 bp, which caused a premature stop codon after amino acid position 62."
+34412588,2021,FRAMESHIFT-STOP,OmpK35_N29fs,GCA_009797725.1,SAMN13190887,"the ompk35 sequence of all 8 isolates had a deletion after 85 bp, which caused a premature stop codon after amino acid position 62."
+34412588,2021,FRAMESHIFT-STOP,OmpK35_N29fs,GCA_009797695.1,SAMN13190888,"the ompk35 sequence of all 8 isolates had a deletion after 85 bp, which caused a premature stop codon after amino acid position 62."
+34412588,2021,FRAMESHIFT-STOP,OmpK35_N29fs,GCA_009797685.1,SAMN13190889,"the ompk35 sequence of all 8 isolates had a deletion after 85 bp, which caused a premature stop codon after amino acid position 62."
+34412588,2021,FRAMESHIFT-STOP,OmpK35_N29fs,GCA_009797705.1,SAMN13190890,"the ompk35 sequence of all 8 isolates had a deletion after 85 bp, which caused a premature stop codon after amino acid position 62."
+39162528,2024,FRAMESHIFT-STOP,OmpK35_89STOP,,,"mutations encoding truncated OmpK35 and OmpK36 in 95.3% (41/43) and 7.0% (3/43) of isolates
+frameshift mutation resulting in an ompK35 premature stop codon at amino acid 89 was present in almost all isolates."
+39162528,2024,STOP,OmpK35-24STOP,,,"mutations encoding truncated OmpK35 and OmpK36 in 95.3% (41/43) and 7.0% (3/43) of isolates
+frameshift mutation resulting in an ompK35 premature stop codon at amino acid 89 was present in almost all isolates."
+38041722,2024,STOP,OmpK35_Q350STOP,GCA_041352995.1,SAMN35791120,"This paper also has examples of OprD, AmpD and MexR mutations in Pseudomonas aeruginosa"
+38041722,2024,FRAMESHIFT,OmpK35_V208fs,GCA_041353315.1,SAMN35791121,"This paper also has examples of OprD, AmpD and MexR mutations in Pseudomonas aeruginosa
+DGW OmpK35G208fs?"
+38041722,2024,FRAMESHIFT,OmpK35_V208fs,GCA_041353295.1,SAMN35791123,"This paper also has examples of OprD, AmpD and MexR mutations in Pseudomonas aeruginosa
+DGW OmpK35G208fs?"
+38041722,2024,FRAMESHIFT,OmpK35_V208fs,GCA_041353215.1,SAMN35791124,"This paper also has examples of OprD, AmpD and MexR mutations in Pseudomonas aeruginosa
+DGW OmpK35G208fs?"
+38041722,2024,FRAMESHIFT,OmpK35_V208fs,GCA_041353265.1,SAMN35791114,"This paper also has examples of OprD, AmpD and MexR mutations in Pseudomonas aeruginosa
+DGW OmpK35G208fs?"
+38041722,2024,FRAMESHIFT,OmpK35_V208fs,GCA_041353245.1,SAMN35791116,"This paper also has examples of OprD, AmpD and MexR mutations in Pseudomonas aeruginosa
+DGW OmpK35G208fs?"
