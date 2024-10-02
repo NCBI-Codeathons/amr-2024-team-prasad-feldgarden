@@ -290,16 +290,42 @@ dgw_combined %>%
 asm_mutations <- dbGetQuery(con,
 "
 SELECT 
-  asm_acc,
-  COUNT(DISTINCT(dgw_combined.mutation_id)) OVER (PARTITION BY asm_acc) AS dgw_mutations_count,
-  STRING_AGG(DISTINCT dgw_combined.element_symbol||dgw_combined.lesion) OVER (PARTITION BY asm_acc ORDER BY dgw_combined.lesion) AS dgw_lesions,
-  STRING_AGG(DISTINCT microbigge.element_symbol) OVER (PARTITION BY asm_acc ORDER BY microbigge.element_symbol) AS mb_element_symbol,
+  microbigge.asm_acc,
+  COUNT(DISTINCT(dgw_combined.mutation_id)) OVER (PARTITION BY microbigge.asm_acc) AS dgw_mutations_count,
+  STRING_AGG(DISTINCT dgw_combined.element_symbol||dgw_combined.lesion) OVER (PARTITION BY microbigge.asm_acc) AS dgw_lesions,
+  COUNT(DISTINCT(microbigge.element_symbol)) OVER (PARTITION BY microbigge.asm_acc) AS mb_mutations_count,
+  STRING_AGG(DISTINCT microbigge.element_symbol) OVER (PARTITION BY microbigge.asm_acc ORDER BY microbigge.element_symbol) AS mb_element_symbol
 FROM microbigge
 LEFT JOIN dgw_combined
 USING(asm_acc)
-QUALIFY 
+QUALIFY ROW_NUMBER() OVER (PARTITION BY microbigge.asm_acc ORDER BY microbigge.element_symbol DESC) = 1
 ")
 
+```
+
+# How abundant are the lesions DGW found? 
+
+```{r}
+dgw_lesions <- dgw_combined %>% 
+  mutate(c_lesion = paste0(element_symbol,lesion)) %>% 
+  group_by(c_lesion) %>% 
+  summarize(mutations = n_distinct(mutation_id),
+            isolates = n_distinct(asm_acc),
+            frequency_perc = n_distinct(mutation_id)/n_distinct(dgw_combined$asm_acc)*100) %>% 
+  arrange(desc(mutations))
+
+DT::datatable(dgw_lesions)
+```
+
+```{r}
+dgw_mutation_counts <- dgw_combined %>% 
+  group_by(element_symbol) %>% 
+  summarize(mutations = n_distinct(mutation_id),
+            isolates = n_distinct(asm_acc),
+            frequency_perc = n_distinct(mutation_id)/n_distinct(dgw_combined$asm_acc)*100) %>% 
+  arrange(desc(mutations))
+
+DT::datatable(dgw_mutation_counts)
 ```
 
 
