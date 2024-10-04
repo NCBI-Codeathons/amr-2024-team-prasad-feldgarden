@@ -107,10 +107,48 @@ END
 
 ```
 
+```
 cp Kpsens.dgw2 ../../../results/Kpsens.dgw
 cp Kpresis.dgw2 ../../../results/Kpresis.dgw
 cp Pasens.dgw2 ../../../results/Pasens.dgw
 cp Paresis.dgw2 ../../../results/Paresis.dgw
+
+```
+
+# run script.R on test set
+
+```Shell
+mkdir Pasens_script.R
+for file in Pasens/*.fna
+do
+    base=`basename $file .fna`
+    echo $file
+    Rscript scanner.R -i $file -d refdbnuc_092424.fa -o Pasens_script.R -p $base
+done
+
+mkdir Paresis_script.R
+for file in Paresis/*.fna
+do
+    base=`basename $file .fna`
+    echo $file
+    Rscript scanner.R -i $file -d refdbnuc_092424.fa -o Paresis_script.R -p $base
+done
+
+mkdir Kpsens_script.R
+for file in Kpsens/*.fna
+do
+    base=`basename $file .fna`
+    echo $file
+    Rscript scanner.R -i $file -d refdbnuc_092424.fa -o Kpsens_script.R -p $base
+done
+
+mkdir Kpresis_script.R
+for file in Kpresis/*.fna
+do
+    base=`basename $file .fna`
+    echo $file
+    Rscript scanner.R -i $file -d refdbnuc_092424.fa -o Kpresis_script.R -p $base
+done
 
 ```
 
