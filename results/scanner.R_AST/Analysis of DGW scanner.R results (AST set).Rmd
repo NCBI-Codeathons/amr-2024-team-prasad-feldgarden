@@ -64,7 +64,7 @@ library(dplyr)
 Kp_resistant <- read_tsv("results/scanner.R_AST/Kpresis_combined_scriptR.tsv")
 Pa_resistant <- read_tsv("results/scanner.R_AST/Paresis_combined_scriptR.tsv")
 Kp_sensitive <- read_tsv("results/scanner.R_AST/Kpsens_combined_scriptR.tsv")
-Pa_sensitive <- read_tsv("results/scanner.R_AST/Paresis_combined_scriptR.tsv")
+Pa_sensitive <- read_tsv("results/scanner.R_AST/Pasens_combined_scriptR.tsv")
 microbigge <-  read_csv("results/microbigge_subset_ast.csv")
 
 # Set up in-memory database for modeling
@@ -166,8 +166,12 @@ AND match.mutation_id IS NULL
 
 ## How many of the mutations DGW identifies are reported in MicroBIGG-E?
 
-Out of the 928 isolates analyzed by DGW, 522 unique mutations were found across 458 isolates. 
-  - 130 mutations were also present in MicroBIGG-E
+Out of the 928 isolates analyzed by DGW, 506 mutations were found across 446 isolates:
+  - 129 mutations were also present in MicroBIGG-E
+  
+  
+  - Python script found 522 mutations in 458 isolates
+      - 130 mutations were also present in MicroBIGG-E
 
 ```{r}
 #Total output
@@ -198,9 +202,10 @@ print(q1)
 
 ## How many isolates are present in MicroBIGG-E but do not report the mutations DGW found?
 
-Out of the 493 mutations found in resistant isolates present in MicroBIGG-E, DGW found 363 new mutations in 353 isolates. 
+Out of the 478 mutations found in resistant isolates present in MicroBIGG-E, DGW found 349 new mutations in 342 isolates. 
 
-*Pseudomonas aeruginosa* OprD_D286fs was the must abundant, found in 106 isolates.
+*Pseudomonas aeruginosa* OprD_D286fs was the must abundant, found in 81 isolates.
+  - - The same mutation was the most prevalent found by the Python script, but it found it in 106 isoaltes.
 
 ```{r}
 # q2 
@@ -317,9 +322,9 @@ dgw_combined %>%
     - 272 with sensitive phenotype
     
 - Of the 589 resistant isolates
-  - 493 mutations 
-    - 130 mutations were present in MicroBIGG-E too
-    - 363 new mutations in 353 isolates
+  - 478 mutations 
+    - 129 mutations were present in MicroBIGG-E too
+    - 349 new mutations
       
   Additionally, DGW found frameshift mutations in OmpK35 and OmpK36 in CP021955.1/[SAMN04014948](https://www.ncbi.nlm.nih.gov/biosample/SAMN04014948), which does not appear to have any carbapenemases and is still highly resistant to carbapenems (and other beta-lactams).
 
