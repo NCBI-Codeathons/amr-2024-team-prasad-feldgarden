@@ -38,7 +38,7 @@ A subset of the data available in MicroBIGG-E for the selected isolates was obta
 
 ## DGW results: `scanner.R` and `DGW.py`
 
-The scripts were ran as described [here](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/tree/main/script).
+The scripts were ran as described [here](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/tree/main/data/resis_and_sens_Kp_and_Pa).
 
 ## Combining output files
 
