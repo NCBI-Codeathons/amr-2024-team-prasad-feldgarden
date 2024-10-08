@@ -123,7 +123,7 @@ for file in Pasens/*.fna
 do
     base=`basename $file .fna`
     echo $file
-    Rscript scanner.R -i $file -d refdbnuc_092424.fa -o Pasens_script.R -p $base
+    Rscript scanner.R -i $file -d references.fna.fa -o Pasens_script.R -p $base
 done
 
 mkdir Paresis_script.R
@@ -131,7 +131,7 @@ for file in Paresis/*.fna
 do
     base=`basename $file .fna`
     echo $file
-    Rscript scanner.R -i $file -d refdbnuc_092424.fa -o Paresis_script.R -p $base
+    Rscript scanner.R -i $file -d references.fna.fa -o Paresis_script.R -p $base
 done
 
 mkdir Kpsens_script.R
@@ -139,7 +139,7 @@ for file in Kpsens/*.fna
 do
     base=`basename $file .fna`
     echo $file
-    Rscript scanner.R -i $file -d refdbnuc_092424.fa -o Kpsens_script.R -p $base
+    Rscript scanner.R -i $file -d references.fna.fa -o Kpsens_script.R -p $base
 done
 
 mkdir Kpresis_script.R
@@ -147,8 +147,9 @@ for file in Kpresis/*.fna
 do
     base=`basename $file .fna`
     echo $file
-    Rscript scanner.R -i $file -d refdbnuc_092424.fa -o Kpresis_script.R -p $base
+    Rscript scanner.R -i $file -d references.fna.fa -o Kpresis_script.R -p $base
 done
 
 ```
+Takes ~3 sec per genome
 
