@@ -1,31 +1,25 @@
 .mode csv
-.output results/script_comparison/dgw_combined_outputs.csv
+.output results/script_comparison/dgw_combined_outputs_randomset2.csv
 WITH 
 -- Replace the DGW.py output file in each union block as required
 dgw_combined_p AS (
     SELECT 
     *,
     md5(CONCAT(LOWER(element_symbol), asm_acc, contig_acc, lesion)) AS mutation_id,
-    'kp_resistant' AS cohort
-    FROM read_csv('results/Kpresis.dgw')
+    --'kp_resistant' AS cohort
+    FROM read_csv('data/randomset2/Ab_genomes.dgw')
     UNION ALL 
     SELECT 
     *,
     md5(CONCAT(LOWER(element_symbol), asm_acc, contig_acc, lesion)) AS mutation_id,
-    'pa_resistant' AS cohort
-    FROM read_csv('results/Paresis.dgw')
+    --'pa_resistant' AS cohort
+    FROM read_csv('data/randomset2/Kp_genomes.dgw')
     UNION ALL 
     SELECT 
     *,
     md5(CONCAT(LOWER(element_symbol), asm_acc, contig_acc, lesion)) AS mutation_id,
-    'kp_sensitive' AS cohort
-    FROM read_csv('results/Kpsens.dgw')
-    UNION ALL 
-    SELECT 
-    *,
-    md5(CONCAT(LOWER(element_symbol), asm_acc, contig_acc, lesion)) AS mutation_id,
-    'pa_sensitive' AS cohort
-    FROM read_csv('results/Pasens.dgw')
+    -- 'kp_sensitive' AS cohort
+    FROM read_csv('data/randomset2/Pa_genomes.dgw')
 ),
 
 -- Replace the scanner.R output file in each union block as required
@@ -33,31 +27,25 @@ dgw_combined_r AS (
     SELECT 
     *,
     md5(CONCAT(LOWER(element_symbol), asm_acc, contig_acc, lesion)) AS mutation_id,
-    'kp_resistant' AS cohort
-    FROM 'results/scanner.R_AST/Kpresis_combined_scriptR.tsv'
+    -- 'kp_resistant' AS cohort
+    FROM 'results/scanner.R_randomset2/Ab_randomset2_scanner_r.tsv'
     UNION ALL 
     SELECT 
     *,
     md5(CONCAT(LOWER(element_symbol), asm_acc, contig_acc, lesion)) AS mutation_id,
-    'pa_resistant' AS cohort
-    FROM 'results/scanner.R_AST/Paresis_combined_scriptR.tsv' 
+    -- 'pa_resistant' AS cohort
+    FROM 'results/scanner.R_randomset2/Kp_randomset2_scanner_r.tsv' 
     UNION ALL 
     SELECT 
     *,
     md5(CONCAT(LOWER(element_symbol), asm_acc, contig_acc, lesion)) AS mutation_id,
-    'kp_sensitive' AS cohort
-    FROM 'results/scanner.R_AST/Kpsens_combined_scriptR.tsv'
-    UNION ALL 
-    SELECT 
-    *,
-    md5(CONCAT(LOWER(element_symbol), asm_acc, contig_acc, lesion)) AS mutation_id,
-    'pa_sensitive' AS cohort
-    FROM 'results/scanner.R_AST/Pasens_combined_scriptR.tsv'
+    -- 'kp_sensitive' AS cohort
+    FROM 'results/scanner.R_randomset2/Pa_randomset2_scanner_r.tsv'
 ),
 
 -- Import subset of Microbigg-E results
 microbigge AS (
-    SELECT * FROM 'results/microbigge_subset_ast.csv'
+    SELECT * FROM 'results/microbigge_subset_randomset2.csv'
 ),
 
 -- Get list of all the genome accession numbers in the testset with identified lesions
@@ -78,7 +66,7 @@ p_mutations AS (
     dgw_combined_p.mutation_id AS p_mutation_id,
     CONCAT(all_acc.asm_acc, LOWER(dgw_combined_p.element_symbol)) AS p_mutations_concat,
     COUNT(DISTINCT dgw_combined_p.mutation_id) OVER (PARTITION BY all_acc.asm_acc) AS p_mut_count,
-    dgw_combined_p.cohort
+    -- dgw_combined_p.cohort
   FROM all_acc
   LEFT JOIN dgw_combined_p
   ON all_acc.asm_acc = dgw_combined_p.asm_acc
@@ -93,7 +81,7 @@ r_mutations AS (
     dgw_combined_r.mutation_id AS r_mutation_id,
     CONCAT(all_acc.asm_acc, LOWER(dgw_combined_r.element_symbol)) AS r_mutations_concat,
     COUNT(DISTINCT dgw_combined_r.mutation_id) OVER (PARTITION BY all_acc.asm_acc) AS r_mut_count,
-    dgw_combined_r.cohort
+    -- dgw_combined_r.cohort
   FROM all_acc
   LEFT JOIN dgw_combined_r
   ON all_acc.asm_acc = dgw_combined_r.asm_acc
@@ -112,7 +100,7 @@ combined_0 AS (
     r_mutations.r_lession_type,
     p_mutations.p_mutation_id,
     r_mutations.r_mutation_id,
-    STRING_AGG(DISTINCT(p_mutations.cohort, r_mutations.cohort)) OVER (PARTITION BY all_acc.asm_acc) AS cohort,
+    -- STRING_AGG(DISTINCT(p_mutations.cohort, r_mutations.cohort)) OVER (PARTITION BY all_acc.asm_acc) AS cohort,
     p_mutations.p_mut_count,
     r_mutations.r_mut_count
   FROM all_acc
@@ -188,7 +176,7 @@ combined AS (
     END AS r_mutation_id,
     p_mut_count,
     r_mut_count,
-    cohort
+    -- cohort
   FROM combined_0
   WHERE (p_mut_count = r_mut_count AND p_mutations_concat = r_mutations_concat)
   OR p_mut_count != r_mut_count
@@ -227,7 +215,7 @@ combined_2 AS (
       combined.r_lession_type,
       combined.p_mutation_id,
       combined.r_mutation_id,
-      cohort
+      -- cohort
   FROM combined
   LEFT JOIN mbe
   ON combined.asm_acc = mbe.asm_acc
