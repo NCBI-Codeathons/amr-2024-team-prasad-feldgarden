@@ -264,5 +264,73 @@ DT::datatable(dgw_combined_outputs %>%
 ```
 
 
+### How many of the detections in Microbigg-E missed by DWG should have been detected? (i.e. how many are nonsense and frameshift mutations)
+
+As indicated above, there were 5304 records were a mutation was reported in Microbigg-E, but no lesion was detected by the DGW script. Looking at the specific lesions, we find that those records account for 47 unique lesions, of which 29 are nonsense mutations (early STOP codon), reported in 129 records in the testset. 
+
+```{r}
+DT::datatable(dgw_combined_outputs %>%
+  filter (!is.na(mb_element_symbol) & ((is.na(p_element_symbol) | is.na(r_element_symbol)))) %>% 
+  group_by(mb_element_symbol, mb_lesion) %>% 
+  summarize(records = n_distinct(record_id, na.rm = TRUE)) %>% 
+    arrange(desc(records))
+)
+
+```
+
+However, this does not mean that the DGW scripts never found those mutations. So next we look into the specific lesions for each gene and find that only 18 of the lesions present in Microbigg-E are never found by DGW, of which none are nonsense mutations. 
+
+The table below shows all the lesions that ar reported in Microbigg-E but were not found by either of the DGW scripts. The `records` field shows the records where the lesion is reported in Mocrobigg-E for the entire testset, and the `other_lesions` are records where DGW found a different lesion than the one reported in Microbigg-E.
+
+```{r}
+# All lesions reported in Microbigg-E for isolates tested
+## Value of 1 in missing field means that there are records where DGW scripts missed the mutation
+mb_lesions <- dgw_combined_outputs %>%
+  filter(!is.na(mb_element_symbol)) %>% 
+  mutate(missing= case_when((is.na(p_element_symbol) | is.na(r_element_symbol)) | 
+                              paste0(tolower(mb_element_symbol), mb_lesion) != paste0(tolower(p_element_symbol), p_lesion) |
+                              paste0(tolower(mb_element_symbol), mb_lesion) != paste0(tolower(r_element_symbol), r_lesion)
+                              ~ 1, .default = 0),
+         mb_gene_lesion = paste0(tolower(mb_element_symbol), "_", mb_lesion)
+         ) %>% 
+  group_by(mb_gene_lesion, missing) %>% 
+  summarize(records = n_distinct(record_id)) %>% 
+  arrange(mb_gene_lesion, missing)
+
+# Missing lesions reporting a different lesion in DGW from what is reported in Microbigg-E
+other_lesion <- dgw_combined_outputs %>% 
+  filter(!is.na(mb_element_symbol)) %>% 
+  mutate(mb_gene_lesion = paste0(tolower(mb_element_symbol), "_", mb_lesion)) %>% 
+  group_by(mb_gene_lesion) %>% 
+  summarize(other_lesions = n_distinct(case_when(!is.na(p_element_symbol) | !is.na(r_element_symbol) ~ record_id)))
+  
+
+# All lesions reported in Microbigg-E that DGW models didn't find for any record
+DT::datatable(mb_lesions %>% 
+  filter(max(row_number()) == 1) %>% 
+  filter(missing == 1) %>% 
+  left_join(other_lesion, join_by(mb_gene_lesion == mb_gene_lesion)) %>% 
+  select(mb_gene_lesion, records, other_lesions) %>% 
+  arrange(desc(records)))
+
+```
+
+The following table shows the remaining lesions, which are detected for some records by the DGW scripts, but missed in some records where the lesion is reported in Microbigg-E. All of these lesions correspond to nonsense mutations, so the DGW scripts are successful in finding the, but not consistent across the testset. 
+
+
+```{r}
+# Mutations reported in Microbigg-E that DGW missed for some records 
+# Records field indicates the number of records where DGW scripts missed the mutation
+# These are the mutations that DGW should have found, so we need to understand why they were missed
+
+DT::datatable(mb_lesions %>% 
+  filter(max(row_number(mb_gene_lesion)) == 2) %>% 
+  mutate(dgw_found = max(case_when(missing == 0 ~ records), na.rm = TRUE),
+         dgw_missed = max(case_when(missing == 1 ~ records), na.rm = TRUE)
+         ) %>% 
+  select(mb_gene_lesion, dgw_found, dgw_missed) %>% 
+  unique())
+
+```
 
 
