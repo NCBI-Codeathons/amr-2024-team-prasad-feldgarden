@@ -99,7 +99,7 @@ DT::datatable(dgw_combined_outputs %>%
 ### How many lesions are detected only by `DGW.py`?
 
 - `DGW.py` identified 1074 records that `scanner.R` did not identify.
-  - 245 (22.8%) of those records was also present in Microbigg-E but reporting a different lesion
+  - 245 (22.8%) of those records was also present in Microbigg-E
 
 ```{r}
 DT::datatable(dgw_combined_outputs %>% 
@@ -190,8 +190,9 @@ dgw_combined_outputs %>%
 
 ### Which genes have different lesions identified by each script compared against the lesions in Microbigg-E? 
 
-- There were 624 records were a mutation was found for the same gene, but the lesions reported by the DGW scripts are different from the lesions reported in Microbigg-E
+- There were 624 records were a mutation was found for the same gene
   - 402 (64.4%) of those records show the same lesion from `DGW.py` and `scanner.R`
+  - 61 (9.8%) of those records show the same lesion in `Microbigg-E` and either of the DGW scripts
 
 ```{r}
 DT::datatable(dgw_combined_outputs %>% 
