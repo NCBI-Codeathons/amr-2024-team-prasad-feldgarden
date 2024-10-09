@@ -1,0 +1,267 @@
+---
+title: "Analysis of results randomset2"
+output: html_document
+date: "2024-10-09"
+---
+
+```{r setup, include = FALSE}
+# Set working directory
+knitr::opts_knit$set(root.dir = '~/Documents/Projects/resistance_is_futile/amr-2024-team-prasad-feldgarden')
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
+# Introduction
+
+This notebook compares the results obtained using the `scanner.R` and `DGW.py` scripts. The objective is to assess whether both tools are yielding the same results, and if that is not the case, identify areas of opportunity to improve the scripts. In addition, the outputs from the scripts will be compared to the mutations found for those genomes in MicroBIGG-E.
+
+# Setup
+
+A random set of 30,000 genome accession IDs for *Acinetobacter baumannii*, *Pseudomonas aeruginosa* and *Klebsiella pneumoniae* (10,000 isolates for each) were obtained using NCBI's `datasets` as described [here](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/tree/main/data/randomset1#test-on-a-random-set-of-assemblies).
+
+
+## MicroBIGG-E subset
+
+A subset of the data available in MicroBIGG-E for the selected isolates was obtained from BigQuery and stored in the repository [here](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/results/microbigge_subset_randomset2.csv). 
+
+## DGW results
+
+DGW was ran as described [here](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/tree/main/script), and the output for each taxon is shown in individual tables in the repository [here](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/tree/main/results). These results are going to be compared against the MicroBIGG-E subset in the following section. 
+
+## DGW results: `scanner.R` and `DGW.py`
+
+The scripts were ran as described [here](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/tree/main/data/resis_and_sens_Kp_and_Pa).
+
+## Combining output files
+
+Individual output files for each genome screened were combined using the `results_combined.R` script ([here](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/3e9bb4e9dc2196f7f8f5ad2c5055133ebd35a87d/results/scanner.R_AST/results_combined.R)).
+
+The combined output files from each script (`DGW.py` and `scanner.R`) were combined and modeled running the `dgw_combined_outputs.sql` model ([here](https://github.com/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/results/script_comparison/dgw_combined_outputs.sql)) in `DuckDB`. 
+
+# Analysis of results
+
+```{r}
+# Install packges
+library(tidyverse)
+library(dplyr)
+
+
+# Import data
+
+## Microbigg-E subset
+microbigge <-  read_csv("results/microbigge_subset_randomset2.csv")
+
+## Combined and modeled output from both scanner.R and DGW.py scripts
+dgw_combined_outputs <- read_csv("results/script_comparison/dgw_combined_outputs_randomset2.csv")
+
+```
+
+Let's first prepare the data to establish the comparisons/analysis.
+
+
+### How many lesions are detected by each script?
+  
+  - `DWG.py` identified 8376 lesions
+  - `scanner.R` identified 7404 lesions
+  
+```{r}
+dgw_combined_outputs %>% 
+  summarize(mutations_p = n_distinct(p_mutation_id, na.rm = TRUE),
+            mutations_r = n_distinct(r_mutation_id, na.rm = TRUE)
+  )
+```
+  
+### How many lesions are found by both scripts? 
+
+  - `DWG.py` and `scanner.R` identified the lesions in the same 7669 genomes
+    - 5341 (69.6%) of those report the same lesions
+  
+```{r}
+dgw_combined_outputs %>% 
+  filter(!is.na(p_mutation_id) & !is.na(r_mutation_id)) %>% 
+  summarize(in_both = n_distinct(record_id, na.rm = TRUE),
+            same = n_distinct(case_when(p_mutation_id == r_mutation_id ~ record_id), na.rm = TRUE)
+  )
+```
+
+### Which records have mutations identified by both scripts, but with different lesions identified by each script? 
+
+- There were 2328 (30.3%) records where a mutation was identified by both `DGW.py` and `scanner.R`, but the lesions identified by each script were different
+  - Of these, 220 (9.5%) records also reported mutations in Microbigg-E, which were not the same as the ones reported by the DGW scripts
+  
+```{r}
+DT::datatable(dgw_combined_outputs %>% 
+  filter(!is.na(p_mutation_id)  & !is.na(r_mutation_id) & p_mutation_id != r_mutation_id ) %>% 
+  select(asm_acc, p_element_symbol, r_element_symbol, mb_element_symbol, p_lesion, r_lesion, mb_lesion)
+)
+```
+    
+    
+### How many lesions are detected only by `DGW.py`?
+
+- `DGW.py` identified 1074 records that `scanner.R` did not identify.
+  - 245 (22.8%) of those records was also present in Microbigg-E but reporting a different lesion
+
+```{r}
+DT::datatable(dgw_combined_outputs %>% 
+  filter(!is.na(p_mutation_id) & is.na(r_mutation_id)) %>% 
+  select(asm_acc, p_element_symbol, mb_element_symbol, p_lesion, mb_lesion)
+  )
+
+```
+
+### How many lesions are detected only by `scaner.R`? 
+
+- `scanner.R` identified 59 records that `DGW.py` did not identify
+  - 4 (6.8%) of those mutations were present in Microbigg-E
+
+```{r}
+DT::datatable(dgw_combined_outputs %>% 
+  filter(!is.na(r_mutation_id) & is.na(p_mutation_id)) %>% 
+  select(asm_acc, r_element_symbol, mb_element_symbol, r_lesion, mb_lesion)
+  )
+
+```
+
+## How many of the lesions detected by each script are in Microbigg-E?
+
+- Of the 6918 lesions found in Microbigg-E
+  - `DGW.py` identified 1610 (23.3%)
+  - `scanner.R` identified 1369 (19.8%) (of which 1365 were also identified by `DGW.py`)
+
+```{r}
+DT::datatable(dgw_combined_outputs %>% 
+  summarize(in_microbigge = n_distinct(case_when(!is.na(mb_element_symbol) ~ record_id), na.rm = TRUE),
+            mb_p = n_distinct(case_when(!is.na(mb_element_symbol) & !is.na(p_element_symbol) ~ record_id), na.rm = TRUE),
+            mb_r = n_distinct(case_when(!is.na(mb_element_symbol) & !is.na(r_element_symbol) ~ record_id), na.rm = TRUE),
+            mb_combined = n_distinct(case_when(!is.na(mb_element_symbol) & (!is.na(p_element_symbol) | !is.na(r_element_symbol)) ~ record_id), na.rm = TRUE),
+            mb_in_both = n_distinct(case_when(!is.na(mb_element_symbol) & !is.na(p_element_symbol) & !is.na(r_element_symbol) ~ record_id), na.rm = TRUE)
+  )
+)
+```
+
+## How many of the lesions detected by each script are NOT in Microbigg-E? (i.e. new mutations)
+
+- The DGW scripts identified 7188 lesions that were not present in Microbigg-E
+  - `DGW.py` identified 7133 (99.2%) new lesions
+  - `scanner.R` identified 6359 (88.5%) new lesions
+  - 6304 (87.7%) of the new lesions were identified by both scripts
+  
+```{r}
+DT::datatable(dgw_combined_outputs %>% 
+  summarize(new_p = n_distinct(case_when(is.na(mb_element_symbol) & !is.na(p_element_symbol) ~ record_id), na.rm = TRUE),
+            new_r = n_distinct(case_when(is.na(mb_element_symbol) & !is.na(r_element_symbol) ~ record_id), na.rm = TRUE),
+            new_combined = n_distinct(case_when(is.na(mb_element_symbol) & (!is.na(p_element_symbol) | !is.na(r_element_symbol)) ~ record_id), na.rm = TRUE),
+            new_in_both = n_distinct(case_when(is.na(mb_element_symbol) & !is.na(p_element_symbol) & !is.na(r_element_symbol) ~ record_id), na.rm = TRUE)
+  )
+)
+```
+
+```{r, echo = FALSE}
+union(dgw_combined_outputs %>% 
+  mutate(result = case_when(is.na(mb_element_symbol) ~ "New",
+                            !is.na(mb_element_symbol) ~ "In Microbigg-E"
+                            )) %>% 
+  group_by(result) %>% 
+  summarize(script = "DWG.py",
+            mutations = n_distinct(record_id))
+  ,
+dgw_combined_outputs %>% 
+  mutate(result = case_when(is.na(mb_element_symbol) ~ "New",
+                            !is.na(mb_element_symbol) ~ "In Microbigg-E"
+                            )) %>% 
+  group_by(result) %>% 
+  summarize(script = "scanner.R",
+            mutations = n_distinct(record_id))
+) %>% 
+  ggplot(., aes(fill=result, y=mutations, x=script)) + 
+    geom_bar(position="stack", stat="identity", width=0.7) +
+    scale_fill_manual(name="",values=c('#68a1b3', '#a65005')) +
+    theme(
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      panel.border = element_blank(),
+      panel.background = element_blank(),
+      text = element_text(size = 16)) +
+    ylab("# of Mutations") + xlab("Script") +
+    scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = 20))
+  
+```
+
+
+### Which genes have different lesions identified by each script compared against the lesions in Microbigg-E? 
+
+- There were 624 records were a mutation was found for the same gene, but the lesions reported by the DGW scripts are different from the lesions reported in Microbigg-E
+  - 402 (64.4%) of those records show the same lesion from `DGW.py` and `scanner.R`
+
+```{r}
+DT::datatable(dgw_combined_outputs %>% 
+  filter((mb_element_symbol == p_element_symbol | mb_element_symbol == r_element_symbol) & (mb_lesion != p_lesion | mb_lesion != r_lesion)) %>% 
+  select(asm_acc, 
+         element_symbol = mb_element_symbol,
+         mb_lesion, 
+         p_lesion,
+         r_lesion)
+  )
+
+```
+
+### How many lesions in Microbigg-E are not detected by the DGW scripts? (show lesions)
+
+- Out of the 6918 mutations present in Microbigg-E, 5304 (76.6%) were missed by both DGW scripts
+  - `DGW.py` missed 5308 (76.7%)  Microbigg-E mutations
+  - `scanner.R` missed 5549 (80.2%) Microbigg-E mutations
+
+```{r}
+DT::datatable(dgw_combined_outputs %>% 
+  summarize(in_microbigge = n_distinct(case_when(!is.na(mb_element_symbol) ~ record_id), na.rm = TRUE),
+            missed_from_microbigge = n_distinct(case_when(!is.na(mb_element_symbol) & (is.na(p_element_symbol) & is.na(r_element_symbol)) ~ record_id), na.rm = TRUE),
+            p_missed_from_microbigge = n_distinct(case_when(!is.na(mb_element_symbol) & is.na(p_element_symbol) ~ record_id), na.rm = TRUE),
+            r_missed_from_microbigge = n_distinct(case_when(!is.na(mb_element_symbol) & is.na(r_element_symbol) ~ record_id), na.rm = TRUE)
+  )
+)
+
+```
+```{r, echo = FALSE}
+union(dgw_combined_outputs %>% 
+  filter(!is.na(mb_element_symbol)) %>% 
+  mutate(result = case_when(is.na(p_mutation_id) ~ "Missed by DGW",
+                            !is.na(p_mutation_id) ~ "Found mutations"
+                            )) %>% 
+  group_by(result) %>% 
+  summarize(script = "DWG.py",
+            mutations = n_distinct(record_id))
+  ,
+dgw_combined_outputs %>% 
+  filter(!is.na(mb_element_symbol)) %>% 
+  mutate(result = case_when(is.na(r_mutation_id) ~ "Missed by DGW",
+                            !is.na(r_mutation_id) ~ "Found mutations"
+                            )) %>% 
+  group_by(result) %>% 
+  summarize(script = "scanner.R",
+            mutations = n_distinct(record_id))
+) %>% 
+  ggplot(., aes(fill=result, y=mutations, x=script)) + 
+    geom_bar(position="stack", stat="identity", width=0.7) +
+    scale_fill_manual(name="",values=c('#68a1b3', '#a65005')) +
+    theme(
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      panel.border = element_blank(),
+      panel.background = element_blank(),
+      text = element_text(size = 16)) +
+    ylab("# of Mutations") + xlab("Script") +
+    scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = 20))
+  
+```
+
+```{r}
+DT::datatable(dgw_combined_outputs %>% 
+               filter (!is.na(mb_element_symbol) & (is.na(p_element_symbol) | is.na(r_element_symbol))) %>% 
+               select(asm_acc, mb_element_symbol, mb_lesion, p_lesion, r_lesion)
+  )
+
+```
+
+
+
+
