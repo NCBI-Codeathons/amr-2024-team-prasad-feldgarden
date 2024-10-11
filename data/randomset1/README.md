@@ -102,3 +102,11 @@ do
     echo $file
     run_dgw.sh $file > Pa_dgw.py/$base.dgw.py
 done
+
+
+##### Run scanner.R
+
+run_scanner.sh Kp_genomes.fa > Kp_genomes.scanner
+run_scanner.sh Ab_genomes.fa > Ab_genomes.scanner
+run_scanner.sh Pa_genomes.fa > Pa_genomes.scanner
+

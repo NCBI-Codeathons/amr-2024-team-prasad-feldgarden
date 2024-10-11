@@ -77,4 +77,8 @@ END
 mv Pa_genomes.dgw.py Pa_genomes.dgw
 ```
 
+### Run scanner.R
+run_scanner.sh Ab_genomes.fna > Ab_genomes.scanner
+run_scanner.sh Kp_genomes.fna > Kp_genomes.scanner
+run_scanner.sh Pa_genomes.fna > Pa_genomes.scanner
 

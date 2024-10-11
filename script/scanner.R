@@ -434,6 +434,8 @@ fdf=df %>%
       str_detect(lesion, "fs") ~ "FrameShift",
       str_detect(lesion, "STOP") ~ "PointMutation"
     )) %>% 
+  mutate(aa_identity = format(round(aa_identity, 2), nsmall=2),
+         nt_identity = format(round(nt_identity, 2), nsmall=2)) %>%
   select(element_symbol,
          contig_acc,
          contig_start,

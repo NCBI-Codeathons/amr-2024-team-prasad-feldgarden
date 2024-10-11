@@ -1,0 +1,8 @@
+element_symbol	contig_acc	contig_start	contig_stop	orientation	lesion	lesion_type	aa_identity	nt_identity	ref_accession	ref_desc	ref_start	ref_stop	coverage
+adeS	GCA_016525615.2-AAYNEH020000020.1	10071	11133	2	V59fs	FrameShift	16.85	95.58	NZ_JNOT01000030.1	Acinetobacter baumannii isolate BM4587 7000000210819623, whole genome shotgun sequence 	1	1065	100
+adeS	GCA_016527645.2-AAYNGG020000019.1	10071	11133	2	V59fs	FrameShift	16.85	95.58	NZ_JNOT01000030.1	Acinetobacter baumannii isolate BM4587 7000000210819623, whole genome shotgun sequence 	1	1065	100
+adeS	GCA_023064695.3-ABFWQG030000038.1	17503	18567	2	L5STOP	PointMutation	 1.10	96.04	NZ_JNOT01000030.1	Acinetobacter baumannii isolate BM4587 7000000210819623, whole genome shotgun sequence 	1	1065	100
+adeS	GCA_024187695.3-ABGZHI030000018.1	53111	54174	2	S188fs	FrameShift	51.38	96.04	NZ_JNOT01000030.1	Acinetobacter baumannii isolate BM4587 7000000210819623, whole genome shotgun sequence 	1065	1	100
+adeS	GCA_026569715.1-DAKNAC010000038.1	24355	25439	2	I100fs	FrameShift	27.35	97.70	NZ_JNOT01000030.1	Acinetobacter baumannii isolate BM4587 7000000210819623, whole genome shotgun sequence 	1086	1	100
+adeS	GCA_040600255.1-JAWUJO010000044.1	9966	11052	2	I100fs	FrameShift	27.35	98.80	NZ_JNOT01000030.1	Acinetobacter baumannii isolate BM4587 7000000210819623, whole genome shotgun sequence 	1086	1	100
+adeS	GCA_900495545.1-UFKN01000046.1	7180	8266	2	I100fs	FrameShift	27.35	98.80	NZ_JNOT01000030.1	Acinetobacter baumannii isolate BM4587 7000000210819623, whole genome shotgun sequence 	1086	1	100
