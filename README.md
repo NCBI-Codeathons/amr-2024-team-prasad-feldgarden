@@ -21,7 +21,7 @@ A wrapper shell script, [run_DGW.sh](https://github.com/NCBI-Codeathons/amr-2024
 
 A full description of the software, their use and installation instructions can be found in the [script README](script/README.md).
 
-The slides for the [codeathon final presentations](https://www.nlm.nih.gov/ncbi/workshops/2024-09_AMR-Codeathon/final-presentations.html) are [here](/NCBI-Codeathons/amr-2024-team-prasad-feldgarden/blob/main/Codeathon%20presentation/DeadGeneWalking.pptx.pdf).
+The slides for the [codeathon final presentations](https://www.nlm.nih.gov/ncbi/workshops/2024-09_AMR-Codeathon/final-presentations.html) are [here](/blob/main/Codeathon%20presentation/DeadGeneWalking.pptx.pdf).
 
 ## Dev log:
 
