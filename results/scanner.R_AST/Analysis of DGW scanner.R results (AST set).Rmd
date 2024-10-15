@@ -342,8 +342,17 @@ dgw_combined %>%
   filter(element_symbol %in% c('OmpK35', 'OmpK36'))
 ```
 
+## Mutations found in sensitive isolates 
 
-
+```{r}
+# How many mutations found in each Sensitive genome
+DT::datatable(dgw_combined %>% 
+  filter(grepl("sensitive", cohort)) %>% 
+  group_by(element_symbol, lesion) %>% 
+  summarize(mutants = n_distinct(mutation_id))
+  )
+  
+```
 
 
 
