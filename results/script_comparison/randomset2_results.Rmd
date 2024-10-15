@@ -60,8 +60,8 @@ Let's first prepare the data to establish the comparisons/analysis.
 
 ### How many lesions are detected by each script?
   
-  - `DWG.py` identified 8376 lesions
-  - `scanner.R` identified 7404 lesions
+  - `DWG.py` identified 8377 lesions
+  - `scanner.R` identified 7405 lesions
   
 ```{r}
 dgw_combined_outputs %>% 
@@ -72,8 +72,8 @@ dgw_combined_outputs %>%
   
 ### How many lesions are found by both scripts? 
 
-  - `DWG.py` and `scanner.R` identified the lesions in the same 7669 genomes
-    - 5341 (69.6%) of those report the same lesions
+  - `DWG.py` and `scanner.R` identified the lesions in the same 7593 genomes
+    - 5278 (69.5%) of those report the same lesions
   
 ```{r}
 dgw_combined_outputs %>% 
@@ -85,7 +85,7 @@ dgw_combined_outputs %>%
 
 ### Which records have mutations identified by both scripts, but with different lesions identified by each script? 
 
-- There were 2328 (30.3%) records where a mutation was identified by both `DGW.py` and `scanner.R`, but the lesions identified by each script were different
+- There were 2315 (30.5%) records where a mutation was identified by both `DGW.py` and `scanner.R`, but the lesions identified by each script were different
   - Of these, 220 (9.5%) records also reported mutations in Microbigg-E, which were not the same as the ones reported by the DGW scripts
   
 ```{r}
@@ -98,8 +98,8 @@ DT::datatable(dgw_combined_outputs %>%
     
 ### How many lesions are detected only by `DGW.py`?
 
-- `DGW.py` identified 1074 records that `scanner.R` did not identify.
-  - 245 (22.8%) of those records was also present in Microbigg-E
+- `DGW.py` identified 1035 records that `scanner.R` did not identify.
+  - 241 (23.3%) of those records was also present in Microbigg-E
 
 ```{r}
 DT::datatable(dgw_combined_outputs %>% 
@@ -111,8 +111,8 @@ DT::datatable(dgw_combined_outputs %>%
 
 ### How many lesions are detected only by `scaner.R`? 
 
-- `scanner.R` identified 59 records that `DGW.py` did not identify
-  - 4 (6.8%) of those mutations were present in Microbigg-E
+- `scanner.R` identified 60 records that `DGW.py` did not identify
+  - 4 (6.7%) of those mutations were present in Microbigg-E
 
 ```{r}
 DT::datatable(dgw_combined_outputs %>% 
@@ -124,9 +124,9 @@ DT::datatable(dgw_combined_outputs %>%
 
 ## How many of the lesions detected by each script are in Microbigg-E?
 
-- Of the 6918 lesions found in Microbigg-E
-  - `DGW.py` identified 1610 (23.3%)
-  - `scanner.R` identified 1369 (19.8%) (of which 1365 were also identified by `DGW.py`)
+- Of the 6406 lesions found in Microbigg-E
+  - `DGW.py` identified 1606 (25.1%)
+  - `scanner.R` identified 1369 (21.4%) (of which 1365 were also identified by `DGW.py`)
 
 ```{r}
 DT::datatable(dgw_combined_outputs %>% 
@@ -141,10 +141,10 @@ DT::datatable(dgw_combined_outputs %>%
 
 ## How many of the lesions detected by each script are NOT in Microbigg-E? (i.e. new mutations)
 
-- The DGW scripts identified 7188 lesions that were not present in Microbigg-E
-  - `DGW.py` identified 7133 (99.2%) new lesions
-  - `scanner.R` identified 6359 (88.5%) new lesions
-  - 6304 (87.7%) of the new lesions were identified by both scripts
+- The DGW scripts identified 7078 lesions that were not present in Microbigg-E
+  - `DGW.py` identified 7022 (99.2%) new lesions
+  - `scanner.R` identified 6284 (88.8%) new lesions
+  - 6228 (88%) of the new lesions were identified by both scripts
   
 ```{r}
 DT::datatable(dgw_combined_outputs %>% 
@@ -191,7 +191,7 @@ dgw_combined_outputs %>%
 ### Which genes have different lesions identified by each script compared against the lesions in Microbigg-E? 
 
 - There were 624 records were a mutation was found for the same gene
-  - 402 (64.4%) of those records show the same lesion from `DGW.py` and `scanner.R`
+  - 403 (64.6%) of those records show the same lesion from `DGW.py` and `scanner.R`
   - 61 (9.8%) of those records show the same lesion in `Microbigg-E` and either of the DGW scripts
 
 ```{r}
@@ -204,13 +204,19 @@ DT::datatable(dgw_combined_outputs %>%
          r_lesion)
   )
 
+# dgw_combined_outputs %>% 
+#   filter((mb_element_symbol == p_element_symbol | mb_element_symbol == r_element_symbol) & (mb_lesion != p_lesion | mb_lesion != r_lesion)) %>% 
+#   summarize(same_dgw_lesion = n_distinct(case_when(p_lesion == r_lesion ~ record_id)),
+#             same_mb_lesion = n_distinct(case_when(mb_lesion == r_lesion | mb_lesion == p_lesion ~ record_id))
+#   )
+
 ```
 
 ### How many lesions in Microbigg-E are not detected by the DGW scripts? (show lesions)
 
-- Out of the 6918 mutations present in Microbigg-E, 5304 (76.6%) were missed by both DGW scripts
-  - `DGW.py` missed 5308 (76.7%)  Microbigg-E mutations
-  - `scanner.R` missed 5549 (80.2%) Microbigg-E mutations
+- Out of the 6406 mutations present in Microbigg-E, 4769 (74.4%) were missed by both DGW scripts
+  - `DGW.py` missed 4800 (74.9%)  Microbigg-E mutations
+  - `scanner.R` missed 5037 (78.6%) Microbigg-E mutations
 
 ```{r}
 DT::datatable(dgw_combined_outputs %>% 
@@ -266,7 +272,7 @@ DT::datatable(dgw_combined_outputs %>%
 
 ### How many of the detections in Microbigg-E missed by DWG should have been detected? (i.e. how many are nonsense and frameshift mutations)
 
-As indicated above, there were 5304 records were a mutation was reported in Microbigg-E, but no lesion was detected by the DGW script. Looking at the specific lesions, we find that those records account for 47 unique lesions, of which 29 are nonsense mutations (early STOP codon), reported in 129 records in the testset. 
+As indicated above, there were 4769 records were a mutation was reported in Microbigg-E, but no lesion was detected by the DGW scripts. Looking at the specific lesions, we find that those records account for 23 unique lesions, of which 6 are nonsense mutations (early STOP codon), reported in 15 records in the testset. 
 
 ```{r}
 DT::datatable(dgw_combined_outputs %>%
@@ -315,7 +321,9 @@ DT::datatable(mb_lesions %>%
 
 ```
 
-The following table shows the remaining lesions, which are detected for some records by the DGW scripts, but missed in some records where the lesion is reported in Microbigg-E. All of these lesions correspond to nonsense mutations, so the DGW scripts are successful in finding the, but not consistent across the testset. 
+All the lesions indicated above were confirmed to be insertions or point mutations that did not lead to a frameshift or early stop codon, with the only exception being `cira_Y253CfsTer5` which was identified by the DGW scripts as `cira_Y253Cfs`. Therefore, the DGW scripts did not miss any of the nonsense and frameshift mutations identified in `Microbigg-E`. However, there were 11 lesions that the DGW scripts did not identify consistently.
+
+The following table shows lesions inconsistently identified by DGW scripts, which are detected for some records by the DGW scripts, but missed in some records where the lesion is reported in Microbigg-E. All of these lesions correspond to nonsense mutations, so the DGW scripts are successful in finding them, but not consistent across the testset. 
 
 
 ```{r}
@@ -332,5 +340,8 @@ DT::datatable(mb_lesions %>%
   unique())
 
 ```
+
+
+
 
 
