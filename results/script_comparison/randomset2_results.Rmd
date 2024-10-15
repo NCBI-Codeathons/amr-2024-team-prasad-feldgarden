@@ -331,15 +331,52 @@ The following table shows lesions inconsistently identified by DGW scripts, whic
 # Records field indicates the number of records where DGW scripts missed the mutation
 # These are the mutations that DGW should have found, so we need to understand why they were missed
 
-DT::datatable(mb_lesions %>% 
-  filter(max(row_number(mb_gene_lesion)) == 2) %>% 
-  mutate(dgw_found = max(case_when(missing == 0 ~ records), na.rm = TRUE),
-         dgw_missed = max(case_when(missing == 1 ~ records), na.rm = TRUE)
-         ) %>% 
-  select(mb_gene_lesion, dgw_found, dgw_missed) %>% 
-  unique())
+# DT::datatable(mb_lesions %>% 
+#   filter(max(row_number(mb_gene_lesion)) == 2) %>% 
+#   mutate(dgw_found = max(case_when(missing == 0 ~ records), na.rm = TRUE),
+#          dgw_missed = max(case_when(missing == 1 ~ records), na.rm = TRUE)
+#          ) %>% 
+#   select(mb_gene_lesion, dgw_found, dgw_missed) %>% 
+#   unique())
 
 ```
+
+```{r}
+DT::datatable(
+dgw_combined_outputs %>%
+  filter(!is.na(mb_element_symbol)) %>% 
+  mutate(p_missing= case_when(is.na(p_element_symbol) | 
+                              paste0(tolower(mb_element_symbol), mb_lesion) != paste0(tolower(p_element_symbol), p_lesion)
+                              ~ 1, .default = 0),
+         r_missing= case_when(is.na(r_element_symbol) | 
+                              paste0(tolower(mb_element_symbol), mb_lesion) != paste0(tolower(r_element_symbol), r_lesion)
+                              ~ 1, .default = 0),
+         mb_gene_lesion = paste0(tolower(mb_element_symbol), "_", mb_lesion)
+         ) %>%
+  group_by(mb_gene_lesion) %>% 
+  summarize(dgw_found = n_distinct(case_when(p_missing == 0 | r_missing == 0 ~ record_id), na.rm = TRUE),
+            p_missed_records = n_distinct(case_when(p_missing == 1 ~ record_id), na.rm = TRUE),
+            r_missed_records = n_distinct(case_when(r_missing == 1 ~ record_id), na.rm = TRUE)
+            ) %>% 
+  unique() %>% 
+  filter(dgw_found > 0 & (p_missed_records > 0 | r_missed_records > 0))
+)
+
+```
+
+
+Looking into each of these lesions:
+
+- ompk36_Q313STOP:
+  - `DGW.py` found STOP mutations in positions 314-320 for the reported 14 missed records
+- oprd_W277STOP:
+  - `DGW.py` found the mutation in all records. The reported 2 missing records found `W277STOP,S401fs`
+- oprd_W417STOP:
+  - `DGW.py` found the mutation in all records. The reported missing record found `W422STOP,E171fs`
+- oprd_Q142STOP:
+  - True `DGW.py` miss. No mutation detected. 
+- oprd_S319STOP:
+  - `DGW.py` found `S321STOP,S59fs,D61fs` in the reported missed record.
 
 
 
