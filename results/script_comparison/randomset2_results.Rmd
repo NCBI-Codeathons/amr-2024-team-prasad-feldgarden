@@ -94,7 +94,30 @@ DT::datatable(dgw_combined_outputs %>%
   select(asm_acc, p_element_symbol, r_element_symbol, mb_element_symbol, p_lesion, r_lesion, mb_lesion)
 )
 ```
+
+#### Compare different lesions found for each script
+
+- When both DGW scripts found a lesion for the same gene, the lesions were paired up to compare the lesion detected by each script. A total of 1245 lesion pairs were identified, of which 52.9% report a different lesion by each script. 
+  - 4% of the lesion pairs show a `fs` lesion by `DGW.py` and a `STOP` lesion by `scanner.R` in the same location: *ampd_Y127fs vs ampd_Y127STOP*, *nald_M154fs vs nald_H154STOP*
+  - 1.8% of the lesion pairs show a `STOP` lesion by `DGW.py` and a `fs` lesion by `scanner.R`: *cira_W615stop vs cira_D26f*, *oprd_Q327stop vs oprd_372fs*
+  - 47% of the lesions show frameshifts with different location and/or amino acid
+    - The majority of these discrepancies have differences within 1 amino acid position: 
+      - Same location but different amino acid:  *mexr_G55fs vs mexr_Q55fs*, *oprd_V346fs vs oprd_N346fs*
+      - Location shifted by one: *nald_K10fs vs nald_T11fs*
+    - Some instances of the location being several places apart: *oprd_P403fs vs oprd_M372fs*, *ades_K98fs vs ades_I100fs*, *oprd_T391fs vs oprd_M372fs*
     
+
+```{r}
+DT::datatable(dgw_combined_outputs%>% 
+  transmute(p_gene_lesion = tolower(paste0(p_element_symbol, "_", p_lesion)),
+         r_gene_lesion = tolower(paste0(r_element_symbol, "_", r_lesion))
+         ) %>% 
+  mutate(match = case_when(str_detect(p_gene_lesion, r_gene_lesion) ~ 1, .default = 0)
+           ) %>% 
+  filter(p_gene_lesion != 'na_na' & r_gene_lesion != 'na_na') %>% 
+  unique()
+)
+```    
     
 ### How many lesions are detected only by `DGW.py`?
 
@@ -377,6 +400,7 @@ Looking into each of these lesions:
   - True `DGW.py` miss. No mutation detected. 
 - oprd_S319STOP:
   - `DGW.py` found `S321STOP,S59fs,D61fs` in the reported missed record.
+
 
 
 
