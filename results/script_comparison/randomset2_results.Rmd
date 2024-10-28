@@ -118,7 +118,23 @@ DT::datatable(dgw_combined_outputs%>%
   unique()
 )
 ```    
-    
+
+##### Get list of genomes with different lesions found by each of the DGW scripts to run manual alignments
+```{r}
+for_manual_alignment <- dgw_combined_outputs%>% 
+  mutate(p_gene_lesion = tolower(paste0(p_element_symbol, "_", p_lesion)),
+         r_gene_lesion = tolower(paste0(r_element_symbol, "_", r_lesion))
+         ) %>% 
+  mutate(match = case_when(str_detect(p_gene_lesion, r_gene_lesion) ~ 1, .default = 0)
+           ) %>% 
+  filter(p_gene_lesion != 'na_na' & r_gene_lesion != 'na_na' & match == 0) %>% 
+  select(asm_acc, p_gene_lesion, r_gene_lesion) %>% 
+  unique()
+
+
+write_csv(for_manual_alignment, "results/script_comparison/dgw_scripts_discrepancies_randomset2.csv")
+```
+
 ### How many lesions are detected only by `DGW.py`?
 
 - `DGW.py` identified 1035 records that `scanner.R` did not identify.
