@@ -60,7 +60,8 @@ library(dplyr)
 microbigge <-  read_csv("results/microbigge_subset_ast.csv")
 
 ## Combined and modeled output from both scanner.R and DGW.py scripts
-dgw_combined_outputs <- read_csv("results/script_comparison/dgw_combined_outputs.csv")
+#dgw_combined_outputs_0 <- read_csv("results/script_comparison/dgw_combined_outputs.csv")
+dgw_combined_outputs <- read_csv("results/script_comparison/dgw_combined_outputs_ast.csv")
 
 ```
 
@@ -81,8 +82,8 @@ dgw_combined_outputs %>%
   
 ### How many lesions are found by both scripts? 
 
-  - `DWG.py` and `scanner.R` identified the lesions in the same 509 genomes
-    - 416 of those are the same lesions
+  - `DWG.py` and `scanner.R` identified the lesions in the same 507 genomes
+    - 414 of those are the same lesions
   
 ```{r}
 dgw_combined_outputs %>% 
@@ -133,7 +134,7 @@ DT::datatable(dgw_combined_outputs %>%
 
 ## How many of the lesions detected by each script are in Microbigg-E?
 
-- Of the 250 lesions found in Microbigg-E
+- Of the 193 lesions found in Microbigg-E
   - `DGW.py` identified 134
   - `scanner.R` identified 133 (also identified by `DGW.py`)
 
@@ -150,11 +151,11 @@ DT::datatable(dgw_combined_outputs %>%
 
 ## How many of the lesions detected by each script are NOT in Microbigg-E? (i.e. new mutations)
 
-- The DGW scripts identified 397 lesions that were not present in Microbigg-E
-  - 361 of which were found in resistant isolates
-    - `DGW.py` identified 358 new lesions
-    - `scanner.R` identified 344
-    - 341 of the new lesions were identified by both scripts
+- The DGW scripts identified 395 lesions that were not present in Microbigg-E
+  - 359 of which were found in resistant isolates
+    - `DGW.py` identified 356 new lesions
+    - `scanner.R` identified 342
+    - 339 of the new lesions were identified by both scripts
   
 ```{r}
 DT::datatable(dgw_combined_outputs %>% 
@@ -204,7 +205,7 @@ dgw_combined_outputs %>%
 ### Which genes have different lesions identified by each script compared against the lesions in Microbigg-E? 
 
 - There were 9 records were a mutation was found for the same gene, but the lesions reported by the DGW scripts are different from the lesions reported in Microbigg-E
-  - 3 of those records show the same lesion from `DGW.py` and `scanner.R`
+  - 6 of those records show the same lesion from `DGW.py` and `scanner.R`
 
 ```{r}
 DT::datatable(dgw_combined_outputs %>% 
@@ -220,9 +221,9 @@ DT::datatable(dgw_combined_outputs %>%
 
 ### How many lesions in Microbigg-E are not detected by the DGW scripts? (show lesions)
 
-- Out of the 250 mutations present in Microbigg-E, 116 were missed by both DGW scripts
-  - `DGW.py` missed 116 Microbigg-E mutations
-  - `scanner.R` missed 117 Microbigg-E mutations
+- Out of the 193 mutations present in Microbigg-E, 60 were missed by both DGW scripts
+  - `DGW.py` missed 59 Microbigg-E mutations
+  - `scanner.R` missed 60 Microbigg-E mutations
 
 ```{r}
 DT::datatable(dgw_combined_outputs %>% 
@@ -276,5 +277,25 @@ DT::datatable(dgw_combined_outputs %>%
 ```
 
 
+## Mutations found in sensitive isolates 
 
+In 29 "sensitive" genomes, the DGW scripts found 18 unique lesions got genes *cirA*, *mexR*, *OmpK35*, *OmpK36*, and *OprD*. All of these genes encode a porin protein, with the exception of *mexR*, which is a transcriptional repressor of efflux systems. While it was not expected to detect any mutations in the genomes with a sensitive phenotype, there have been previous reports in the literature of mutations to some of these porins present in strains susceptible to antibiotics, and there have been various discussions suggesting that expression of a carbapenemase in combination to a porin mutation are required to confer antibiotic resistance. A study investigating *K. pneumoniae* isolates from a chronic obstructive pulmonary disease (COPD) patient found that an isolate lacking expression of *OmpK35* and presenting a loss-of-function mutation in *OmpK36* (L359R), but without the expression of any lactaase or carbapenemase, was susceptible to ceftazidime-avibactam. Conversely, the study found that an isolate presenting the same loss of *OmpK35* and the mutated *OmpK36* in combination with the lactamase CTX-M-71 was resistant to ceftazidime-avibactam (MIC 32 mg/L) ([Zhao et al., 2024](https://doi.org/10.1080/21505594.2024.2348251)). A similar conclusion can be made from a study looking at horizontal gene transfer of carbapenemases in *K. pneumoniae*, showing that strains with a truncated *OmpK35* (AA89STOP) and a GD insertion in *OmpK36* (134GD) had different susceptibility/resistance levels to various antibiotics depending on which carbapenemase was present; for example, the presence of the porin mutations resulted in an increase in ceftazidime MIC from 0.125 mg/l to 0.5 mg/L (compared to WT porins), and the addition of the carbapenemases KPC-109 or KPC-3 resulted in an increase in MIC from 256 mg/L (with WT porins) to 512 mg/L (with mutated porins) ([Di Pilato et al., 2023](https://doi.org/10.1016/j.ijantimicag.2023.107030)).
+
+
+```{r}
+# How many mutations found in each Sensitive genome
+DT::datatable(dgw_combined_outputs %>% 
+  filter(grepl("sensitive", cohort)) %>% 
+  filter(!grepl("resistant", cohort)) %>% 
+  #summarize(n_distinct(asm_acc))
+  select(element_symbol = p_element_symbol,
+         p_lesion,
+         r_lesion,
+         p_lesion_type,
+         r_lesion_type) %>% 
+  unique()
+)
+
+  
+```
 
